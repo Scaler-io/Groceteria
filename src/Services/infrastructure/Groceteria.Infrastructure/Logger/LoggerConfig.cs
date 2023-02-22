@@ -11,7 +11,7 @@ namespace Groceteria.Infrastructure.Logger
         public static ILogger Configure(IConfiguration config)
         {
             var loggerConfigOption = new LoggerConfigOption();
-            config.GetSection("LoggerConfigOoption").Bind(loggerConfigOption);
+            config.GetSection("LoggerConfigOption").Bind(loggerConfigOption);
 
             return new LoggerConfiguration()
                         .Destructure

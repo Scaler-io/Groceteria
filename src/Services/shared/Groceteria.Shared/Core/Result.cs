@@ -9,7 +9,7 @@ namespace Groceteria.Shared.Core
         public ErrorCode ErrorCode { get; set; }
         public string ErrorMessage { get; set; }
 
-        public static Result<T> success(T value)
+        public static Result<T> Success(T value)
         {
             return new Result<T> { IsSuccess = true, Value = value };
         }

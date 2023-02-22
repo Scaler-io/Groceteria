@@ -3,6 +3,7 @@ using Groceteria.Catalogue.Api.Swagger;
 using Groceteria.Infrastructure.Logger;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Newtonsoft.Json.Converters;
 using Serilog;
 
 namespace Groceteria.Catalogue.Api.DependencyInjections
@@ -11,9 +12,18 @@ namespace Groceteria.Catalogue.Api.DependencyInjections
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddControllers();
+            services.AddControllers()
+                    .AddNewtonsoftJson(options =>
+                    {
+                        options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                    });
+                
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(options =>
+            {
+                options.EnableAnnotations();
+                options.OperationFilter<SwaggerHeaderFilter>();
+            });
 
             // serilog
             var logger = LoggerConfig.Configure(configuration);

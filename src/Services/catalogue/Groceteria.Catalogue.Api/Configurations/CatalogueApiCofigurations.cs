@@ -26,7 +26,7 @@ namespace Groceteria.Catalogue.Api.Configurations
 
                     validationError.Errors.Add(fieldLevelError);
                 }
-                return new BadRequestObjectResult(validationError);
+                return new UnprocessableEntityObjectResult(validationError);
             };
         }
     }

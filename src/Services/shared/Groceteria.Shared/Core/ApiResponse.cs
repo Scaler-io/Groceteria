@@ -8,7 +8,7 @@ namespace Groceteria.Shared.Core
         public ApiResponse(ErrorCode code, string message="") 
         {
             Code = code;
-            Message = message?? GetDefaultMessage(code);
+            Message = string.IsNullOrEmpty(message) ? GetDefaultMessage(code): message;
         }
 
         public ErrorCode Code { get; set; }
@@ -23,6 +23,7 @@ namespace Groceteria.Shared.Core
                 ErrorCode.Unauthorized => ErrorMessages.Unauthorized,
                 ErrorCode.OperationFailed => ErrorMessages.Operationfailed,
                 ErrorCode.InternalServerError => ErrorMessages.InternalServerError,
+                ErrorCode.UnprocessableEntity => ErrorMessages.UnprocessableEntity,
                 _ => string.Empty
             };
         }

@@ -6,6 +6,7 @@
         NotFound,
         InternalServerError,
         Unauthorized,
-        OperationFailed
+        OperationFailed,
+        UnprocessableEntity
     }
 }
