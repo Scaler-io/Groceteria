@@ -1,4 +1,5 @@
 ﻿using Groceteria.Catalogue.Api.Configurations;
+using Groceteria.Catalogue.Api.Middlewares;
 using Groceteria.Catalogue.Api.Swagger;
 using Groceteria.Infrastructure.Logger;
 using Microsoft.AspNetCore.Mvc;
@@ -78,6 +79,9 @@ namespace Groceteria.Catalogue.Api.DependencyInjections
             app.UseAuthorization();
 
             app.MapControllers();
+
+            app.UseMiddleware<RequestLoggingMiddleware>();
+            app.UseMiddleware<CorrelationHeaderEnricher>();
 
             return app;
         }

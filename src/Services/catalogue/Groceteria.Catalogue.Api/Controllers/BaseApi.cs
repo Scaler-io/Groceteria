@@ -1,4 +1,5 @@
-﻿using Groceteria.Shared.Core;
+﻿using Groceteria.Catalogue.Api.Extensions;
+using Groceteria.Shared.Core;
 using Groceteria.Shared.Enums;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
@@ -15,7 +16,7 @@ namespace Groceteria.Catalogue.Api.Controllers
         public BaseApi(ILogger logger)
         {
             Logger = logger;
-            CorrelationId= Guid.NewGuid().ToString();
+            CorrelationId = GetOrGenerateCorelationId();
         }
 
         public IActionResult OkOrFailure<T>(Result<T> result)
@@ -44,5 +45,7 @@ namespace Groceteria.Catalogue.Api.Controllers
 
             return OkOrFailure(result);
         }
+
+        protected string GetOrGenerateCorelationId() => Request?.GetRequestHeaderOrdefault("CorrelationId", $"GEN-{Guid.NewGuid().ToString()}");
     }
 }
