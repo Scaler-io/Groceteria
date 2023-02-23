@@ -31,6 +31,7 @@ namespace Groceteria.Catalogue.Api.Controllers.v1
 
             var result = Result<object>.Success(healthCheckResult);
 
+            Logger.Here().Information("Result recieved. {@result}", result);
             Logger.Here().MethodExited();
             return OkOrFailure(result);
         }

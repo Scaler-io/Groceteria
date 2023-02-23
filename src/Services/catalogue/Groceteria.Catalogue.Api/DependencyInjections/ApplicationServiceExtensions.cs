@@ -27,7 +27,9 @@ namespace Groceteria.Catalogue.Api.DependencyInjections
             });
 
             // serilog
-            var logger = LoggerConfig.Configure(configuration);
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var logIndexPattern = $"Groceteria.Catalogue.Api-{env?.ToLower().Replace(".", "-")}";
+            var logger = LoggerConfig.Configure(configuration, logIndexPattern);
             services.AddSingleton(Log.Logger)
                     .AddSingleton(x => logger);
 
