@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  groceteria.catalogue.api:
+    container_name: groceteria.catalogue.api
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - LoggerConfigOption:OverrideSource=Microsoft
+      - LoggerConfigOption:OutputTemplate=[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {NewLine} {Properties} {NewLine} {NewLine} {Message} {Exception}
+    ports:
+      - "8000:80"
+      - "7000:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro

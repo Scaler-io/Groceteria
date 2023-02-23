@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groceteria.Shared", "servic
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{2075BA6B-76E8-454B-A09F-71E27BD60670}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Groceteria.Infrastructure", "services\infrastructure\Groceteria.Infrastructure\Groceteria.Infrastructure.csproj", "{C18C23D7-519A-456A-A2BD-6EB3A0A54388}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groceteria.Infrastructure", "services\infrastructure\Groceteria.Infrastructure\Groceteria.Infrastructure.csproj", "{C18C23D7-519A-456A-A2BD-6EB3A0A54388}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{97D189F6-D27E-4D2D-8F37-3E623E69E7C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{C18C23D7-519A-456A-A2BD-6EB3A0A54388}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C18C23D7-519A-456A-A2BD-6EB3A0A54388}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C18C23D7-519A-456A-A2BD-6EB3A0A54388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97D189F6-D27E-4D2D-8F37-3E623E69E7C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97D189F6-D27E-4D2D-8F37-3E623E69E7C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97D189F6-D27E-4D2D-8F37-3E623E69E7C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97D189F6-D27E-4D2D-8F37-3E623E69E7C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
