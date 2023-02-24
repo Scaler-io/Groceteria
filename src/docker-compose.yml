@@ -1,6 +1,10 @@
 version: '3.4'
 
 services:
+  cataloguedb:
+    image: mongo
+  cataloguedbViewer:
+    image: mongo-express
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
   kibana:
@@ -18,3 +22,4 @@ networks:
 
 volumes:
   elasticsearch-data:
+  cataloguedb_data:

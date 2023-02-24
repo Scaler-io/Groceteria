@@ -1,6 +1,26 @@
 version: '3.4'
 
 services:
+  cataloguedb:
+    container_name: cataloguedb
+    restart: always
+    volumes:
+       - cataloguedb_data:/data/db
+    ports:
+       - "27017:27017"
+
+  cataloguedbViewer:
+    container_name: cataloguedbViewer
+    restart: always
+    depends_on:
+       - cataloguedb
+    environment:
+        - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+        - ME_CONFIG_MONGODB_SERVER=cataloguedb
+    ports:
+        - "8081:8081"
+
+
   elasticsearch:
     container_name: 'elasticsearch'
     restart: always
