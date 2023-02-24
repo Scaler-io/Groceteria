@@ -28,7 +28,6 @@ namespace Groceteria.Catalogue.Api.Controllers.v1
                 Status = "Healthy",
                 CheckPassed = 20
             };
-
             var result = Result<object>.Success(healthCheckResult);
 
             Logger.Here().Information("Result recieved. {@result}", result);

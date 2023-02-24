@@ -84,6 +84,7 @@ namespace Groceteria.Catalogue.Api.DependencyInjections
 
             app.UseMiddleware<RequestLoggingMiddleware>();
             app.UseMiddleware<CorrelationHeaderEnricher>();
+            app.UseMiddleware<GlobalExceptionMiddleware>();
 
             return app;
         }
