@@ -1,0 +1,17 @@
+﻿[
+  {
+    "name": "Samsung",
+    "description": "Samsung mobile",
+    "image": "http://groceteria.co.in?image=samsung-image.jpg"
+  },
+  {
+    "name": "Xiomi",
+    "description": "X mobile",
+    "image": "http://groceteria.co.in?image=xiomi-image.jpg"
+  },
+  {
+    "name": "Apple",
+    "description": "Apple mobile",
+    "image": "http://groceteria.co.in?image=apple-image.jpg"
+  }
+]

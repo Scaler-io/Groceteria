@@ -8,12 +8,12 @@ namespace Groceteria.Catalogue.Api.Controllers
 {
     [Route("api/v{version:apiVersion}")]
     [ApiController]
-    public class BaseApi : ControllerBase
+    public class BaseApiController : ControllerBase
     {
         public ILogger Logger { get; set; }
         public string CorrelationId { get; set; }
 
-        public BaseApi(ILogger logger)
+        public BaseApiController(ILogger logger)
         {
             Logger = logger;
             CorrelationId = GetOrGenerateCorelationId();

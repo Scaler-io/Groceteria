@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Newtonsoft.Json.Converters;
 using Serilog;
+using Swashbuckle.AspNetCore.Filters;
+using System.Reflection;
 
 namespace Groceteria.Catalogue.Api.DependencyInjections
 {
@@ -24,7 +26,9 @@ namespace Groceteria.Catalogue.Api.DependencyInjections
             {
                 options.EnableAnnotations();
                 options.OperationFilter<SwaggerHeaderFilter>();
+                options.ExampleFilters();
             });
+            services.AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly());
 
             // serilog
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -51,6 +55,9 @@ namespace Groceteria.Catalogue.Api.DependencyInjections
 
             // swagger
             services.ConfigureOptions<ConfigureSwaggerOptions>();
+
+            // mapper
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // api response behaviour
             services.Configure<ApiBehaviorOptions>(options =>

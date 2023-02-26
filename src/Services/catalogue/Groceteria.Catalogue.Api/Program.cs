@@ -8,7 +8,10 @@ var host = builder.Host;
 
 host.UseSerilog();
 
-builder.Services.AddApplicationServices(config);
+builder.Services
+        .AddApplicationServices(config)
+        .AddDataLayerServices(config)
+        .AddBusinessLayerservices();
 
 var app = builder.Build();
 var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();

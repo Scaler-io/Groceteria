@@ -8,7 +8,6 @@ namespace Groceteria.Shared.Core
         public ApiExceptionResponse(string stackTrace="", string message = "") 
             : base(ErrorCode.InternalServerError)
         {
-            Message = message?? GetDefaultMessage(ErrorCode.InternalServerError);
             StackTrace = stackTrace;
         }
     }

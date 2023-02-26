@@ -1,0 +1,17 @@
+﻿[
+  {
+    "name": "Phones",
+    "description": "Phone category",
+    "image": "http://groceteria.co.in/phone-category.jpg"
+  },
+  {
+    "name": "Garments",
+    "description": "Garment category",
+    "image": "http://groceteria.co.in/garment-category.jpg"
+  },
+  {
+    "name": "Cosmetics",
+    "description": "Cosmetic category",
+    "image": "http://groceteria.co.in/cosmetic-category.jpg"
+  }
+]
