@@ -1,0 +1,53 @@
+﻿[
+  {
+    "name": "Iphone 12 Pro",
+    "category": {
+      "id": "63fa53234d7ff6ab17299aa3",
+      "name": "Phones"
+    },
+    "brand": {
+      "id": "63f92c8be679d589b40b5b21",
+      "name": "Apple"
+    },
+    "summary": "IPhone 12 pro",
+    "desciption": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "price": 55000.00,
+    "color": "Black",
+    "SKU": "GRC/IPH/12-BLACK",
+    "image": "http://groceteria.co.in/iphone-image.jpg"
+  },
+  {
+    "name": "Samsung S13",
+    "category": {
+      "id": "63fa53234d7ff6ab17299aa3",
+      "name": "Phones"
+    },
+    "brand": {
+      "id": "63f92c8be679d589b40b5b1f",
+      "name": "Samsung"
+    },
+    "summary": "Samsung S13",
+    "desciption": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "price": 72000.00,
+    "color": "Silver sky",
+    "SKU": "GRC/SAM/S13-SILVER-SKY",
+    "image": "http://groceteria.co.in/samsung-image.jpg"
+  },
+  {
+    "name": "Redmi Note 12",
+    "category": {
+      "id": "63fa53234d7ff6ab17299aa3",
+      "name": "Phones"
+    },
+    "brand": {
+      "id": "63f92c8be679d589b40b5b20",
+      "name": "Xiomi"
+    },
+    "summary": "Redmi Note 12",
+    "desciption": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "price": 24000.00,
+    "color": "Sky blue",
+    "SKU": "GRC/RM/N13-SKY-BLUE",
+    "image": "http://groceteria.co.in/iphon-image.jpg"
+  }
+]
