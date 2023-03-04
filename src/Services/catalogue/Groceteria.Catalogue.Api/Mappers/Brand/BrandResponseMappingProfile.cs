@@ -4,9 +4,9 @@ using Groceteria.Catalogue.Api.Models.Responses;
 
 namespace Groceteria.Catalogue.Api.Mappers.Brand
 {
-    public class BrandMappingProfile: Profile
+    public class BrandResponseMappingProfile: Profile
     {
-        public BrandMappingProfile()
+        public BrandResponseMappingProfile()
         {
             CreateMap<Entities.Brand, BrandResponse>()
                 .ForMember(b => b.ImageLink, o => o.MapFrom(s => s.Image))

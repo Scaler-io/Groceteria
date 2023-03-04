@@ -7,7 +7,7 @@ namespace Groceteria.Shared.Core
         public ApiValidationResponse(string message = "") 
             : base(ErrorCode.UnprocessableEntity)
         {
-            Message = string.IsNullOrEmpty(message) ?  GetDefaultMessage(ErrorCode.BadRequest) : message;
+            
         }
 
         public List<FieldLevelError> Errors { get; set; }

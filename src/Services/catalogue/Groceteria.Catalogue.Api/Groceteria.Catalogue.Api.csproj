@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Requests\" />
     <Folder Include="Services\v1\" />
   </ItemGroup>
 
