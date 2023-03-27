@@ -1,25 +1,22 @@
+using Groceteria.Catalogue.Api.DependencyInjections;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
+var host = builder.Host;
 
-// Add services to the container.
+host.UseSerilog();
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services
+        .AddApplicationServices(config)
+        .AddDataLayerServices(config)
+        .AddBusinessLayerservices();
 
 var app = builder.Build();
+var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.AddApplicationPipelines(apiVersionDescriptionProvider);
 
-app.UseHttpsRedirection();
+await app.RunAsync();
 
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

@@ -9,9 +9,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalogue", "Catalogue", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{1391DD16-B670-439D-97FE-8056B094CDBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Groceteria.Catalogue.Api", "services\catalogue\Groceteria.Catalogue.Api\Groceteria.Catalogue.Api.csproj", "{45C6DC36-EDD5-432F-AE4F-F879E84EB4FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groceteria.Catalogue.Api", "services\catalogue\Groceteria.Catalogue.Api\Groceteria.Catalogue.Api.csproj", "{45C6DC36-EDD5-432F-AE4F-F879E84EB4FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Groceteria.Shared", "services\shared\Groceteria.Shared\Groceteria.Shared.csproj", "{E7A38270-EDB7-4CF5-B2BD-9950BE080694}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groceteria.Shared", "services\shared\Groceteria.Shared\Groceteria.Shared.csproj", "{E7A38270-EDB7-4CF5-B2BD-9950BE080694}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{2075BA6B-76E8-454B-A09F-71E27BD60670}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groceteria.Infrastructure", "services\infrastructure\Groceteria.Infrastructure\Groceteria.Infrastructure.csproj", "{C18C23D7-519A-456A-A2BD-6EB3A0A54388}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{97D189F6-D27E-4D2D-8F37-3E623E69E7C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +33,14 @@ Global
 		{E7A38270-EDB7-4CF5-B2BD-9950BE080694}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7A38270-EDB7-4CF5-B2BD-9950BE080694}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7A38270-EDB7-4CF5-B2BD-9950BE080694}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C18C23D7-519A-456A-A2BD-6EB3A0A54388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C18C23D7-519A-456A-A2BD-6EB3A0A54388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C18C23D7-519A-456A-A2BD-6EB3A0A54388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C18C23D7-519A-456A-A2BD-6EB3A0A54388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97D189F6-D27E-4D2D-8F37-3E623E69E7C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97D189F6-D27E-4D2D-8F37-3E623E69E7C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97D189F6-D27E-4D2D-8F37-3E623E69E7C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97D189F6-D27E-4D2D-8F37-3E623E69E7C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +50,8 @@ Global
 		{1391DD16-B670-439D-97FE-8056B094CDBF} = {E72B2D25-3C08-4623-8599-C080A84AFA13}
 		{45C6DC36-EDD5-432F-AE4F-F879E84EB4FE} = {E9555792-2F84-429F-AA9E-7EC43A687D28}
 		{E7A38270-EDB7-4CF5-B2BD-9950BE080694} = {1391DD16-B670-439D-97FE-8056B094CDBF}
+		{2075BA6B-76E8-454B-A09F-71E27BD60670} = {E72B2D25-3C08-4623-8599-C080A84AFA13}
+		{C18C23D7-519A-456A-A2BD-6EB3A0A54388} = {2075BA6B-76E8-454B-A09F-71E27BD60670}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD4DE02C-8D15-412D-B3F2-3497DE266763}
