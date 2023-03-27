@@ -10,7 +10,7 @@
       "name": "Apple"
     },
     "summary": "IPhone 12 pro",
-    "desciption": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "price": 55000.00,
     "color": "Black",
     "SKU": "GRC/IPH/12-BLACK",
@@ -27,7 +27,7 @@
       "name": "Samsung"
     },
     "summary": "Samsung S13",
-    "desciption": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "price": 72000.00,
     "color": "Silver sky",
     "SKU": "GRC/SAM/S13-SILVER-SKY",
@@ -44,7 +44,7 @@
       "name": "Xiomi"
     },
     "summary": "Redmi Note 12",
-    "desciption": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "price": 24000.00,
     "color": "Sky blue",
     "SKU": "GRC/RM/N13-SKY-BLUE",

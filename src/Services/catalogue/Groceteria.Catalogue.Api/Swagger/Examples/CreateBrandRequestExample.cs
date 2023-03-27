@@ -1,12 +1,18 @@
-﻿using Swashbuckle.AspNetCore.Filters;
+﻿using Groceteria.Catalogue.Api.Models.Requests;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace Groceteria.Catalogue.Api.Swagger.Examples
 {
-    public class CreateBrandRequestExample : IExamplesProvider<bool>
+    public class CreateBrandRequestExample : IExamplesProvider<BrandUpsertRequest>
     {
-        public bool GetExamples()
+        public BrandUpsertRequest GetExamples()
         {
-            return true;
+            return new BrandUpsertRequest
+            {
+                Name = "Test brand",
+                Description = "Test brand description",
+                Image = "https://fake.png"
+            };
         }
     }
 }

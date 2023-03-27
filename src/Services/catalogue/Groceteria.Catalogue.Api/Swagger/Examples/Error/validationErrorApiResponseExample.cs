@@ -3,7 +3,7 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace Groceteria.Catalogue.Api.Swagger.Examples.Error
 {
-    public class validationErrorApiResponseExample : IExamplesProvider<ApiValidationResponse>
+    public class ValidationErrorApiResponseExample : IExamplesProvider<ApiValidationResponse>
     {
         public ApiValidationResponse GetExamples()
         {

@@ -35,6 +35,7 @@ namespace Groceteria.Catalogue.Api.Controllers
             };
         }
 
+
         public IActionResult CreatedWithRoute<T>(Result<T> result, string routeName, object param)
         {
             if (result.IsSuccess && result.Value != null) return CreatedAtRoute(

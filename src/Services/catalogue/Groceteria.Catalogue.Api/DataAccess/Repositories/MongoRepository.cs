@@ -18,13 +18,14 @@ namespace Groceteria.Catalogue.Api.DataAccess.Repositories
         public async Task DeleteAsync(string id, string collectionName)
         {
             var collection = GetCollection<T>(collectionName);
-            await collection.DeleteOneAsync(id);
+            FilterDefinition<T> filter = Builders<T>.Filter.Where(x => x.Id == id);
+            await collection.DeleteOneAsync(filter);
         }
 
-        public async Task<IReadOnlyCollection<T>> GetAllAsync(string collectionName)
+        public async Task<IReadOnlyCollection<T>> GetAllAsync(string collectionName, int pageSize, int pageIndex)
         {
             var collection = GetCollection<T>(collectionName);
-            return await collection.Find(item => true).ToListAsync();
+            return await collection.Find(item => true).Skip((pageIndex-1)*pageSize).Limit(pageSize).ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(string id, string collectionName)

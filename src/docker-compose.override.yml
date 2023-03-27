@@ -47,10 +47,14 @@ services:
   groceteria.catalogue.api:
     container_name: groceteria.catalogue.api
     restart: always
+    depends_on:
+      - cataloguedb
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - LoggerConfigOption:OverrideSource=Microsoft
       - LoggerConfigOption:OutputTemplate=[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {NewLine} {Properties} {NewLine} {NewLine} {Message} {Exception}
       - "Elasticsearch:Uri=http://elasticsearch:9200"
+      - "MongodbSettings:ConnectionString=mongodb://cataloguedb:27017"
+      - "MongodbSettings:Database=catalogueDb"
     ports:
       - "8000:80"

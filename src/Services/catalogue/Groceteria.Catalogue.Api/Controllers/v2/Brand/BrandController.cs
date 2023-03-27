@@ -39,10 +39,10 @@ namespace Groceteria.Catalogue.Api.Controllers.v2.Brand
         // 500
         [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(InternalServerErrrorResponseExample))]
         [ProducesResponseType(typeof(ApiExceptionResponse), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> GetBrandList()
+        public async Task<IActionResult> GetBrandList([FromQuery] RequestQuery query)
         {
             Logger.Here().MethodEnterd();
-            var result = await _brandService.GetAllBrands();
+            var result = await _brandService.GetAllBrands(query);
             Logger.Here().MethodExited();
             return OkOrFailure(result);
         }
@@ -72,10 +72,11 @@ namespace Groceteria.Catalogue.Api.Controllers.v2.Brand
         }
 
         [HttpPost]
-        [Route("brand/create")]
+        [Route("brand/upsert")]
         [SwaggerHeader("CorrelationId", "string", "", false)]
         [SwaggerOperation(OperationId = "Create new brand", Summary = "Creates new brand")]
         // 200
+        [SwaggerRequestExample(typeof(CreateBrandRequestExample), typeof(CreateBrandRequestExample))]
         [SwaggerResponseExample((int)HttpStatusCode.Created, typeof(CreateBrandRequestExample))]
         [ProducesResponseType(typeof(List<BrandResponse>), (int)HttpStatusCode.Created)]
         // 400
@@ -87,12 +88,36 @@ namespace Groceteria.Catalogue.Api.Controllers.v2.Brand
         // 500
         [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(InternalServerErrrorResponseExample))]
         [ProducesResponseType(typeof(ApiExceptionResponse), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> CreateNewBrand([FromBody] BrandUpsertRequest request)
+        public async Task<IActionResult> CreateOrUpdateBrand([FromBody] BrandUpsertRequest request)
         {
             Logger.Here().MethodEnterd();
             var result = await _brandService.CreateBrand(request);
             Logger.Here().MethodExited();
             return OkOrFailure(result);
+        }
+
+        [HttpDelete]
+        [Route("brand/delete")]
+        [SwaggerHeader("CorrelationId", "string", "", false)]
+        [SwaggerOperation(OperationId = "Delete brand", Summary = "Deletes a brand")]
+        // 200
+        [SwaggerResponseExample((int)HttpStatusCode.NoContent, typeof(NoContentResponseExample))]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
+        // 400
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(BadRequestApiResponseExample))]
+        [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.BadRequest)]
+        // 404
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(NotFoundApiResponseExample))]
+        [ProducesResponseType(typeof(IReadOnlyList<ApiResponse>), (int)HttpStatusCode.NotFound)]
+        // 500
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(InternalServerErrrorResponseExample))]
+        [ProducesResponseType(typeof(ApiExceptionResponse), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> DeleteBrand([FromQuery] string id)
+        {
+            Logger.Here().MethodEnterd();
+            await _brandService.DeleteBrand(id);
+            Logger.Here().MethodExited();
+            return NoContent();
         }
     }
 }

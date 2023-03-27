@@ -1,8 +1,8 @@
-﻿using Amazon.Runtime.Internal;
-using AutoMapper;
+﻿using AutoMapper;
 using Groceteria.Catalogue.Api.DataAccess.Repositories;
 using Groceteria.Catalogue.Api.Entities;
 using Groceteria.Catalogue.Api.Models.Constants;
+using Groceteria.Catalogue.Api.Models.Core;
 using Groceteria.Catalogue.Api.Models.Requests;
 using Groceteria.Catalogue.Api.Models.Responses;
 using Groceteria.Shared.Core;
@@ -12,14 +12,18 @@ using ILogger = Serilog.ILogger;
 
 namespace Groceteria.Catalogue.Api.Services.v2.Brands
 {
-    public class BrandService : IBrandService
+    public class BrandService : ProductCatalogueServiceBase, IBrandService
     {
         private readonly ILogger _logger;
         private readonly IMongoRepository<Brand> _brandRepository;
         private readonly IMapper _mapper;
         private readonly string _brandCollection;
 
-        public BrandService(ILogger logger, IMongoRepository<Brand> brandRepository, IMapper mapper)
+        public BrandService(ILogger logger, 
+            IMongoRepository<Brand> brandRepository, 
+            IMapper mapper,
+            IHttpContextAccessor httpContextAccessor)
+            :base(httpContextAccessor, logger)
         {
             _logger = logger;
             _brandRepository = brandRepository;
@@ -27,21 +31,21 @@ namespace Groceteria.Catalogue.Api.Services.v2.Brands
             _brandCollection = MongodbCollectionNames.Brands;
         }
 
-        public async Task<Result<IReadOnlyList<BrandResponse>>> GetAllBrands()
+        public async Task<Result<Pagination<BrandResponse>>> GetAllBrands(RequestQuery query)
         {
             _logger.Here().MethodEnterd();
 
-            var brands = await _brandRepository.GetAllAsync(_brandCollection);
+            var brands = await _brandRepository.GetAllAsync(_brandCollection, query.PageSize, query.PageIndex);
             if (brands == null || brands.Count == 0)
             {
                 _logger.Here().Warning("No brands available in store. {@errorCode}", ErrorCode.NotFound);
-                return Result<IReadOnlyList<BrandResponse>>.Failure(ErrorCode.NotFound, "No brands available in the store");
+                return Result<Pagination<BrandResponse>>.Failure(ErrorCode.NotFound, "No brands available in the store");
             }
             var response = _mapper.Map<IReadOnlyList<BrandResponse>>(brands);
-
+            SetupPaginationResponseHeader(query, response.Count);
             _logger.Here().Information("Brand list fetch success. {@response}", response);
             _logger.Here().MethodExited();
-            return Result<IReadOnlyList<BrandResponse>>.Success(response);
+            return Result<Pagination<BrandResponse>>.Success(new Pagination<BrandResponse>(query.PageIndex, query.PageSize, response.Count, response));
         }
 
         public async Task<Result<BrandResponse>> GetBrandById(string id)
