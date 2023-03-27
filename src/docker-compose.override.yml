@@ -1,0 +1,60 @@
+version: '3.4'
+
+services:
+  cataloguedb:
+    container_name: cataloguedb
+    restart: always
+    volumes:
+       - cataloguedb_data:/data/db
+    ports:
+       - "27017:27017"
+
+  cataloguedbViewer:
+    container_name: cataloguedbViewer
+    restart: always
+    depends_on:
+       - cataloguedb
+    environment:
+        - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+        - ME_CONFIG_MONGODB_SERVER=cataloguedb
+    ports:
+        - "8081:8081"
+
+
+  elasticsearch:
+    container_name: 'elasticsearch'
+    restart: always
+    ports:
+    - 9200:9200
+    volumes:
+    - elasticsearch-data:/usr/share/elasticsearch/data
+    environment:
+    - xpack.monitoring.enabled=true
+    - xpack.watcher.enabled=false
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    - discovery.type=single-node
+
+  kibana:
+    container_name: kibana
+    ports:
+    - 5601:5601
+    depends_on:
+    - elasticsearch
+    environment:
+    - ELASTICSEARCH_URL=http://elasticsearch:9200
+
+
+  groceteria.catalogue.api:
+    container_name: groceteria.catalogue.api
+    restart: always
+    depends_on:
+      - cataloguedb
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - LoggerConfigOption:OverrideSource=Microsoft
+      - LoggerConfigOption:OutputTemplate=[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {NewLine} {Properties} {NewLine} {NewLine} {Message} {Exception}
+      - "Elasticsearch:Uri=http://elasticsearch:9200"
+      - "MongodbSettings:ConnectionString=mongodb://cataloguedb:27017"
+      - "MongodbSettings:Database=catalogueDb"
+    ports:
+      - "8000:80"
