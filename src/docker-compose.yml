@@ -16,10 +16,6 @@ services:
       context: .
       dockerfile: services/catalogue/Groceteria.Catalogue.Api/Dockerfile
 
-networks:
-  groceteria:
-    driver: bridge
-
 volumes:
   elasticsearch-data:
   cataloguedb_data:
