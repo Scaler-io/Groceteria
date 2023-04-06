@@ -10,10 +10,10 @@ namespace Groceteria.Basket.Api.Controllers
     [ApiController]
     public class BaseApiController : ControllerBase
     {
-        public BaseApiController(ILogger logger, string correlationId)
+        public BaseApiController(ILogger logger)
         {
             Logger = logger;
-            CorrelationId = correlationId;
+            CorrelationId = GetOrGenerateCorelationId();
         }
 
         protected ILogger Logger { get; set; }

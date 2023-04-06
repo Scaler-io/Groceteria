@@ -5,6 +5,10 @@ services:
     image: mongo
   cataloguedbViewer:
     image: mongo-express
+  basketdb:
+    image: redis:alpine
+  basketdbViewer:
+    image: rediscommander/redis-commander:latest
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
   kibana:

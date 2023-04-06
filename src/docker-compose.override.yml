@@ -20,6 +20,20 @@ services:
     ports:
         - "8081:8081"
 
+  basketdb:
+    container_name: basketdb
+    restart: always
+    ports:
+      - "6379:6379"
+  basketdbViewer:
+    container_name: basketdbViewer
+    restart: always
+    depends_on:
+       - basketdb
+    environment:
+       - REDIS_HOST=basketdb:6379 
+    ports:
+       - 8082:8081  
 
   elasticsearch:
     container_name: 'elasticsearch'
@@ -36,6 +50,7 @@ services:
 
   kibana:
     container_name: kibana
+    restart: always
     ports:
     - 5601:5601
     depends_on:

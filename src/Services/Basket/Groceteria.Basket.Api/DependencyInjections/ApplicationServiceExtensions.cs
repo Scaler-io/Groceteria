@@ -29,6 +29,8 @@ namespace Groceteria.Basket.Api.DependencyInjections
                 options.ExampleFilters();
             });
 
+            services.AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly());
+
             // serilog
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var logIndexPattern = $"Groceteria.Basket.Api-{env?.ToLower().Replace(".", "-")}";
@@ -54,6 +56,9 @@ namespace Groceteria.Basket.Api.DependencyInjections
 
             // mapper
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            // swagger
+            services.ConfigureOptions<ConfigureSwaggerOptions>();
 
             // api response behaviour
             services.Configure<ApiBehaviorOptions>(options =>
