@@ -1,14 +1,14 @@
 ﻿using Groceteria.Shared.Core;
-using Groceteria.Shared.Extensions;
+using Groceteria.Shared.Enums;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 using System.Net.Mime;
 using System.Net;
+using Groceteria.Shared.Extensions;
 using ILogger = Serilog.ILogger;
-using Groceteria.Shared.Enums;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Converters;
 
-namespace Groceteria.Catalogue.Api.Middlewares
+namespace Groceteria.Basket.Api.Middlewares
 {
     public class GlobalExceptionMiddleware
     {
@@ -29,7 +29,7 @@ namespace Groceteria.Catalogue.Api.Middlewares
             {
                 await _next(context);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 HandleGeneralException(context, ex);
             }
@@ -44,7 +44,8 @@ namespace Groceteria.Catalogue.Api.Middlewares
                              ? new ApiExceptionResponse(ex.Message, ex.StackTrace)
                              : new ApiExceptionResponse(ex.Message);
 
-            var jsonSettings = new JsonSerializerSettings { 
+            var jsonSettings = new JsonSerializerSettings
+            {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 Converters = new List<JsonConverter>
                 {
