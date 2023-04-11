@@ -48,6 +48,30 @@ namespace Groceteria.Catalogue.Api.Controllers.v2.Product
         }
 
         [HttpGet]
+        [Route("bulk/products")]
+        [SwaggerHeader("CorrelationId", "string", "", false)]
+        // 200
+        [SwaggerOperation(OperationId = "GetProductsCollection", Summary = "Fetches all stored product details")]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(ProductResponseExample))]
+        [ProducesResponseType(typeof(IReadOnlyList<ProductResponse>), (int)HttpStatusCode.OK)]
+        // 400
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(BadRequestApiResponseExample))]
+        [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.BadRequest)]
+        // 404
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(NotFoundApiResponseExample))]
+        [ProducesResponseType(typeof(IReadOnlyList<ApiResponse>), (int)HttpStatusCode.NotFound)]
+        // 500
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(InternalServerErrrorResponseExample))]
+        [ProducesResponseType(typeof(ApiExceptionResponse), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> GetProductsBulkRequest([FromQuery] string productIds)
+        {
+            Logger.Here().MethodEnterd();
+            var result = await _productService.GetProductsFromBulkRequest(productIds);
+            Logger.Here().MethodExited();
+            return OkOrFailure(result);
+        }
+
+        [HttpGet]
         [Route("product/{id}")]
         [SwaggerHeader("CorrelationId", "string", "", false)]
         // 200

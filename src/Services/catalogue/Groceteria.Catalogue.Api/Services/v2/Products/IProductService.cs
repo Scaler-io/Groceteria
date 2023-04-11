@@ -9,6 +9,7 @@ namespace Groceteria.Catalogue.Api.Services.v2.Products
     {
         Task<Result<Pagination<ProductResponse>>> GetAllProducts(RequestQuery query);
         Task<Result<ProductResponse>> GetProductById(string id);
+        Task<Result<IEnumerable<ProductResponse>>> GetProductsFromBulkRequest(string productIds);
         Task<Result<bool>> CreateProduct(ProductUpsertRequest request);
         Task DeleteProduct(string id);
     }
