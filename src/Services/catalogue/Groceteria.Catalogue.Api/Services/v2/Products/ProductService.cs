@@ -89,5 +89,25 @@ namespace Groceteria.Catalogue.Api.Services.v2.Products
             _logger.Here().MethodExited();
             return Result<ProductResponse>.Success(response);
         }
+
+        public async Task<Result<IEnumerable<ProductResponse>>> GetProductsFromBulkRequest(string productIds)
+        {
+            _logger.Here().MethodEnterd();
+            _logger.Here().Information("Request - get product list {@ids}", productIds);
+
+            var ids = productIds.Split(",");
+            var products = new List<Product>();
+            foreach(var id in ids)
+            {
+                var product = await _productRepository.GetByIdAsync(id, _productCollection);             
+                products.Add(product);
+            }
+
+            var productResponses = _mapper.Map<IEnumerable<ProductResponse>>(products);
+            _logger.Here().Information("Brand fetch success - {@products}", products);
+            _logger.Here().MethodExited();
+
+            return Result<IEnumerable<ProductResponse>>.Success(productResponses);
+        }
     }
 }
