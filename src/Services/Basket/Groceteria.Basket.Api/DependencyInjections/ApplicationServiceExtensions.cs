@@ -4,6 +4,7 @@ using Groceteria.Basket.Api.Swagger;
 using Groceteria.Infrastructure.Logger;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
 using Serilog;
 using Swashbuckle.AspNetCore.Filters;
@@ -65,6 +66,8 @@ namespace Groceteria.Basket.Api.DependencyInjections
             {
                 options.InvalidModelStateResponseFactory = BasketApiConfigurations.HandleFrameworkValidationFailure();
             });
+
+            services.Configure<CatalogueApiSettings>(configuration.GetSection(CatalogueApiSettings.catalogueApiSettings));
 
             return services;
         }

@@ -6,7 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
 var configuration = builder.Configuration;
 
-builder.Services.AddApplicationServices(configuration);
+builder.Services.AddApplicationServices(configuration)
+                .AddRedisCacheService(configuration)
+                .AdddataLayerServices()
+                .AddHttpClients(configuration);
 
 
 var app = builder.Build();

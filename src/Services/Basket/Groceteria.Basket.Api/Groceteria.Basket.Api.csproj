@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\v2\" />
+    <Folder Include="Services\Interfaces\v1\" />
   </ItemGroup>
 
 </Project>
