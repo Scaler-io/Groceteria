@@ -2,7 +2,6 @@
 using Groceteria.Catalogue.Api.DataAccess.Repositories;
 using Groceteria.Catalogue.Api.Entities;
 using Groceteria.Catalogue.Api.Models.Constants;
-using Groceteria.Catalogue.Api.Models.Core;
 using Groceteria.Catalogue.Api.Models.Requests;
 using Groceteria.Catalogue.Api.Models.Responses;
 using Groceteria.Shared.Core;

@@ -1,4 +1,4 @@
-﻿namespace Groceteria.Catalogue.Api.Models.Core
+﻿namespace Groceteria.Shared.Core
 {
     public class Pagination<T> where T: class
     {

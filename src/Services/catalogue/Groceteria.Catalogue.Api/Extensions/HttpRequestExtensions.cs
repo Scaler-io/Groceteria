@@ -1,4 +1,4 @@
-﻿using Groceteria.Catalogue.Api.Models.Core;
+﻿using Groceteria.Shared.Core;
 using Newtonsoft.Json;
 
 namespace Groceteria.Catalogue.Api.Extensions

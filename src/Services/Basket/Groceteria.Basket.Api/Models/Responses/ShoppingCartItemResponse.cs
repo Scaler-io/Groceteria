@@ -1,11 +1,12 @@
-﻿using Groceteria.Catalogue.Api.Entities;
-using Groceteria.Catalogue.Api.Models.Core;
+﻿using Destructurama.Attributed;
 
-namespace Groceteria.Catalogue.Api.Models.Responses
+namespace Groceteria.Basket.Api.Models.Responses
 {
-    public class ProductResponse
+    public class ShoppingCartItemResponse
     {
-        public string Id { get; set; }
+        [LogMasked]
+        public string ProductId { get; set; }
+        public int Quantity { get; set; }
         public string Name { get; set; }
         public string Category { get; set; }
         public string Brand { get; set; }
@@ -13,8 +14,8 @@ namespace Groceteria.Catalogue.Api.Models.Responses
         public string Description { get; set; }
         public double Price { get; set; }
         public string Color { get; set; }
+        [LogMasked]
         public string SKU { get; set; }
         public string Image { get; set; }
-        public MetaData MetaData { get; set; }
     }
 }

@@ -5,6 +5,10 @@ services:
     image: mongo
   cataloguedbViewer:
     image: mongo-express
+  basketdb:
+    image: redis:alpine
+  basketdbViewer:
+    image: rediscommander/redis-commander:latest
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
   kibana:
@@ -15,6 +19,12 @@ services:
     build:
       context: .
       dockerfile: services/catalogue/Groceteria.Catalogue.Api/Dockerfile
+
+  groceteria.basket.api:
+    image: ${DOCKER_REGISTRY-}groceteriabasketapi
+    build:
+      context: .
+      dockerfile: services/basket/Groceteria.Basket.Api/Dockerfile
 
 volumes:
   elasticsearch-data:

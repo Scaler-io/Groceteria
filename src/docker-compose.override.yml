@@ -20,6 +20,20 @@ services:
     ports:
         - "8081:8081"
 
+  basketdb:
+    container_name: basketdb
+    restart: always
+    ports:
+      - "6379:6379"
+  basketdbViewer:
+    container_name: basketdbViewer
+    restart: always
+    depends_on:
+       - basketdb
+    environment:
+       - REDIS_HOST=basketdb:6379 
+    ports:
+       - 8082:8081  
 
   elasticsearch:
     container_name: 'elasticsearch'
@@ -36,6 +50,7 @@ services:
 
   kibana:
     container_name: kibana
+    restart: always
     ports:
     - 5601:5601
     depends_on:
@@ -58,3 +73,21 @@ services:
       - "MongodbSettings:Database=catalogueDb"
     ports:
       - "8000:80"
+
+  groceteria.basket.api:
+    container_name: groceteria.basket.api
+    restart: always
+    depends_on:
+      - basketdb
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - LoggerConfigOption:OverrideSource=Microsoft
+      - LoggerConfigOption:OutputTemplate=[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {NewLine} {Properties} {NewLine} {NewLine} {Message} {Exception}
+      - "Elasticsearch:Uri=http://elasticsearch:9200"
+      - "CatalogueApiSettings:baseAddress=http://groceteria.catalogue.api"
+      - "CatalogueApiSettings:version=v2"
+      - "RedisCache:InstanceName=Groceteria.Basket.Cache"
+      - "RedisCache:ConnectionString=basketdb:6379"
+    ports:
+      - "8001:80"
+
