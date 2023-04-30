@@ -7,8 +7,8 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Services/Basket/Groceteria.Basket.Api/Groceteria.Basket.Api.csproj", "Services/Basket/Groceteria.Basket.Api/"]
-COPY ["Services/infrastructure/Groceteria.Infrastructure/Groceteria.Infrastructure.csproj", "Services/infrastructure/Groceteria.Infrastructure/"]
-COPY ["Services/shared/Groceteria.Shared/Groceteria.Shared.csproj", "Services/shared/Groceteria.Shared/"]
+COPY ["Services/Infrastructure/Groceteria.Infrastructure/Groceteria.Infrastructure.csproj", "Services/Infrastructure/Groceteria.Infrastructure/"]
+COPY ["Services/Shared/Groceteria.Shared/Groceteria.Shared.csproj", "Services/Shared/Groceteria.Shared/"]
 RUN dotnet restore "Services/Basket/Groceteria.Basket.Api/Groceteria.Basket.Api.csproj"
 COPY . .
 WORKDIR "/src/Services/Basket/Groceteria.Basket.Api"
