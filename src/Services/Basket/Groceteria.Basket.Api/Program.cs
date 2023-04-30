@@ -9,7 +9,8 @@ var configuration = builder.Configuration;
 builder.Services.AddApplicationServices(configuration)
                 .AddRedisCacheService(configuration)
                 .AdddataLayerServices()
-                .AddHttpClients(configuration);
+                .AddHttpClients(configuration)
+                .AddBusinessLogiceServices();
 
 
 var app = builder.Build();

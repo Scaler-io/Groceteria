@@ -19,12 +19,12 @@
         {
             get
             {
-                var totalPrice = 0.0;
+                decimal totalPrice = 0;
                 foreach(var item in Items)
                 {
                    totalPrice += item.Price * item.Quantity;
                 }
-                return (decimal)totalPrice;
+                return totalPrice;
             }
         }
     }

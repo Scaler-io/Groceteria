@@ -1,5 +1,5 @@
 ﻿using Groceteria.Catalogue.Api.Extensions;
-using Groceteria.Catalogue.Api.Models.Requests;
+using Groceteria.Shared.Core;
 using Groceteria.Shared.Extensions;
 using ILogger = Serilog.ILogger;
 

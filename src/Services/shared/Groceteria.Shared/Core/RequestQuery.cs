@@ -1,4 +1,4 @@
-﻿namespace Groceteria.Catalogue.Api.Models.Requests
+﻿namespace Groceteria.Shared.Core
 {
     public class RequestQuery
     {

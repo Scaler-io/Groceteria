@@ -20,6 +20,12 @@ services:
       context: .
       dockerfile: services/catalogue/Groceteria.Catalogue.Api/Dockerfile
 
+  groceteria.basket.api:
+    image: ${DOCKER_REGISTRY-}groceteriabasketapi
+    build:
+      context: .
+      dockerfile: services/basket/Groceteria.Basket.Api/Dockerfile
+
 volumes:
   elasticsearch-data:
   cataloguedb_data:

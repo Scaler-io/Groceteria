@@ -73,3 +73,21 @@ services:
       - "MongodbSettings:Database=catalogueDb"
     ports:
       - "8000:80"
+
+  groceteria.basket.api:
+    container_name: groceteria.basket.api
+    restart: always
+    depends_on:
+      - basketdb
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - LoggerConfigOption:OverrideSource=Microsoft
+      - LoggerConfigOption:OutputTemplate=[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {NewLine} {Properties} {NewLine} {NewLine} {Message} {Exception}
+      - "Elasticsearch:Uri=http://elasticsearch:9200"
+      - "CatalogueApiSettings:baseAddress=http://groceteria.catalogue.api"
+      - "CatalogueApiSettings:version=v2"
+      - "RedisCache:InstanceName=Groceteria.Basket.Cache"
+      - "RedisCache:ConnectionString=basketdb:6379"
+    ports:
+      - "8001:80"
+

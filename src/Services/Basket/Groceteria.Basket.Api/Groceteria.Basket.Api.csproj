@@ -4,6 +4,9 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +16,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.15" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.6" />
@@ -23,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\v2\" />
     <Folder Include="Services\Interfaces\v1\" />
   </ItemGroup>
 
