@@ -7,12 +7,12 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Services/catalogue/Groceteria.Catalogue.Api/Groceteria.Catalogue.Api.csproj", "Services/catalogue/Groceteria.Catalogue.Api/"]
-COPY ["Services/infrastructure/Groceteria.Infrastructure/Groceteria.Infrastructure.csproj", "Services/infrastructure/Groceteria.Infrastructure/"]
-COPY ["Services/shared/Groceteria.Shared/Groceteria.Shared.csproj", "Services/shared/Groceteria.Shared/"]
-RUN dotnet restore "Services/catalogue/Groceteria.Catalogue.Api/Groceteria.Catalogue.Api.csproj"
+COPY ["Services/Catalogue/Groceteria.Catalogue.Api/Groceteria.Catalogue.Api.csproj", "Services/Catalogue/Groceteria.Catalogue.Api/"]
+COPY ["Services/Infrastructure/Groceteria.Infrastructure/Groceteria.Infrastructure.csproj", "Services/Infrastructure/Groceteria.Infrastructure/"]
+COPY ["Services/Shared/Groceteria.Shared/Groceteria.Shared.csproj", "Services/Shared/Groceteria.Shared/"]
+RUN dotnet restore "Services/Catalogue/Groceteria.Catalogue.Api/Groceteria.Catalogue.Api.csproj"
 COPY . .
-WORKDIR "/src/Services/catalogue/Groceteria.Catalogue.Api"
+WORKDIR "/src/Services/Catalogue/Groceteria.Catalogue.Api"
 RUN dotnet build "Groceteria.Catalogue.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
