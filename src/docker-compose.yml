@@ -7,6 +7,10 @@ services:
     image: mongo-express
   basketdb:
     image: redis:alpine
+  discountdb:
+    image: postgres
+  discountdbViewer:
+    image: dpage/pgadmin4
   basketdbViewer:
     image: rediscommander/redis-commander:latest
   elasticsearch:
@@ -29,3 +33,5 @@ services:
 volumes:
   elasticsearch-data:
   cataloguedb_data:
+  postgres_data:
+  pgadmin_data:
