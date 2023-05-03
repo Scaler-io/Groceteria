@@ -1,13 +1,21 @@
 using Groceteria.Discount.Grpc.DependencyInjections;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
 
+builder.Host.UseSerilog();
 services.AddApplicationServices(configuration);
 
 var app = builder.Build();
 app.AddApplicationPipelens();
 
-// Configure the HTTP request pipeline.
-app.Run();
+try
+{
+    await app.RunAsync();
+}
+finally
+{
+    Log.CloseAndFlush();
+}

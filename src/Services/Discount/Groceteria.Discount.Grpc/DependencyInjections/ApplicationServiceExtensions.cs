@@ -1,5 +1,4 @@
-﻿using Groceteria.Discount.Grpc.Services;
-using Groceteria.Infrastructure.Logger;
+﻿using Groceteria.Infrastructure.Logger;
 using Serilog;
 
 namespace Groceteria.Discount.Grpc.DependencyInjections
@@ -28,7 +27,10 @@ namespace Groceteria.Discount.Grpc.DependencyInjections
             app.UseRouting();
 
             //app.MapGrpcService<GreeterService>();
-            app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+            app.MapGet("/", async context =>
+            {
+                await context.Response.WriteAsync("Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+            });
             return app;
         }
     }
