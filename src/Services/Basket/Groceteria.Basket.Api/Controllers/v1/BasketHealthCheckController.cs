@@ -6,10 +6,10 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Groceteria.Basket.Api.Controllers.v1
 {
-    [ApiVersion("1")]  
+    [ApiVersion("1")]
     public class BasketHealthCheckController : BaseApiController
     {
-        public BasketHealthCheckController(Serilog.ILogger logger) 
+        public BasketHealthCheckController(Serilog.ILogger logger)
             : base(logger)
         {
         }
@@ -18,7 +18,7 @@ namespace Groceteria.Basket.Api.Controllers.v1
         [Route("healthcheck")]
         [SwaggerHeader("CorrelationId", "string", "", false)]
         [SwaggerOperation(OperationId = "GetHealthCheckResult", Summary = "Performs api endpoint healthcheck")]
-        public async Task<IActionResult> GetHealthCheckResult()
+        public IActionResult GetHealthCheckResult()
         {
             Logger.Here().MethodEnterd();
 

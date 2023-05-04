@@ -25,7 +25,7 @@ namespace Groceteria.Catalogue.Api.DataAccess.Repositories
         public async Task<IReadOnlyCollection<T>> GetAllAsync(string collectionName, int pageSize, int pageIndex)
         {
             var collection = GetCollection<T>(collectionName);
-            return await collection.Find(item => true).Skip((pageIndex-1)*pageSize).Limit(pageSize).ToListAsync();
+            return await collection.Find(item => true).Skip((pageIndex - 1) * pageSize).Limit(pageSize).ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(string id, string collectionName)
@@ -53,7 +53,7 @@ namespace Groceteria.Catalogue.Api.DataAccess.Repositories
             var collection = GetCollection<T>(collectionName);
             if (!string.IsNullOrEmpty(entity.Id) && await IsDocumentUpdateRequest(entity.Id, collection))
             {
-                await collection.ReplaceOneAsync(x => x.Id== entity.Id, entity);
+                await collection.ReplaceOneAsync(x => x.Id == entity.Id, entity);
             }
             else
             {
@@ -61,16 +61,16 @@ namespace Groceteria.Catalogue.Api.DataAccess.Repositories
             }
         }
 
-        private async Task<bool> IsDocumentUpdateRequest(string id, IMongoCollection<T> collection) 
-        {            
+        private async Task<bool> IsDocumentUpdateRequest(string id, IMongoCollection<T> collection)
+        {
             var entity = await collection.Find(x => x.Id == id).FirstOrDefaultAsync();
             if (entity == null) return false;
             return true;
         }
 
-        private IMongoCollection<T> GetCollection<T>(string collectionName)
+        private IMongoCollection<T> GetCollection<TCollection>(string collectionName)
         {
             return _database.GetCollection<T>(collectionName);
-        }     
+        }
     }
 }
