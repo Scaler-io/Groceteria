@@ -1,4 +1,5 @@
 using Groceteria.Discount.Grpc.DependencyInjections;
+using Groceteria.Discount.Grpc.Extensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ app.AddApplicationPipelens();
 
 try
 {
+    app.MigrateDatabase();
     await app.RunAsync();
 }
 finally
