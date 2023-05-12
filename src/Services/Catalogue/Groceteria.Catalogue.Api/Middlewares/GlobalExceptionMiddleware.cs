@@ -29,9 +29,9 @@ namespace Groceteria.Catalogue.Api.Middlewares
             {
                 await _next(context);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                HandleGeneralException(context, ex);
+                await HandleGeneralException(context, ex);
             }
         }
 
@@ -44,7 +44,8 @@ namespace Groceteria.Catalogue.Api.Middlewares
                              ? new ApiExceptionResponse(ex.Message, ex.StackTrace)
                              : new ApiExceptionResponse(ex.Message);
 
-            var jsonSettings = new JsonSerializerSettings { 
+            var jsonSettings = new JsonSerializerSettings
+            {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 Converters = new List<JsonConverter>
                 {

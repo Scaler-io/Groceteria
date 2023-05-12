@@ -31,7 +31,7 @@ namespace Groceteria.Basket.Api.Middlewares
             }
             catch (Exception ex)
             {
-                HandleGeneralException(context, ex);
+                await HandleGeneralException(context, ex);
             }
         }
 

@@ -5,7 +5,7 @@ namespace Groceteria.Catalogue.Api.Models.Requests
 {
     public class ProductUpsertRequest
     {
-        public string? Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         [LogMasked]
         public string CategoryId { get; set; }

@@ -22,7 +22,7 @@ namespace Groceteria.Catalogue.Api.Controllers.v1
         [Route("healthCheck")]
         [SwaggerHeader("CorrelationId", "string", "", false)]
         [SwaggerOperation(OperationId = "GetHealthCheckResult", Summary = "Performs api endpoint healthcheck")]
-        public async Task<IActionResult> GetHealthCheckResult()
+        public IActionResult GetHealthCheckResult()
         {
             Logger.Here().MethodEnterd();
 
