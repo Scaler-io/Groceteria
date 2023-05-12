@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Groceteria.Discount.Grpc.Entities;
 using Groceteria.Discount.Grpc.Models.Constants;
+using Groceteria.Discount.Grpc.Protos;
 using Groceteria.Shared.Extensions;
 using Npgsql;
 using ILogger = Serilog.ILogger;
@@ -27,9 +28,13 @@ namespace Groceteria.Discount.Grpc.DataAccess.Repositories
             return coupons;
         }
 
-        public async Task<Coupon> GetCoupon(int id)
+        public async Task<Coupon> GetCoupon(string productId, string productName)
         {
-            var command = new CommandDefinition(DiscountDbCommands.SelectByProductId);
+            var command = new CommandDefinition(DiscountDbCommands.SelectByProductInfo, new
+            {
+                ProductId = productId,
+                ProductName = productName
+            });
             var coupon = await _connection.QueryFirstOrDefaultAsync<Coupon>(command);
             return coupon;
         }
@@ -71,10 +76,10 @@ namespace Groceteria.Discount.Grpc.DataAccess.Repositories
             return affected > 0;
         }
 
-        public async Task<bool> DeleteCoupon(int id)
+        public async Task<bool> DeleteCoupon(string productId, string productName)
         {
             var affected = 0;
-            var command = new CommandDefinition(DiscountDbCommands.Delete, new { Id = id });
+            var command = new CommandDefinition(DiscountDbCommands.Delete, new { ProductId = productId, ProductName = productName });
             affected = await _connection.ExecuteAsync(command);
             _logger.Here().MethodExited();
             return affected > 0;

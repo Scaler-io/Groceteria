@@ -1,5 +1,3 @@
-using System.Net;
-using System.Net.Mime;
 using Groceteria.Shared.Core;
 using Groceteria.Shared.Enums;
 using Newtonsoft.Json;
@@ -7,39 +5,42 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using ILogger = Serilog.ILogger;
 using Groceteria.Shared.Extensions;
+using Grpc.Core;
+using Grpc.Core.Interceptors;
 
 namespace Groceteria.Discount.Grpc.Middlewares
 {
-    public class GlobalExceptionMiddleware
+    public class GlobalExceptionMiddleware: Interceptor
     {
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
         private readonly IWebHostEnvironment _env;
 
-        public GlobalExceptionMiddleware(RequestDelegate next, ILogger logger, IWebHostEnvironment env)
+        public GlobalExceptionMiddleware(ILogger logger, IWebHostEnvironment env)
         {
-            _next = next;
             _logger = logger;
             _env = env;
         }
 
-        public async Task InvokeAsync(HttpContext context)
+        public async Task<TResponse> HandleAsync<TRequest, TResponse>(TRequest request,
+            ServerCallContext context,
+            UnaryServerMethod<TRequest, TResponse> next)
+            where TRequest : class
+            where TResponse : class
         {
             try
             {
-                await _next(context);
+               return await next(request, context);
             }
             catch (Exception exception)
             {
-                await HandleGeneralException(context, exception);
+                HandleGeneralException(exception);
+                throw new RpcException(new Status(StatusCode.Internal, exception.Message));
             }
         }
 
-        private async Task HandleGeneralException(HttpContext context, Exception exception)
+        private void HandleGeneralException(Exception exception)
         {
-            context.Response.ContentType = MediaTypeNames.Application.Json;
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
             var response = _env.IsDevelopment()
                              ? new ApiExceptionResponse(exception.Message, exception.StackTrace)
                              : new ApiExceptionResponse(exception.Message);
@@ -54,7 +55,7 @@ namespace Groceteria.Discount.Grpc.Middlewares
             };
             var jsonResponse = JsonConvert.SerializeObject(response, jsonSettings);
             _logger.Here().Error("{@InternalServerError} - {@response}", ErrorCode.InternalServerError, jsonResponse);
-            await context.Response.WriteAsync(jsonResponse);
+          
         }
     }
 }

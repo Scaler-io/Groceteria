@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groceteria.Basket.Api", "Se
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Discount", "Discount", "{0C2BF22A-8542-4798-879F-8FECC3DEDA9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Groceteria.Discount.Grpc", "Services\Discount\Groceteria.Discount.Grpc\Groceteria.Discount.Grpc.csproj", "{FA7BEA7A-E731-4B91-9E49-F34BAA6F1B4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groceteria.Discount.Grpc", "Services\Discount\Groceteria.Discount.Grpc\Groceteria.Discount.Grpc.csproj", "{FA7BEA7A-E731-4B91-9E49-F34BAA6F1B4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
