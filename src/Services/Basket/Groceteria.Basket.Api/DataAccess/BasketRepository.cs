@@ -2,7 +2,6 @@
 using Groceteria.Basket.Api.Entities;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
-using System.Linq.Expressions;
 
 namespace Groceteria.Basket.Api.DataAccess
 {

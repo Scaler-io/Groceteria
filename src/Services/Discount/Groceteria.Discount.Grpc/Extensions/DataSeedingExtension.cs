@@ -37,10 +37,10 @@ namespace Groceteria.Discount.Grpc.Extensions
                 command.ExecuteNonQuery();
 
                 // insert data into coupon
-                command.CommandText = $"INSERT INTO Coupon(ProductId, ProductName, Description, Amount, CreatedAt, UpdatedAt) VALUES('642d8c16ce134b8634595cb5', 'Iphone 12 Pro', 'IPhone Discount 1', 150, '{DateTime.Now}', '{DateTime.Now}');";
+                command.CommandText = $"INSERT INTO Coupon(ProductId, ProductName, Description, Amount, CreatedAt, UpdatedAt) VALUES('6464f0ba15023275a9087c3c', 'Iphone 12 Pro', 'IPhone Discount 1', 150, '{DateTime.Now}', '{DateTime.Now}');";
                 command.ExecuteNonQuery();
 
-                command.CommandText = $"INSERT INTO Coupon(ProductId, ProductName, Description, Amount, CreatedAt, UpdatedAt) VALUES('642d8c16ce134b8634595cb6', 'Samsung S13', 'Samsung Discount', 100, '{DateTime.Now}', '{DateTime.Now}');";
+                command.CommandText = $"INSERT INTO Coupon(ProductId, ProductName, Description, Amount, CreatedAt, UpdatedAt) VALUES('6464f0ba15023275a9087c3d', 'Samsung S13', 'Samsung Discount', 100, '{DateTime.Now}', '{DateTime.Now}');";
                 command.ExecuteNonQuery();
 
                 logger.Here().Information("Migrated discount database.");

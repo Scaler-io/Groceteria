@@ -3,11 +3,12 @@ using Groceteria.Basket.Api.DataAccess.Interfaces;
 using Groceteria.Basket.Api.Entities;
 using Groceteria.Basket.Api.Models.Requests;
 using Groceteria.Basket.Api.Models.Responses;
+using Groceteria.Basket.Api.Services.Grpc;
+using Groceteria.Basket.Api.Services.Interfaces.Grpc;
 using Groceteria.Basket.Api.Services.Interfaces.v2;
 using Groceteria.Shared.Core;
 using Groceteria.Shared.Enums;
 using Groceteria.Shared.Extensions;
-using System.Linq;
 using ILogger = Serilog.ILogger;
 
 namespace Groceteria.Basket.Api.Services.v2
@@ -18,16 +19,19 @@ namespace Groceteria.Basket.Api.Services.v2
         private readonly IBasketRepository _basketRepository;
         private readonly IMapper _mapper;
         private readonly IProductSearchService _productSearchService;
+        private readonly IDiscountGrpcService _discountGrpcService;
 
         public BasketWorkflowService(ILogger logger,
             IBasketRepository basketRepository,
             IMapper mapper,
-            IProductSearchService productSearchService)
+            IProductSearchService productSearchService,
+            IDiscountGrpcService discountGrpcService)
         {
             _logger = logger;
             _basketRepository = basketRepository;
             _mapper = mapper;
             _productSearchService = productSearchService;
+            _discountGrpcService = discountGrpcService;
         }
 
         public async Task<Result<ShoppingCartResponse>> GetBasket(ShoppingCartFetchRequest request, RequestQuery queryParams)
@@ -78,7 +82,33 @@ namespace Groceteria.Basket.Api.Services.v2
             _logger.Here()
                    .Information("shopping cart items prepared {@items}", basketItems);
 
-            basket.Items = basketItems;
+            var itemsWithDiscount = new List<ShoppingCartItem>(); 
+
+
+            foreach(var item in basketItems)
+            {
+                var coupon = await _discountGrpcService.GetDiscount(item.ProductId, item.Name);
+                if (coupon.IsSuccess)
+                {
+                    item.Price -= coupon.Value.Amount;
+                    _logger.Here()
+                        .Information("Coupon is applied of amount {@amount}. current price of {@productName} is {@currentPrice}", 
+                        coupon.Value.Amount,
+                        item.Name,
+                        item.Price);
+                    itemsWithDiscount.Add(item);
+                }
+            }
+
+            if (itemsWithDiscount.Any())
+            {
+                basket.Items = itemsWithDiscount;
+            }
+            else
+            {
+                basket.Items = basketItems;
+            }
+
             var basketResponse = await _basketRepository.UpdateBasket(basket);
             if(basketResponse == null)
             {

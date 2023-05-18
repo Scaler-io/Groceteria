@@ -6,7 +6,6 @@ using Groceteria.Shared.Constants;
 using Groceteria.Shared.Enums;
 using Groceteria.Shared.Extensions;
 using Grpc.Core;
-using System.Net;
 using ILogger = Serilog.ILogger;
 
 namespace Groceteria.Discount.Grpc.Services
