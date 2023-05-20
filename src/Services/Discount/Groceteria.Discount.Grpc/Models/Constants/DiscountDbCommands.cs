@@ -18,5 +18,6 @@
                                                                 Amount INT,
                                                                 CreatedAt TIMESTAMP,
                                                                 UpdatedAt TIMESTAMP)";
+        public const string IfCouponTableExists = "SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = @tableName)";
     }
 }
