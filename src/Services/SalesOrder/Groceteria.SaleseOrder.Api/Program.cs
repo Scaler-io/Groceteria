@@ -1,4 +1,5 @@
 using Groceteria.SaleseOrder.Api.DependencyInjections;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,9 @@ host.UseSerilog();
 builder.Services.AddApplicationServices(configuration);
 
 var app = builder.Build();
-app.AddApplicationPipelines();
+var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
+app.AddApplicationPipelines(apiVersionDescriptionProvider);
 
 try
 {

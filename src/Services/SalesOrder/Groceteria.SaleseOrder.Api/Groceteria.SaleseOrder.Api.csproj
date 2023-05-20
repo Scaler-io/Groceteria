@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\infrastructure\Groceteria.Infrastructure\Groceteria.Infrastructure.csproj" />
     <ProjectReference Include="..\Groceteria.SalesOrder.Application\Groceteria.SalesOrder.Application.csproj" />
     <ProjectReference Include="..\Groceteria.SalesOrder.Infrastructure\Groceteria.SalesOrder.Infrastructure.csproj" />
+    <ProjectReference Include="..\Swagger\Swagger.csproj" />
   </ItemGroup>
 
 </Project>

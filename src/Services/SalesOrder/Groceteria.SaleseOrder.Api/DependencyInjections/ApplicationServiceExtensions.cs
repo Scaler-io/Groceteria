@@ -1,7 +1,12 @@
 ﻿using Groceteria.Infrastructure.Logger;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Newtonsoft.Json.Converters;
 using Serilog;
+using Swagger.Configurations;
+using Swagger.Examples.Errors;
+using Swashbuckle.AspNetCore.Filters;
+using System.Reflection;
 
 namespace Groceteria.SaleseOrder.Api.DependencyInjections
 {
@@ -18,7 +23,15 @@ namespace Groceteria.SaleseOrder.Api.DependencyInjections
 
             services.AddEndpointsApiExplorer();
 
-            services.AddSwaggerGen();
+            // swgger
+            services.AddSwaggerGen(option =>
+            {
+                option.EnableAnnotations();
+                option.OperationFilter<SwaggerHeaderFilters>();
+                option.ExampleFilters();
+            });
+            services.AddSwaggerExamplesFromAssemblies(typeof(BadRequestApiResponseExample).Assembly);
+            services.ConfigureOptions<ConfigureSwaggerOptions>();
 
             // http
             services.AddHttpContextAccessor();
@@ -45,12 +58,18 @@ namespace Groceteria.SaleseOrder.Api.DependencyInjections
             return services;
         }
     
-        public static WebApplication AddApplicationPipelines(this WebApplication app)
+        public static WebApplication AddApplicationPipelines(this WebApplication app, IApiVersionDescriptionProvider provider)
         {
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(options =>
+                {
+                    foreach (var description in provider.ApiVersionDescriptions)
+                    {
+                        options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+                    }
+                });
             }
 
             app.UseHttpsRedirection();
