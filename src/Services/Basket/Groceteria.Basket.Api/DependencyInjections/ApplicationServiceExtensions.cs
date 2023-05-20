@@ -1,7 +1,9 @@
 ﻿using Groceteria.Basket.Api.Configurations;
 using Groceteria.Basket.Api.Middlewares;
 using Groceteria.Basket.Api.Swagger;
+using Groceteria.Discount.Grpc.Protos;
 using Groceteria.Infrastructure.Logger;
+using Grpc.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +40,17 @@ namespace Groceteria.Basket.Api.DependencyInjections
             var logger = LoggerConfig.Configure(configuration, logIndexPattern);
             services.AddSingleton(Log.Logger)
                     .AddSingleton(x => logger);
+
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+
+            // grpc client
+            services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options =>
+            {
+                options.Address = new Uri(configuration["GrpcSettings:DiscountUrl"]);
+                options.ChannelOptionsActions.Add(channelOptions => channelOptions.Credentials = ChannelCredentials.Insecure);
+            });
+
+            
 
             // http
             services.AddHttpContextAccessor();

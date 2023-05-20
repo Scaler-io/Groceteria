@@ -7,7 +7,8 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 
 builder.Host.UseSerilog();
-services.AddApplicationServices(configuration);
+services.AddApplicationServices(configuration)
+        .AddDataLayerServices();
 
 var app = builder.Build();
 app.AddApplicationPipelens();

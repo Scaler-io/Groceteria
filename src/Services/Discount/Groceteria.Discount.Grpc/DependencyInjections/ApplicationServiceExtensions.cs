@@ -1,5 +1,7 @@
 ﻿using Groceteria.Discount.Grpc.Middlewares;
+using Groceteria.Discount.Grpc.Services;
 using Groceteria.Infrastructure.Logger;
+using Grpc.AspNetCore.Server;
 using Serilog;
 using System.Reflection;
 
@@ -17,10 +19,10 @@ namespace Groceteria.Discount.Grpc.DependencyInjections
             services.AddHttpContextAccessor();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddSingleton<GlobalExceptionMiddleware>();
-            services.AddGrpc(options =>
+            services.AddGrpc();
+            services.Configure<GrpcServiceOptions>(options =>
             {
-                options.Interceptors.Add<GlobalExceptionMiddleware>();
+                options.EnableDetailedErrors = true;
             });
             return services;
         }
@@ -33,14 +35,13 @@ namespace Groceteria.Discount.Grpc.DependencyInjections
             }
 
             app.UseRouting();
-            // app.UseMiddleware<CorrelationHeaderEnricher>();
-            // app.UseMiddleware<GlobalExceptionMiddleware>();
-            //app.MapGrpcService<GreeterService>();
+
+            app.MapGrpcService<DiscountService>();
+
             app.MapGet("/", async context =>
             {
                 await context.Response.WriteAsync("Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
             });
-
 
             return app;
         }

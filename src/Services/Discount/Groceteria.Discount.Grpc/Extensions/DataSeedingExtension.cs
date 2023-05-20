@@ -18,8 +18,7 @@ namespace Groceteria.Discount.Grpc.Extensions
             var logger = services.GetRequiredService<ILogger>();
 
             try
-            {
-                logger.Here().Information("Migrating discount database.");
+            {             
                 using var connection = new NpgsqlConnection(configuration["DiscountDb:ConnectionString"]);
                 connection.Open();
 
@@ -28,22 +27,31 @@ namespace Groceteria.Discount.Grpc.Extensions
                     Connection = connection
                 };
 
-                // drop table coupon if exists
-                command.CommandText = DiscountDbCommands.DropIfExist;
-                command.ExecuteNonQuery();
+                command.CommandText = DiscountDbCommands.IfCouponTableExists;
+                command.Parameters.AddWithValue("tableName", "COUPON");
+                var result = (bool)command.ExecuteScalar();
 
-                // create table coupon
-                command.CommandText = DiscountDbCommands.CreateCouponTable;
-                command.ExecuteNonQuery();
+                if (!result)
+                {
+                    logger.Here().Information("Migrating discount database.");
+                    // drop table coupon if exists
+                    //command.CommandText = DiscountDbCommands.DropIfExist;
+                    //command.ExecuteNonQuery();
 
-                // insert data into coupon
-                command.CommandText = $"INSERT INTO Coupon(ProductId, ProductName, Description, Amount, CreatedAt, UpdatedAt) VALUES('642d8c16ce134b8634595cb5', 'Iphone 12 Pro', 'IPhone Discount 1', 150, '{DateTime.Now}', '{DateTime.Now}');";
-                command.ExecuteNonQuery();
+                    // create table coupon
+                    command.CommandText = DiscountDbCommands.CreateCouponTable;
+                    command.ExecuteNonQuery();
 
-                command.CommandText = $"INSERT INTO Coupon(ProductId, ProductName, Description, Amount, CreatedAt, UpdatedAt) VALUES('642d8c16ce134b8634595cb6', 'Samsung S13', 'Samsung Discount', 100, '{DateTime.Now}', '{DateTime.Now}');";
-                command.ExecuteNonQuery();
+                    // insert data into coupon
+                    command.CommandText = $"INSERT INTO Coupon(ProductId, ProductName, Description, Amount, CreatedAt, UpdatedAt) VALUES('6464f0ba15023275a9087c3c', 'Iphone 12 Pro', 'IPhone Discount 1', 150, '{DateTime.Now}', '{DateTime.Now}');";
+                    command.ExecuteNonQuery();
 
-                logger.Here().Information("Migrated discount database.");
+                    command.CommandText = $"INSERT INTO Coupon(ProductId, ProductName, Description, Amount, CreatedAt, UpdatedAt) VALUES('6464f0ba15023275a9087c3d', 'Samsung S13', 'Samsung Discount', 100, '{DateTime.Now}', '{DateTime.Now}');";
+                    command.ExecuteNonQuery();
+
+                    logger.Here().Information("Migrated discount database.");
+                }
+                
             }
             catch (NpgsqlException sqlException)
             {

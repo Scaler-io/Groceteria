@@ -5,7 +5,8 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "groceteria.basket.api": "StartDebugging",
-        "groceteria.catalogue.api": "StartDebugging"
+        "groceteria.catalogue.api": "StartDebugging",
+        "groceteria.discount.grpc": "StartDebugging"
       }
     }
   }

@@ -80,7 +80,7 @@ namespace Groceteria.Catalogue.Api.Services.v2.Products
             if (product == null)
             {
                 _logger.Here().Warning("No product was found. {@ErrorCode}", ErrorCode.NotFound);
-                return Result<ProductResponse>.Failure(ErrorCode.NotFound, "No brand was found");
+                return Result<ProductResponse>.Failure(ErrorCode.NotFound, "No product was found");
             }
 
             var response = _mapper.Map<ProductResponse>(product);

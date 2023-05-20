@@ -3,11 +3,13 @@ using Groceteria.Basket.Api.DataAccess.Interfaces;
 using Groceteria.Basket.Api.Entities;
 using Groceteria.Basket.Api.Models.Requests;
 using Groceteria.Basket.Api.Models.Responses;
+using Groceteria.Basket.Api.Services.Grpc;
+using Groceteria.Basket.Api.Services.Interfaces.Grpc;
 using Groceteria.Basket.Api.Services.Interfaces.v2;
 using Groceteria.Shared.Core;
 using Groceteria.Shared.Enums;
 using Groceteria.Shared.Extensions;
-using System.Linq;
+using Grpc.Core;
 using ILogger = Serilog.ILogger;
 
 namespace Groceteria.Basket.Api.Services.v2
@@ -18,16 +20,19 @@ namespace Groceteria.Basket.Api.Services.v2
         private readonly IBasketRepository _basketRepository;
         private readonly IMapper _mapper;
         private readonly IProductSearchService _productSearchService;
+        private readonly IDiscountGrpcService _discountGrpcService;
 
         public BasketWorkflowService(ILogger logger,
             IBasketRepository basketRepository,
             IMapper mapper,
-            IProductSearchService productSearchService)
+            IProductSearchService productSearchService,
+            IDiscountGrpcService discountGrpcService)
         {
             _logger = logger;
             _basketRepository = basketRepository;
             _mapper = mapper;
             _productSearchService = productSearchService;
+            _discountGrpcService = discountGrpcService;
         }
 
         public async Task<Result<ShoppingCartResponse>> GetBasket(ShoppingCartFetchRequest request, RequestQuery queryParams)
@@ -78,7 +83,40 @@ namespace Groceteria.Basket.Api.Services.v2
             _logger.Here()
                    .Information("shopping cart items prepared {@items}", basketItems);
 
-            basket.Items = basketItems;
+            var evaluatedItems = new List<ShoppingCartItem>(); 
+
+            foreach(var item in basketItems)
+            {
+                try
+                {
+                    var coupon = await _discountGrpcService.GetDiscount(item.ProductId, item.Name);
+                    if (coupon.IsSuccess)
+                    {
+                        item.Price -= coupon.Value.Amount;
+                        _logger.Here()
+                            .Information("Coupon is applied of amount {@amount}. current price of {@productName} is {@currentPrice}",
+                            coupon.Value.Amount,
+                            item.Name,
+                            item.Price);
+                        evaluatedItems.Add(item);
+                    }
+                }catch(RpcException ex)
+                {
+                    if(ex.StatusCode == StatusCode.NotFound)
+                    {
+                        _logger.Here().Error("{@ErrorCode} - {@message}", ErrorCode.NotFound, ex.Message);
+                        evaluatedItems.Add(item);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }                 
+                }
+                
+            }
+             
+            basket.Items = evaluatedItems;
+
             var basketResponse = await _basketRepository.UpdateBasket(basket);
             if(basketResponse == null)
             {

@@ -10,8 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\Interfaces\v1\**" />
+    <Content Remove="Services\Interfaces\v1\**" />
+    <EmbeddedResource Remove="Services\Interfaces\v1\**" />
+    <None Remove="Services\Interfaces\v1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.49.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
@@ -27,7 +35,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Interfaces\v1\" />
+    <Protobuf Include="..\..\Discount\Groceteria.Discount.Grpc\Protos\Discount.proto" GrpcServices="Client">
+      <Link>Protos\Discount.proto</Link>
+    </Protobuf>
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="https://json.schemastore.org/local.settings.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

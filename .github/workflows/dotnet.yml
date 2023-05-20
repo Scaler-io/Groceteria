@@ -24,3 +24,8 @@ jobs:
       run: dotnet build --no-restore ./src/Groceteria.sln
     - name: Test
       run: dotnet test --no-build --verbosity normal ./src/Groceteria.sln
+    - name: Publish Test Result
+      uses: actions/upload-artifact@v2
+      with:
+          name: Test Results
+          path: '**/testresults.trx'

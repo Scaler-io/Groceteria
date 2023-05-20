@@ -87,7 +87,7 @@ namespace Groceteria.Catalogue.Api.Controllers.v2.Product
         // 500
         [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(InternalServerErrrorResponseExample))]
         [ProducesResponseType(typeof(ApiExceptionResponse), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> GetProductById([FromQuery] string id)
+        public async Task<IActionResult> GetProductById([FromRoute] string id)
         {
             Logger.Here().MethodEnterd();
             var result = await _productService.GetProductById(id);

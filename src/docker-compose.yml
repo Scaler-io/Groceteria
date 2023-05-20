@@ -30,8 +30,15 @@ services:
       context: .
       dockerfile: services/basket/Groceteria.Basket.Api/Dockerfile
 
+  groceteria.discount.grpc:
+    image: ${DOCKER_REGISTRY-}groceteriadiscountgrpc
+    build:
+      context: .
+      dockerfile: Services/Discount/Groceteria.Discount.Grpc/Dockerfile
+
 volumes:
   elasticsearch-data:
   cataloguedb_data:
   postgres_data:
   pgadmin_data:
+

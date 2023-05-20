@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using Groceteria.Discount.Grpc.Entities;
 using Groceteria.Discount.Grpc.Models.Constants;
-using Groceteria.Discount.Grpc.Protos;
 using Groceteria.Shared.Extensions;
 using Npgsql;
 using ILogger = Serilog.ILogger;
@@ -87,7 +86,7 @@ namespace Groceteria.Discount.Grpc.DataAccess.Repositories
 
         private NpgsqlConnection EstablishConnection()
         {
-            using var connection = new NpgsqlConnection(
+            var connection = new NpgsqlConnection(
                     _configuration["DiscountDb:ConnectionString"]
                 );
             _logger.Here().Information("Connection established to discount db");
