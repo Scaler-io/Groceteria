@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\infrastructure\Groceteria.Infrastructure\Groceteria.Infrastructure.csproj" />
+    <ProjectReference Include="..\Groceteria.SalesOrder.Application\Groceteria.SalesOrder.Application.csproj" />
+    <ProjectReference Include="..\Groceteria.SalesOrder.Domain\Groceteria.SalesOrder.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
