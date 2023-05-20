@@ -6,7 +6,7 @@ using ILogger = Serilog.ILogger;
 
 namespace Groceteria.SaleseOrder.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}")]
     [ApiController]
     public class BaseApiController : ControllerBase
     {

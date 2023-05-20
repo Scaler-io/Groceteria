@@ -1,9 +1,5 @@
-﻿using Groceteria.Catalogue.Api.DataAccess.Repositories;
-using Groceteria.Catalogue.Api.Entities;
-using Groceteria.Catalogue.Api.Models.Constants;
-using Groceteria.Catalogue.Api.Swagger;
+﻿using Groceteria.Catalogue.Api.Swagger;
 using Groceteria.Shared.Core;
-using Groceteria.Shared.Enums;
 using Groceteria.Shared.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
