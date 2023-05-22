@@ -6,6 +6,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 using System.Net;
 using Groceteria.Shared.Extensions;
+using Swagger.Examples;
 
 namespace Groceteria.SaleseOrder.Api.Controllers.v1
 {
@@ -22,7 +23,7 @@ namespace Groceteria.SaleseOrder.Api.Controllers.v1
         [SwaggerHeader("CorrelationId", "string", "", false)]
         [SwaggerOperation(OperationId = "GetHealthCheckResult", Summary = "Performs api endpoint healthcheck")]
         // 200
-        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(object))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(HealthCheckSuccessResponse))]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
         // 400
         [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(BadRequestApiResponseExample))]
