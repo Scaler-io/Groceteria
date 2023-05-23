@@ -10,4 +10,9 @@
     <ProjectReference Include="..\Groceteria.SalesOrder.Domain\Groceteria.SalesOrder.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Contracts\" />
+    <Folder Include="Features\" />
+  </ItemGroup>
+
 </Project>
