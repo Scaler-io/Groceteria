@@ -1,4 +1,5 @@
 ﻿using Groceteria.Infrastructure.Logger;
+using Groceteria.SaleseOrder.Api.Configurations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Newtonsoft.Json.Converters;
@@ -55,6 +56,12 @@ namespace Groceteria.SaleseOrder.Api.DependencyInjections
                 option.GroupNameFormat = "'v'VVV";
                 option.SubstituteApiVersionInUrl = true;
             });
+
+            services.Configure<ApiBehaviorOptions>(option =>
+            {
+                option.InvalidModelStateResponseFactory = SalesOrderApiConfigurations.HandleFrameworkValidationFailure();
+            });
+
             return services;
         }
     
