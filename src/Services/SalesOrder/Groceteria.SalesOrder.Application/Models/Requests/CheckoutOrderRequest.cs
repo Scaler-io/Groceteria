@@ -2,7 +2,7 @@
 {
     public class CheckoutOrderRequest
     {
-        public string Username { get; set; }
+        public string UserName { get; set; }
         public decimal TotalPrice { get; set; }
         public IEnumerable<OrderItemRequest> OrderedItems { get; set; }
         public BillingDetailsRequest BillingAddress { get; set; }
