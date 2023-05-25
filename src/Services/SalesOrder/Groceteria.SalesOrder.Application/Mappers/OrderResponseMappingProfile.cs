@@ -4,9 +4,9 @@ using Groceteria.SalesOrder.Domain.Entities;
 
 namespace Groceteria.SalesOrder.Application.Mappers
 {
-    public class OrderMappingProfile: Profile
+    public class OrderResponseMappingProfile: Profile
     {
-        public OrderMappingProfile()
+        public OrderResponseMappingProfile()
         {
             CreateMap<Order, OrderDto>()
                 .ForMember(d => d.MetaData, o => o.MapFrom(s => new MetadataDto
@@ -16,6 +16,7 @@ namespace Groceteria.SalesOrder.Application.Mappers
                     CreatedBy = s.CreatedBy,
                     LastModifiedBy = s.LastModifiedBy
                 }));
+            CreateMap<BillingAddress, BillingAddressDto>();
         }
     }
 }

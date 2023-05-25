@@ -1,4 +1,4 @@
-﻿namespace Groceteria.SalesOrder.Application.Models
+﻿namespace Groceteria.SalesOrder.Application.Models.Email
 {
     public class EmailField
     {

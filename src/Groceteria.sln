@@ -29,15 +29,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groceteria.Discount.Grpc", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SalesOrder", "SalesOrder", "{34C8A6E1-C0C4-4264-831A-AA8E032D7596}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Groceteria.SaleseOrder.Api", "Services\SalesOrder\Groceteria.SaleseOrder.Api\Groceteria.SaleseOrder.Api.csproj", "{84E4B6B1-C9EA-479E-B737-5637A02FFAF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groceteria.SaleseOrder.Api", "Services\SalesOrder\Groceteria.SaleseOrder.Api\Groceteria.SaleseOrder.Api.csproj", "{84E4B6B1-C9EA-479E-B737-5637A02FFAF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Groceteria.SalesOrder.Domain", "Services\SalesOrder\Groceteria.SalesOrder.Domain\Groceteria.SalesOrder.Domain.csproj", "{228C83C1-1A22-4E45-BF88-58984D725943}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groceteria.SalesOrder.Domain", "Services\SalesOrder\Groceteria.SalesOrder.Domain\Groceteria.SalesOrder.Domain.csproj", "{228C83C1-1A22-4E45-BF88-58984D725943}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Groceteria.SalesOrder.Application", "Services\SalesOrder\Groceteria.SalesOrder.Application\Groceteria.SalesOrder.Application.csproj", "{792C2330-33DF-44D4-A37E-59CB705A5AA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groceteria.SalesOrder.Application", "Services\SalesOrder\Groceteria.SalesOrder.Application\Groceteria.SalesOrder.Application.csproj", "{792C2330-33DF-44D4-A37E-59CB705A5AA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Groceteria.SalesOrder.Infrastructure", "Services\SalesOrder\Groceteria.SalesOrder.Infrastructure\Groceteria.SalesOrder.Infrastructure.csproj", "{16166C28-94BB-44A8-B530-14F8632F7A5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groceteria.SalesOrder.Infrastructure", "Services\SalesOrder\Groceteria.SalesOrder.Infrastructure\Groceteria.SalesOrder.Infrastructure.csproj", "{16166C28-94BB-44A8-B530-14F8632F7A5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swagger", "Services\SalesOrder\Swagger\Swagger.csproj", "{57CBE4D7-B8C1-469C-8610-9052508DD6D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swagger", "Services\SalesOrder\Swagger\Swagger.csproj", "{57CBE4D7-B8C1-469C-8610-9052508DD6D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

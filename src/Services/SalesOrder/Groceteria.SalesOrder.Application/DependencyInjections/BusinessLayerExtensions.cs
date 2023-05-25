@@ -1,4 +1,5 @@
-﻿using Groceteria.SalesOrder.Application.Configurations;
+﻿using FluentValidation;
+using Groceteria.SalesOrder.Application.Configurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -11,6 +12,7 @@ namespace Groceteria.SalesOrder.Application.DependencyInjections
         {
             services.Configure<EmailSettingsOption>(configuration.GetSection(EmailSettingsOption.EmailSettings));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             return services;
         }
     }
