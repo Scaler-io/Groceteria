@@ -2,9 +2,9 @@
 using Groceteria.SalesOrder.Application.Extensions;
 using Groceteria.SalesOrder.Application.Models.Requests;
 
-namespace Groceteria.SalesOrder.Application.Validators.CheckoutOrder.Rules
+namespace Groceteria.SalesOrder.Application.Validators.Rules
 {
-    public class PaymentDetailsValidationRules: AbstractValidator<PaymentDetailsRequest>
+    public class PaymentDetailsValidationRules : AbstractValidator<PaymentDetailsRequest>
     {
         public PaymentDetailsValidationRules()
         {

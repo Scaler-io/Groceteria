@@ -3,28 +3,34 @@ using Groceteria.SalesOrder.Application.Extensions;
 using Groceteria.SalesOrder.Application.Models.Requests;
 using Groceteria.SalesOrder.Application.Validators.Rules;
 
-namespace Groceteria.SalesOrder.Application.Validators.CheckoutOrder
+namespace Groceteria.SalesOrder.Application.Validators.UpdateOrder
 {
-    public class CheckoutOrderValidator: AbstractValidator<CheckoutOrderRequest>
+    public class UpdateOrderValidation: AbstractValidator<UpdateOrderRequest>
     {
-        public CheckoutOrderValidator()
+        public UpdateOrderValidation()
         {
-            RuleFor(p => p.Username)
+            RuleFor(o => o.OrderId)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .Required();
 
-            RuleFor(p => p.TotalPrice)
+            RuleFor(o => o.Username)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .Required();
-            
-            RuleFor(p => p.OrderedItems)
+
+            RuleFor(o => o.OrderedItems)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .Required();
-            RuleFor(p => p.BillingAddress)
+
+            RuleFor(o => o.TotalPrice)
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .Required();
+
+            RuleFor(o => o.BillingAddress)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .Required()
                 .SetValidator(new BillingAddressValidationRules());
-            RuleFor(p => p.PaymentDetails)
+
+            RuleFor(o => o.PaymentDetails)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .Required()
                 .SetValidator(new PaymentDetailsValidationRules());
