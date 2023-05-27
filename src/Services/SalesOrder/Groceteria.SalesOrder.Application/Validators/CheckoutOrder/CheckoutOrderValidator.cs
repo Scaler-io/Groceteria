@@ -9,7 +9,7 @@ namespace Groceteria.SalesOrder.Application.Validators.CheckoutOrder
     {
         public CheckoutOrderValidator()
         {
-            RuleFor(p => p.Username)
+            RuleFor(p => p.UserName)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .Required();
 

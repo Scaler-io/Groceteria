@@ -1,4 +1,6 @@
-﻿using Groceteria.SaleseOrder.Api.Extensions;
+﻿using FluentValidation.AspNetCore;
+using FluentValidation.Results;
+using Groceteria.SaleseOrder.Api.Extensions;
 using Groceteria.Shared.Core;
 using Groceteria.Shared.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -46,5 +48,31 @@ namespace Groceteria.SaleseOrder.Api.Controllers
         public ILogger Logger { get; set; }
         public string CorrelationId { get; set; }
         protected string GetOrGenerateCorelationId() => Request?.GetRequestHeaderOrDefault("CorrelationId", $"GEN-{Guid.NewGuid().ToString()}");
+    
+        protected IActionResult ProcessValidationResult(ValidationResult validationResult)
+        {
+            validationResult.AddToModelState(ModelState);
+            var errors = ModelState.Where(err => err.Value?.Errors.Count > 0).ToList();
+            var validationError = new ApiValidationResponse()
+            {
+                Errors = new List<FieldLevelError>()
+            };
+
+            validationError.Errors.AddRange(
+             errors.Select(error => new FieldLevelError
+             {
+                 Code = "Invalid",
+                 Field = error.Key,
+                 Message = error.Value?.Errors?.First().ErrorMessage
+             })
+            );
+
+            return new UnprocessableEntityObjectResult(validationError);
+        }
+
+        public static bool IsInvalidResult(ValidationResult validationResult)
+        {
+            return validationResult != null && !validationResult.IsValid;
+        }
     }
 }

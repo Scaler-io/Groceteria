@@ -22,8 +22,4 @@
     <ProjectReference Include="..\Groceteria.SalesOrder.Application\Groceteria.SalesOrder.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Examples\UpdateOrder\" />
-  </ItemGroup>
-
 </Project>

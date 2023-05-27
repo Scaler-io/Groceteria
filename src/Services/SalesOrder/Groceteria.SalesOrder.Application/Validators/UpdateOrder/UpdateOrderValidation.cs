@@ -13,7 +13,7 @@ namespace Groceteria.SalesOrder.Application.Validators.UpdateOrder
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .Required();
 
-            RuleFor(o => o.Username)
+            RuleFor(o => o.UserName)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .Required();
 
