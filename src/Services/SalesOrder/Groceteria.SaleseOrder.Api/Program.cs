@@ -1,5 +1,6 @@
 using Groceteria.SaleseOrder.Api.DependencyInjections;
 using Groceteria.SalesOrder.Application.DependencyInjections;
+using Groceteria.SalesOrder.Infrastructure.DependencyInjections;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Serilog;
 
@@ -9,7 +10,8 @@ var host = builder.Host;
 
 host.UseSerilog();
 builder.Services.AddApplicationServices(configuration)
-                .AddBusinessLayerServices(configuration);
+                .AddBusinessLayerServices(configuration)
+                .AddInfrastructureLayerServices(configuration);
 
 var app = builder.Build();
 var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();

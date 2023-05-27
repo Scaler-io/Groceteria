@@ -10,5 +10,12 @@ namespace Groceteria.Shared.Helpers
             var jsonData = JsonConvert.DeserializeObject<List<T>>(data);
             return jsonData;
         }
+
+        public static List<T> SeederFileReader(string filename, string path)
+        {
+            var data = File.ReadAllText($"{path}/{filename}.json");
+            var jsonData = JsonConvert.DeserializeObject<List<T>>(data);
+            return jsonData;
+        }
     }
 }
