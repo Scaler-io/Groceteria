@@ -1,4 +1,7 @@
-﻿using Groceteria.SalesOrder.Infrastructure.Persistance;
+﻿using Groceteria.SalesOrder.Application.Contracts.Infrastructures;
+using Groceteria.SalesOrder.Application.Contracts.Persistance;
+using Groceteria.SalesOrder.Infrastructure.Email;
+using Groceteria.SalesOrder.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +18,11 @@ namespace Groceteria.SalesOrder.Infrastructure.DependencyInjections
                 option.UseSqlServer(configuration.GetConnectionString("OrderingConnectionString"));
                 option.EnableDetailedErrors();
             });
+
+            services.AddScoped(typeof(IBaseRepository<>), typeof(IBaseRepository<>));
+            services.AddScoped<IOrderRepository, IOrderRepository>();
+            services.AddTransient<IEmailService, IEmailService>();
+            services.AddHostedService<EmailBackgroundHostedService>();
             return services;
         }
     }
