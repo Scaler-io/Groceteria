@@ -2,6 +2,7 @@
 using Groceteria.SalesOrder.Application.Models.Email;
 using Groceteria.SalesOrder.Domain.Entities;
 using Groceteria.Shared.Extensions;
+using Microsoft.Extensions.Options;
 using MimeKit;
 using Serilog;
 using System.Reflection;
@@ -11,7 +12,7 @@ namespace Groceteria.SalesOrder.Application.Factory.Mail
 {
     public class OrderPlacingMailFactory : MailFactoryBase
     {
-        public OrderPlacingMailFactory(EmailSettingsOption settings, 
+        public OrderPlacingMailFactory(IOptions<EmailSettingsOption> settings, 
             ILogger logger) 
             : base(settings, logger)
         {

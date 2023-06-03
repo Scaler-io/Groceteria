@@ -2,6 +2,7 @@
 using Groceteria.Shared.Extensions;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.Extensions.Options;
 using MimeKit;
 using Serilog;
 
@@ -12,10 +13,10 @@ namespace Groceteria.SalesOrder.Application.Factory.Mail
         protected readonly EmailSettingsOption _settings;
         protected readonly ILogger _logger;
 
-        public MailFactoryBase(EmailSettingsOption settings, 
+        public MailFactoryBase(IOptions<EmailSettingsOption> settings, 
             ILogger logger)
         {           
-            _settings = settings;
+            _settings = settings.Value;
             _logger = logger;
         }
 

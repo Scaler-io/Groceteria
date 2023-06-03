@@ -5,6 +5,7 @@ using Groceteria.SalesOrder.Application.Factory.Mail;
 using Groceteria.SalesOrder.Domain.Entities;
 using Groceteria.SalesOrder.Domain.Enums;
 using Groceteria.Shared.Extensions;
+using Microsoft.Extensions.Options;
 using MimeKit;
 using Newtonsoft.Json;
 using Serilog;
@@ -14,7 +15,7 @@ namespace Groceteria.SalesOrder.Infrastructure.Email
     public class OrderPlacedEmailService : OrderPlacingMailFactory, IEmailService
     {
         private readonly IBaseRepository<NotificationEmailHistory> _notificationRepository;
-        public OrderPlacedEmailService(EmailSettingsOption settings,
+        public OrderPlacedEmailService(IOptions<EmailSettingsOption> settings,
             ILogger logger,
             IBaseRepository<NotificationEmailHistory> notificationRepository)
             : base(settings, logger)

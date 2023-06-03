@@ -1,6 +1,8 @@
 using Groceteria.SaleseOrder.Api.DependencyInjections;
+using Groceteria.SaleseOrder.Api.Extensions;
 using Groceteria.SalesOrder.Application.DependencyInjections;
 using Groceteria.SalesOrder.Infrastructure.DependencyInjections;
+using Groceteria.SalesOrder.Infrastructure.Persistance;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Serilog;
 
@@ -20,6 +22,12 @@ app.AddApplicationPipelines(apiVersionDescriptionProvider);
 
 try
 {
+    app.MigrateDbAsync<SalesOrderContext>((context, service) =>
+    {
+        var logger = service.GetRequiredService<Serilog.ILogger>();
+        SalesOrderContextSeed.SeedAsync(context, logger);
+    });
+
     await app.RunAsync();
 }
 finally

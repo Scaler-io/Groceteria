@@ -12,6 +12,7 @@ using System.Net;
 
 namespace Groceteria.SaleseOrder.Api.Controllers.v2.Order
 {
+    [ApiVersion("2")]
     public class OrderFetchController : BaseApiController
     {
         private readonly IMediator _mediator;

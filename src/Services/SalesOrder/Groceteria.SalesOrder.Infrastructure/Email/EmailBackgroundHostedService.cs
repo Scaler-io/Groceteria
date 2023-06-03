@@ -1,34 +1,35 @@
 ﻿using Groceteria.SalesOrder.Application.Contracts.Infrastructures;
 using Groceteria.SalesOrder.Domain.Enums;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Serilog;
 
 namespace Groceteria.SalesOrder.Infrastructure.Email
 {
     public class EmailBackgroundHostedService : BackgroundService, IEmailBackgroundHostedService
     {
-        private readonly IEmailServiceFactory _emailServiceFactory;
-        private readonly ILogger _logger;
+        private readonly IServiceProvider _serviceProvider;
         private readonly SemaphoreSlim _emailSemaphore = new SemaphoreSlim(1);
 
-        public EmailBackgroundHostedService(ILogger logger, 
-            IEmailServiceFactory emailServiceFactory)
+        public EmailBackgroundHostedService(IServiceProvider serviceProvider)
         {
-            _logger = logger;
-            _emailServiceFactory = emailServiceFactory;
+            _serviceProvider = serviceProvider;
         }
 
         public async Task SendMailAsync(object arg, EmailServiceType type)
         {
-            await _emailSemaphore.WaitAsync();
-            try
+            using (var scope = _serviceProvider.CreateScope())
             {
-                var emailService = _emailServiceFactory.GetService(type); 
-                await emailService.SendEmailAsync(arg);
-            }
-            finally
-            {
-                _emailSemaphore.Release();
+                await _emailSemaphore.WaitAsync();
+                var emailServiceFactory = scope.ServiceProvider.GetRequiredService<IEmailServiceFactory>();
+                try
+                {
+                    var emailService = emailServiceFactory.GetService(type);
+                    await emailService.SendEmailAsync(arg);
+                }
+                finally
+                {
+                    _emailSemaphore.Release();
+                }
             }
         }
 

@@ -1,16 +1,13 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using Groceteria.SalesOrder.Application.Features.Orders.Commands.DeleteOrder;
-using Groceteria.SalesOrder.Application.Features.Orders.Commands.UpdateOrder;
 using Groceteria.SalesOrder.Application.Models.Requests;
 using Groceteria.Shared.Core;
 using Groceteria.Shared.Enums;
 using Groceteria.Shared.Extensions;
 using MediatR;
-using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
 using Swagger.Configurations;
-using Swagger.Examples.CheckoutOrder;
 using Swagger.Examples.DeleteOrder;
 using Swagger.Examples.Errors;
 using Swashbuckle.AspNetCore.Annotations;
@@ -19,6 +16,7 @@ using System.Net;
 
 namespace Groceteria.SaleseOrder.Api.Controllers.v2.Order
 {
+    [ApiVersion("2")]
     public class DeleteOrderController : BaseApiController
     {
         private readonly IValidator<DeleteOrderRequest> _validator;
