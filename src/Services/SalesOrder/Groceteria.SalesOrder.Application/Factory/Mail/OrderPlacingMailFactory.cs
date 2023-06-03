@@ -2,7 +2,6 @@
 using Groceteria.SalesOrder.Application.Models.Email;
 using Groceteria.SalesOrder.Domain.Entities;
 using Groceteria.Shared.Extensions;
-using MailKit.Net.Smtp;
 using MimeKit;
 using Serilog;
 using System.Reflection;
