@@ -1,39 +1,40 @@
 ﻿using Groceteria.SalesOrder.Application.Contracts.Infrastructures;
+using Groceteria.SalesOrder.Domain.Enums;
 using Microsoft.Extensions.Hosting;
-using System.Threading;
+using Serilog;
 
 namespace Groceteria.SalesOrder.Infrastructure.Email
 {
-    public class EmailBackgroundHostedService : IHostedService
+    public class EmailBackgroundHostedService : BackgroundService, IEmailBackgroundHostedService
     {
-        private readonly IEmailService _emailService;
+        private readonly IEmailServiceFactory _emailServiceFactory;
+        private readonly ILogger _logger;
+        private readonly SemaphoreSlim _emailSemaphore = new SemaphoreSlim(1);
 
-        public EmailBackgroundHostedService(IEmailService emailService)
+        public EmailBackgroundHostedService(ILogger logger, 
+            IEmailServiceFactory emailServiceFactory)
         {
-            _emailService = emailService;
+            _logger = logger;
+            _emailServiceFactory = emailServiceFactory;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task SendMailAsync(object arg, EmailServiceType type)
         {
-            Task.Run(() => RunEmailSendingLoop(cancellationToken), cancellationToken);
-            return Task.CompletedTask;
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        private async Task RunEmailSendingLoop(CancellationToken cancellationToken)
-        {
-            while (!cancellationToken.IsCancellationRequested)
+            await _emailSemaphore.WaitAsync();
+            try
             {
-                // Perform email sending task here
-                //await _emailService.SendEmailAsync();
-
-                // Delay before processing the next email (optional)
-                await Task.Delay(TimeSpan.FromMinutes(5), cancellationToken);
+                var emailService = _emailServiceFactory.GetService(type); 
+                await emailService.SendEmailAsync(arg);
             }
+            finally
+            {
+                _emailSemaphore.Release();
+            }
+        }
+
+        protected async override Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            await Task.Delay(Timeout.Infinite, stoppingToken);
         }
     }
 }

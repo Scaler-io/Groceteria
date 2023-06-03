@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Groceteria - Order Placed</title>
+    <style>
+      /* CSS styles */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #d48efa;
+        color: #ffffff;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+      }
+
+      .card {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px 30px;
+        text-align: center;
+        color: #000000;
+        position: relative;
+      }
+
+      .tick-icon {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+      }
+
+      .heading {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      .banner {
+        margin-bottom: 20px;
+      }
+
+      .banner img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .message {
+        font-size: 20px;
+        margin-bottom: 20px;
+      }
+
+      .delivery-address {
+        margin-bottom: 20px;
+      }
+
+      .total-price {
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h1 class="heading" style="color: #d48efa">
+          Order Confirmation - Groceteria
+        </h1>
+        <p
+          style="
+            color: #000000;
+            text-align: left;
+            font-size: 14px;
+            padding-top: 15px;
+          ">
+          Dear <b>[username]</b>,<br /><br />Thank you for placing an order with
+          Groceteria. Your order has been successfully received and is being
+          processed.
+        </p>
+        <div class="delivery-address">
+          <p style="color: #000000; margin-top: 30px">Delivery Address:</p>
+          <p style="color: #000000">[address]</p>
+        </div>
+        <hr />
+        <p class="total-price" style="color: #000000">Order Total: $ [total]</p>
+        <p style="text-align: left; font-size: 14px; padding-top: 15px">
+          Thank you for choosing Groceteria. If you have any questions or need
+          further assistance, please don't hesitate to contact us.
+        </p>
+        <p style="text-align: left; font-size: 14px; padding-top: 15px">
+          Best regards, <br />Groceteria
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

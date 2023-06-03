@@ -3,6 +3,7 @@ using Groceteria.SalesOrder.Application.Contracts.Infrastructures;
 using Groceteria.SalesOrder.Application.Contracts.Persistance;
 using Groceteria.SalesOrder.Application.Extensions;
 using Groceteria.SalesOrder.Domain.Entities;
+using Groceteria.SalesOrder.Domain.Enums;
 using Groceteria.Shared.Core;
 using Groceteria.Shared.Enums;
 using Groceteria.Shared.Extensions;
@@ -16,17 +17,17 @@ namespace Groceteria.SalesOrder.Application.Features.Orders.Commands.CheckoutOrd
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
         private readonly IOrderRepository _orderRepository;
-        private readonly IEmailService _emailService;
+        private readonly IEmailBackgroundHostedService _emailWorker;
 
-        public CheckoutOrderCommandHandler(ILogger logger, 
-            IMapper mapper, 
-            IOrderRepository orderRepository, 
-            IEmailService emailService)
+        public CheckoutOrderCommandHandler(ILogger logger,
+            IMapper mapper,
+            IOrderRepository orderRepository,
+            IEmailBackgroundHostedService emailWorker)
         {
             _logger = logger;
             _mapper = mapper;
             _orderRepository = orderRepository;
-            _emailService = emailService;
+            _emailWorker = emailWorker;
         }
 
         public async Task<Result<string>> Handle(CheckoutOrderCommand request, CancellationToken cancellationToken)
@@ -42,6 +43,9 @@ namespace Groceteria.SalesOrder.Application.Features.Orders.Commands.CheckoutOrd
                 _logger.Here().Error("{@ErrorCode} - Failed to place order - \n {orderEntity}");
                 return Result<string>.Failure(ErrorCode.OperationFailed, "Failed to place order");
             }
+
+            // send order placed email
+            await _emailWorker.SendMailAsync(orderEntity, EmailServiceType.OrderPlaced);
 
             _logger.Here().WithOrderId(orderEntity.Id).Information("Order placed successfully for {@username}", placedOrder.UserName);
             _logger.Here().MethodExited();

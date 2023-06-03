@@ -2,10 +2,8 @@
 
 namespace Groceteria.SalesOrder.Application.Contracts.Infrastructures
 {
-    public interface IEmailService
+    public interface IEmailBackgroundHostedService
     {
-        public EmailServiceType Type { get; }
-        Task SendEmailAsync(object arg);
+        Task SendMailAsync(object arg, EmailServiceType type);
     }
-
 }

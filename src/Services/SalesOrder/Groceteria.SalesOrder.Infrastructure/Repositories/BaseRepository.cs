@@ -88,5 +88,10 @@ namespace Groceteria.SalesOrder.Infrastructure.Repositories
             _context.Set<T>().Remove(entity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<int> Completed()
+        {
+            return await _context.SaveChangesAsync();
+        }
     }
 }

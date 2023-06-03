@@ -16,6 +16,7 @@ namespace Groceteria.SalesOrder.Infrastructure.Persistance
         public DbSet<Order> Orders { get; set; }
         public DbSet<BillingAddress> Addresses { get; set; }
         public DbSet<PaymentDetails> PaymentDetails { get; set; }
+        public DbSet<NotificationEmailHistory> NotificationEmailHistories { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
