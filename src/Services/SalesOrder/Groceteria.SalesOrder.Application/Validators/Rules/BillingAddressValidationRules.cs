@@ -20,9 +20,6 @@ namespace Groceteria.SalesOrder.Application.Validators.Rules
             RuleFor(ba => ba.Mobile)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .Required();
-            RuleFor(ba => ba.AlternateMobile)
-                .Cascade(CascadeMode.StopOnFirstFailure)
-                .Required();
             RuleFor(ba => ba.AddressLine)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .Required();

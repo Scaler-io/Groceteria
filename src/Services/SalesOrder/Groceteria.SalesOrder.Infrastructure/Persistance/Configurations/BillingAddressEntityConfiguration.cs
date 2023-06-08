@@ -12,6 +12,9 @@ namespace Groceteria.SalesOrder.Infrastructure.Persistance.Configurations
             builder.HasIndex(ba => ba.Id)
                 .IsUnique();
 
+            builder.Property(ba => ba.AlternateMobile)
+                .IsRequired(false);
+
             builder.Property(ba => ba.Id)
                  .IsRequired()
                  .ValueGeneratedOnAdd()

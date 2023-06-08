@@ -18,7 +18,7 @@ namespace Groceteria.SalesOrder.Infrastructure.Repositories.Orders
             var includes = new List<Expression<Func<Order, object>>>()
             {
                 o => o.BillingAddress,
-                o => o.PaymentDetails
+                o => o.OrderedItems
             };
             var orderList = await GetAsync(query, o => o.UserName == username, null, includes);
             return orderList;

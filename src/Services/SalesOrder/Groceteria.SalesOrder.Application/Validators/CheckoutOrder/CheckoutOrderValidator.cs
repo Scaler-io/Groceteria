@@ -16,7 +16,7 @@ namespace Groceteria.SalesOrder.Application.Validators.CheckoutOrder
             RuleFor(p => p.TotalPrice)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .Required();
-            
+
             RuleFor(p => p.OrderedItems)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .Required();

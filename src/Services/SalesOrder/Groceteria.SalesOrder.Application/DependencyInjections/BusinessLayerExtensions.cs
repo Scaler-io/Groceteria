@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using Groceteria.SalesOrder.Application.Configurations;
+using Groceteria.SalesOrder.Application.Models.Requests;
+using Groceteria.SalesOrder.Application.Validators.CheckoutOrder;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

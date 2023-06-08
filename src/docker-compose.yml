@@ -9,6 +9,8 @@ services:
     image: redis:alpine
   discountdb:
     image: postgres
+  orderdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
   discountdbViewer:
     image: dpage/pgadmin4
   basketdbViewer:

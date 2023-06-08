@@ -7,7 +7,7 @@ namespace Groceteria.SalesOrder.Infrastructure.Persistance
     public class SalesOrderContextSeed
     {
         public static async Task SeedAsync(SalesOrderContext context, ILogger logger)
-        {
+         {
             if(!context.Orders.Any())
             {
                 context.Orders.AddRange(GetSampleOrders());
@@ -17,7 +17,7 @@ namespace Groceteria.SalesOrder.Infrastructure.Persistance
 
         public static IEnumerable<Order> GetSampleOrders()
         {
-            var orders = FileReaderHelper<Order>.SeederFileReader("OrderSample", "./Persistence/Seeders");
+            var orders = FileReaderHelper<Order>.SeederFileReader("OrderSample", "../Groceteria.SalesOrder.Infrastructure/Persistance/Seeders");
             return orders;
         }
     }

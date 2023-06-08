@@ -20,7 +20,7 @@ namespace Groceteria.SalesOrder.Infrastructure.DependencyInjections
             services.AddDbContext<SalesOrderContext>(option =>
             {
                 option.UseSqlServer(configuration.GetConnectionString("OrderingConnectionString"));
-                option.EnableDetailedErrors();
+                //option.EnableDetailedErrors();
             });
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));

@@ -13,6 +13,7 @@ using Swagger.Configurations;
 using Swagger.Examples.Errors;
 using MediatR;
 using Groceteria.SalesOrder.Application.Features.Orders.Commands.CheckoutOrder;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Groceteria.SaleseOrder.Api.Controllers.v2.Order
 {
@@ -47,12 +48,13 @@ namespace Groceteria.SaleseOrder.Api.Controllers.v2.Order
         // 500
         [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(InternalServerErrrorResponseExample))]
         [ProducesResponseType(typeof(ApiExceptionResponse), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> CheckoutOrder([FromBody] CheckoutOrderCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> CheckoutOrder(CheckoutOrderRequest request)
         {
             Logger.Here().MethodEnterd();
-            var validationResult = IsValidRequest(command.CheckoutOrderRequest);
+            var validationResult = IsValidRequest(request);
             if (IsInvalidResult(validationResult)) return ProcessValidationResult(validationResult);
-            var result = await _mediator.Send(command, cancellationToken);
+            var command = new CheckoutOrderCommand { CheckoutOrderRequest = request };
+            var result = await _mediator.Send(command);
             Logger.Here().MethodExited();
             return OkOrFailure(result);
         }

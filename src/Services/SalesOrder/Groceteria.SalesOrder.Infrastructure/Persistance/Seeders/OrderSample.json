@@ -35,6 +35,7 @@
       "lastName": "Doe",
       "emailAddress": "john.doe@example.com",
       "addressLine": "123 Main St",
+      "mobile": "0123456789",
       "city": "New York",
       "state": "NY",
       "zipCode": "10001"

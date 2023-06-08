@@ -47,11 +47,12 @@ namespace Groceteria.SaleseOrder.Api.Controllers.v2.Order
         // 500
         [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(InternalServerErrrorResponseExample))]
         [ProducesResponseType(typeof(ApiExceptionResponse), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> DeleteOrder([FromBody] DeleteOrderCommand command)
+        public async Task<IActionResult> DeleteOrder([FromBody] DeleteOrderRequest request)
         {
             Logger.Here().MethodEnterd();
-            var validationResult = IsInvalidRequest(command.DeleteOrderRequest);
+            var validationResult = IsInvalidRequest(request);
             if (validationResult != null) return ProcessValidationResult(validationResult);
+            var command = new DeleteOrderCommand { DeleteOrderRequest = request };   
             var result = await _mediator.Send(command);
             Logger.Here().MethodExited();
             return OkOrFailure(result);

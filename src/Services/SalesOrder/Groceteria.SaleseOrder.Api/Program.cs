@@ -22,10 +22,10 @@ app.AddApplicationPipelines(apiVersionDescriptionProvider);
 
 try
 {
-    app.MigrateDbAsync<SalesOrderContext>((context, service) =>
+    app.MigrateDb<SalesOrderContext>((context, service) =>
     {
         var logger = service.GetRequiredService<Serilog.ILogger>();
-        SalesOrderContextSeed.SeedAsync(context, logger);
+        SalesOrderContextSeed.SeedAsync(context, logger).Wait();
     });
 
     await app.RunAsync();
