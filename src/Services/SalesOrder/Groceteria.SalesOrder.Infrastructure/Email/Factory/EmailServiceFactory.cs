@@ -20,6 +20,6 @@ namespace Groceteria.SalesOrder.Infrastructure.Email.Factory
                 throw new ArgumentException($"Invalid service type: {type}");
             }
             return emailService;
-        }
     }
+        }
 }

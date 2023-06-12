@@ -4,7 +4,7 @@ namespace Groceteria.SalesOrder.Application.Configurations
 {
     public class EmailSettingsOption
     {
-        public const string EmailSettings = "EmailSettings";
+        public const string EmailSettings = "EmailSettingsOption";
         public string Server { get; set; }
         public int Port { get; set; }
         public string CompanyAddress { get; set; }

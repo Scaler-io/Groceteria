@@ -42,11 +42,9 @@ namespace Groceteria.SalesOrder.Infrastructure.Repositories
         {
             IQueryable<T> query = _context.Set<T>();
             if (disableTracking) query.AsNoTracking();
-            if (!string.IsNullOrEmpty(includeString)) query.Include(includeString);
-            if (predicate != null) query.Where(predicate)
-                    .Skip(querySpec.PageIndex - 1 * querySpec.PageSize)
-                    .Take(querySpec.PageSize);
-            if (orderBy != null) return await orderBy(query).ToListAsync();
+            if (!string.IsNullOrEmpty(includeString)) query = query.Include(includeString);
+            if (predicate != null) query = query.Where(predicate).Skip(querySpec.PageIndex - 1 * querySpec.PageSize).Take(querySpec.PageSize);
+            //if (orderBy != null) return await orderBy(query).ToListAsync();
             return await query.ToListAsync();
         }
 
@@ -58,9 +56,9 @@ namespace Groceteria.SalesOrder.Infrastructure.Repositories
         {
             IQueryable<T> query = _context.Set<T>();
             if(disableTracking) query.AsNoTracking();
-            if(includse != null) includse.Aggregate(query, (current, include) => current.Include(include));
-            if (predicate != null) query.Where(predicate)
-                    .Skip(querySpec.PageIndex - 1 * querySpec.PageSize)
+            if(includse != null) query = includse.Aggregate(query, (current, include) => current.Include(include));
+            if (predicate != null) query = query.Where(predicate)
+                    .Skip((querySpec.PageIndex - 1) * querySpec.PageSize)
                     .Take(querySpec.PageSize);
             if (orderBy != null) return await orderBy(query).ToListAsync();
             return await query.ToListAsync();

@@ -25,11 +25,8 @@ namespace Groceteria.SalesOrder.Infrastructure.DependencyInjections
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<IEmailBackgroundHostedService, EmailBackgroundHostedService>();
             services.AddScoped<IEmailServiceFactory, EmailServiceFactory>();
             services.AddScoped<IEmailService, OrderPlacedEmailService>();
-            services.AddHostedService<EmailBackgroundHostedService>();
-
             services.Configure<EmailSettingsOption>(configuration.GetSection(EmailSettingsOption.EmailSettings));
             return services;
         }

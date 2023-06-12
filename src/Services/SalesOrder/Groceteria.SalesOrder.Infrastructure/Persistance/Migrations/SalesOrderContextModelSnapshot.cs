@@ -204,7 +204,7 @@ namespace Groceteria.SalesOrder.Infrastructure.Persistance.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("Groceteria.SalesOrder.Domain.Entities.PaymentDetails", b =>

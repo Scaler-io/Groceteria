@@ -16,6 +16,7 @@ namespace Groceteria.SalesOrder.Application.Mappers
                     CreatedBy = s.CreatedBy,
                     LastModifiedBy = s.LastModifiedBy
                 }));
+            CreateMap<OrderItem, OrderItemDto>();
             CreateMap<BillingAddress, BillingAddressDto>();
         }
     }

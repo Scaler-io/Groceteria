@@ -20,6 +20,10 @@ namespace Groceteria.SalesOrder.Application.Validators.CheckoutOrder
             RuleFor(p => p.OrderedItems)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .Required();
+                
+            RuleForEach(p => p.OrderedItems)
+                .SetValidator(new OrderItemValidationRules());
+
             RuleFor(p => p.BillingAddress)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .Required()

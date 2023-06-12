@@ -13,7 +13,6 @@ namespace Groceteria.SalesOrder.Application.DependencyInjections
     {
         public static IServiceCollection AddBusinessLayerServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<EmailSettingsOption>(configuration.GetSection(EmailSettingsOption.EmailSettings));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());

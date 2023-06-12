@@ -14,13 +14,17 @@ namespace Groceteria.SalesOrder.Infrastructure.Email
 {
     public class OrderPlacedEmailService : OrderPlacingMailFactory, IEmailService
     {
-        private readonly IBaseRepository<NotificationEmailHistory> _notificationRepository;
-        public OrderPlacedEmailService(IOptions<EmailSettingsOption> settings,
-            ILogger logger,
-            IBaseRepository<NotificationEmailHistory> notificationRepository)
-            : base(settings, logger)
+        private IBaseRepository<NotificationEmailHistory> _notificationRepository;
+        private EmailSettingsOption _settings;
+        private ILogger _logger;
+
+        public OrderPlacedEmailService(IBaseRepository<NotificationEmailHistory> notificationRepository, 
+            IOptions<EmailSettingsOption> settings, 
+            ILogger logger)
         {
             _notificationRepository = notificationRepository;
+            _settings = settings.Value;
+            _logger = logger;
         }
 
         public EmailServiceType Type => EmailServiceType.OrderPlaced;
@@ -28,10 +32,10 @@ namespace Groceteria.SalesOrder.Infrastructure.Email
         public async Task SendEmailAsync(object arg)
         {
             _logger.Here().MethodEnterd();
-
+            var c = _settings.CompanyAddress;
             Order order = (Order) arg;
-            var mailClient = await CreateMailClient();
-            var orderPlacedEmail = GenerateOrderPlacedMessage(order);
+            var mailClient = await CreateMailClient(_settings, _logger);
+            var orderPlacedEmail = GenerateOrderPlacedMessage(order, _settings, _logger);
 
             _logger.Here().Debug("Preparing for sending mail");
             var notificationHistory = await AddOrOverwriteNotificationStatus(orderPlacedEmail, EmailNotificationStatus.Draft);

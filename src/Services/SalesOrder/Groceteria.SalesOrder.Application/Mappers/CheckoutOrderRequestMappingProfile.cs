@@ -9,6 +9,7 @@ namespace Groceteria.SalesOrder.Application.Mappers
         public CheckoutOrderRequestMappingProfile()
         {
             CreateMap<CheckoutOrderRequest, Order>();
+            CreateMap<OrderItemRequest, OrderItem>();
             CreateMap<BillingDetailsRequest, BillingAddress>();
             CreateMap<PaymentDetailsRequest, PaymentDetails>();
         }

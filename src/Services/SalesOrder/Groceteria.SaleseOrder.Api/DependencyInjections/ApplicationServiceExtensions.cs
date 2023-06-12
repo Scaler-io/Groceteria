@@ -1,5 +1,6 @@
 ﻿using Groceteria.Infrastructure.Logger;
 using Groceteria.SaleseOrder.Api.Configurations;
+using Groceteria.SalesOrder.Application.Contracts.Infrastructures;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Newtonsoft.Json.Converters;

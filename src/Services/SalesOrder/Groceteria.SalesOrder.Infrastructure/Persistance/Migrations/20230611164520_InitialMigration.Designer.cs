@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Groceteria.SalesOrder.Infrastructure.Persistance.Migrations
 {
     [DbContext(typeof(SalesOrderContext))]
-    [Migration("20230603203526_MakesBillingAddressAlternateNumberNullable")]
-    partial class MakesBillingAddressAlternateNumberNullable
+    [Migration("20230611164520_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -206,7 +206,7 @@ namespace Groceteria.SalesOrder.Infrastructure.Persistance.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("Groceteria.SalesOrder.Domain.Entities.PaymentDetails", b =>

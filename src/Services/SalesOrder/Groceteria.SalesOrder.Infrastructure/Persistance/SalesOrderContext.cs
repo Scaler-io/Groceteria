@@ -10,10 +10,11 @@ namespace Groceteria.SalesOrder.Infrastructure.Persistance
         public SalesOrderContext(DbContextOptions option)
             : base(option)
         {
-            
+
         }
 
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<BillingAddress> Addresses { get; set; }
         public DbSet<PaymentDetails> PaymentDetails { get; set; }
         public DbSet<NotificationEmailHistory> NotificationEmailHistories { get; set; }
