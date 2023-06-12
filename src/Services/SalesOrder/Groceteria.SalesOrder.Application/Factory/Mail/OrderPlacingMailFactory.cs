@@ -49,7 +49,7 @@ namespace Groceteria.SalesOrder.Application.Factory.Mail
             {
                 new EmailField("[username]", order.UserName),
                 new EmailField("[total]", order.TotalPrice.ToString()),
-                new EmailField("[addressLine]", order.BillingAddress.AddressLine)
+                new EmailField("[address]", order.BillingAddress.AddressLine)
             };
 
             var builder = new StringBuilder(mailText);
