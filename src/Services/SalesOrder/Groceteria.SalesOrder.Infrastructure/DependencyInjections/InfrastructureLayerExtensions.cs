@@ -28,6 +28,7 @@ namespace Groceteria.SalesOrder.Infrastructure.DependencyInjections
             services.AddScoped<IEmailServiceFactory, EmailServiceFactory>();
             services.AddScoped<IEmailService, OrderPlacedEmailService>();
             services.Configure<EmailSettingsOption>(configuration.GetSection(EmailSettingsOption.EmailSettings));
+            services.AddSingleton<IEmailQueue, EmailQueue>();
             return services;
         }
     }

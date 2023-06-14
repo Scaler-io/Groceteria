@@ -3,6 +3,7 @@ using Groceteria.SalesOrder.Application.Configurations;
 using Groceteria.SalesOrder.Application.Contracts.Infrastructures;
 using Groceteria.SalesOrder.Application.Contracts.Persistance;
 using Groceteria.SalesOrder.Application.Extensions;
+using Groceteria.SalesOrder.Application.Models.Email;
 using Groceteria.SalesOrder.Domain.Entities;
 using Groceteria.SalesOrder.Domain.Enums;
 using Groceteria.Shared.Core;
@@ -20,17 +21,17 @@ namespace Groceteria.SalesOrder.Application.Features.Orders.Commands.CheckoutOrd
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
         private readonly IOrderRepository _orderRepository;
-        private readonly IEmailServiceFactory _emailServiceFactory;
+        private readonly IEmailQueue _emailQueue;
 
         public CheckoutOrderCommandHandler(ILogger logger,
             IMapper mapper,
             IOrderRepository orderRepository,
-            IEmailServiceFactory emailServiceFactory)
+            IEmailQueue emailQueue)
         {
             _logger = logger;
             _mapper = mapper;
             _orderRepository = orderRepository;
-            _emailServiceFactory = emailServiceFactory;
+            _emailQueue = emailQueue;
         }
 
         public async Task<Result<string>> Handle(CheckoutOrderCommand request, CancellationToken cancellationToken)
@@ -47,9 +48,13 @@ namespace Groceteria.SalesOrder.Application.Features.Orders.Commands.CheckoutOrd
                 return Result<string>.Failure(ErrorCode.OperationFailed, "Failed to place order");
             }
 
-            // send order placed email
-            var service = _emailServiceFactory.GetService(EmailServiceType.OrderPlaced);
-            await service.SendEmailAsync(orderEntity);
+            // scehdule for sending order placed email
+            //var emailQueuTask = new EmailQueueTask
+            //{
+            //    EmailServiceType = EmailServiceType.OrderPlaced,
+            //    OrderEntity = orderEntity
+            //};
+            //_emailQueue.Queue.Enqueue(emailQueuTask);
 
             _logger.Here().WithOrderId(orderEntity.Id).Information("Order placed successfully for {@username}", placedOrder.UserName);
             _logger.Here().MethodExited();
