@@ -11,6 +11,8 @@ services:
     image: postgres
   orderdb:
     image: mcr.microsoft.com/mssql/server:2022-latest
+  notificationProcessordb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
   discountdbViewer:
     image: dpage/pgadmin4
   basketdbViewer:
@@ -38,9 +40,16 @@ services:
       context: .
       dockerfile: Services/Discount/Groceteria.Discount.Grpc/Dockerfile
 
+  groceteria.notificationmessgae.processor:
+    image: ${DOCKER_REGISTRY-}groceterianotificationmessgaeprocessor
+    build:
+      context: .
+      dockerfile: Services/Notification/Groceteria.NotificationMessgae.Processor/Dockerfile
+
 volumes:
   elasticsearch-data:
   cataloguedb_data:
   postgres_data:
   pgadmin_data:
+
 

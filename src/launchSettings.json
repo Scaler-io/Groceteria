@@ -6,7 +6,8 @@
       "serviceActions": {
         "groceteria.basket.api": "StartDebugging",
         "groceteria.catalogue.api": "StartDebugging",
-        "groceteria.discount.grpc": "StartDebugging"
+        "groceteria.discount.grpc": "StartDebugging",
+        "groceteria.notificationmessgae.processor": "StartDebugging"
       }
     }
   }
