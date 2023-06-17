@@ -60,6 +60,15 @@ services:
     volumes:
       - pgadmin_data:/root/.pgadmin
 
+  notificationProcessordb:
+    container_name: notificationProcessordb
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=notification@123
+    restart: always
+    ports:
+      - 1433:1433
+
   elasticsearch:
     container_name: 'elasticsearch'
     restart: always

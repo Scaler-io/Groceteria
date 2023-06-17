@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Groceteria.NotificationMessgae.Processor": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
