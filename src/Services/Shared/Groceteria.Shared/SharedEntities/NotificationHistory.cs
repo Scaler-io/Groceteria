@@ -1,5 +1,4 @@
-﻿using Groceteria.Shared.Constants;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Groceteria.Shared.SharedEntities
 {
