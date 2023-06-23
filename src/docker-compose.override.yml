@@ -52,9 +52,11 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=Orderdb@123
+      - MSSQL_PID=Express 
     restart: always
     ports:
       - 1433:1433
+    
 
   discountdbViewer:
     container_name: discountdbViewer
@@ -74,9 +76,12 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=notification@123
+      - MSSQL_PID=Express
     restart: always
     ports:
-      - 1433:1433
+      - 1434:1433
+    volumes:
+      - notificationProcessor_data:/var/opt/mssql
 
   elasticsearch:
     container_name: 'elasticsearch'

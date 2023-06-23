@@ -25,9 +25,9 @@ namespace Groceteria.NotificationMessgae.Processor
                     var configuration = serviceProvider.GetRequiredService<IConfiguration>();
 
                     services.ConfigurationSetting();
-                    services.AddHostedService<BackgroundNotificationService>();
                     services.AddApplicationServices(configuration)
                     .AddDataServices(configuration);
+                    services.AddHostedService<BackgroundNotificationService>();
 
                 }).UseSerilog();
         }
