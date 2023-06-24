@@ -1,5 +1,5 @@
 ﻿using Groceteria.SalesOrder.Application.Contracts.Infrastructures;
-using Groceteria.SalesOrder.Domain.Enums;
+using Groceteria.SalesOrder.Application.Models.Enums;
 
 namespace Groceteria.SalesOrder.Infrastructure.Email.Factory
 {
@@ -20,6 +20,6 @@ namespace Groceteria.SalesOrder.Infrastructure.Email.Factory
                 throw new ArgumentException($"Invalid service type: {type}");
             }
             return emailService;
-    }
         }
+    }
 }

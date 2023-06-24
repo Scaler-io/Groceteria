@@ -1,4 +1,4 @@
-﻿namespace Groceteria.SalesOrder.Domain.Enums
+﻿namespace Groceteria.SalesOrder.Application.Models.Enums
 {
     public enum EmailServiceType
     {

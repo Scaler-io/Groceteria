@@ -1,109 +1,66 @@
 ﻿using Groceteria.SalesOrder.Application.Configurations;
 using Groceteria.SalesOrder.Application.Contracts.Infrastructures;
 using Groceteria.SalesOrder.Application.Contracts.Persistance;
+using Groceteria.SalesOrder.Application.Extensions;
 using Groceteria.SalesOrder.Application.Factory.Mail;
+using Groceteria.SalesOrder.Application.Models.Constants;
+using Groceteria.SalesOrder.Application.Models.Enums;
 using Groceteria.SalesOrder.Domain.Entities;
-using Groceteria.SalesOrder.Domain.Enums;
+using Groceteria.Shared.Core;
+using Groceteria.Shared.Enums;
 using Groceteria.Shared.Extensions;
 using Microsoft.Extensions.Options;
-using MimeKit;
-using Newtonsoft.Json;
 using Serilog;
 
 namespace Groceteria.SalesOrder.Infrastructure.Email
 {
-    public class OrderPlacedEmailService : OrderPlacingMailFactory, IEmailService
+    public class OrderPlacedEmailService : MailFactoryBase, IEmailService
     {
-        private IBaseRepository<NotificationEmailHistory> _notificationRepository;
-        private EmailSettingsOption _settings;
-        private ILogger _logger;
-
-        public OrderPlacedEmailService(IBaseRepository<NotificationEmailHistory> notificationRepository, 
-            IOptions<EmailSettingsOption> settings, 
-            ILogger logger)
-        {
-            _notificationRepository = notificationRepository;
-            _settings = settings.Value;
-            _logger = logger;
-        }
-
+        private readonly EmailTemplates _emailTemplates;
         public EmailServiceType Type => EmailServiceType.OrderPlaced;
+
+        public OrderPlacedEmailService(
+            INotificationRepository notificationRepository, 
+            ILogger logger,
+            IOptions<EmailTemplates> emailTemplates)
+            :base(notificationRepository, logger) 
+        {
+            _emailTemplates = emailTemplates.Value;
+        }
 
         public async Task SendEmailAsync(object arg)
         {
             _logger.Here().MethodEnterd();
-            var c = _settings.CompanyAddress;
-            Order order = (Order) arg;
-            var mailClient = await CreateMailClient(_settings, _logger);
-            var orderPlacedEmail = GenerateOrderPlacedMessage(order, _settings, _logger);
 
-            _logger.Here().Debug("Preparing for sending mail");
-            var notificationHistory = await AddOrOverwriteNotificationStatus(orderPlacedEmail, EmailNotificationStatus.Draft);
+            var order = (Order)arg;
+            _logger.Here().WithOrderId(order.Id).Information("Preparing notification message");
 
-            try
+            var notificationCreated = await AddOrOverwriteNotificationAsync(
+                order.Id,
+                order.BillingAddress.EmailAddress,
+                EmailServiceConstants.OrderPlacedSubject,
+                _emailTemplates.OrderPlaced,
+                GetOrderPlacedEmailFields(order)
+            );
+
+            if (!notificationCreated)
             {
-                await mailClient.SendAsync(orderPlacedEmail);
-                _logger.Here().Information("Mail sent to {@recipient}", orderPlacedEmail.To);
-            }
-            catch (Exception ex)
-            {
-                _logger.Here().Error("Failed to send mail", ex);
-            }
-            finally
-            {
-                if(notificationHistory != null)
-                {
-                    await AddOrOverwriteNotificationStatus(notificationHistory, EmailNotificationStatus.Sent);
-                }
-                mailClient.Disconnect(true);
+                _logger.Here().WithOrderId(order.Id).Error("{@ErrorCode} - Failed to create notification message", ErrorCode.OperationFailed);
+                return;
             }
 
+            _logger.Here().WithOrderId(order.Id).Information("Notification message added to db.");
             _logger.Here().MethodExited();
         }
 
-        private async Task<NotificationEmailHistory> AddOrOverwriteNotificationStatus(MimeMessage email,
-            EmailNotificationStatus status)
+        private List<EmailField> GetOrderPlacedEmailFields(Order order)
         {
-            var notificationHistory = new NotificationEmailHistory
+            return new List<EmailField>
             {
-                Data = JsonConvert.SerializeObject(new
-                {
-                    Sender = email.Sender.Address,
-                    Recipient = email.To,
-                    Body = email.HtmlBody
-                }),
-                Status = status
+                new EmailField("[username]", order.UserName),
+                new EmailField("[address]", order.BillingAddress.AddressLine),
+                new EmailField("[total]", order.TotalPrice.ToString())
             };
-
-            try
-            {
-                notificationHistory = await _notificationRepository.AddAsync(notificationHistory);
-                await _notificationRepository.Completed();
-                _logger.Here().Information("mail history table updated.");
-            }
-            catch (Exception ex)
-            {
-                _logger.Here().Error("mail history table updation failed. {@stackTrace}", ex.StackTrace);
-            }
-
-            return notificationHistory;
-        }
-
-        private async Task AddOrOverwriteNotificationStatus(NotificationEmailHistory notificationHistory,
-            EmailNotificationStatus status)
-        {
-            try
-            {
-                notificationHistory.MailSentAt = DateTime.UtcNow;
-                notificationHistory.Status = status;
-                await _notificationRepository.UpdateAsync(notificationHistory);
-                await _notificationRepository.Completed();
-                _logger.Here().Information("mail history table updated.");
-            }
-            catch (Exception ex)
-            {
-                _logger.Here().Error("mail history table updation failed. {@stackTrace}", ex.StackTrace);
-            }
         }
     }
 }

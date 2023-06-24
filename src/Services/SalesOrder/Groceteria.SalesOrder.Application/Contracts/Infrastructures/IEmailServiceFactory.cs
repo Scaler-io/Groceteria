@@ -1,4 +1,4 @@
-﻿using Groceteria.SalesOrder.Domain.Enums;
+﻿using Groceteria.SalesOrder.Application.Models.Enums;
 
 namespace Groceteria.SalesOrder.Application.Contracts.Infrastructures
 {

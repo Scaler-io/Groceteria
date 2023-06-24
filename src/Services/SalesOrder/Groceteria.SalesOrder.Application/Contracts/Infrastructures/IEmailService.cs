@@ -1,8 +1,4 @@
-﻿using Groceteria.SalesOrder.Application.Configurations;
-using Groceteria.SalesOrder.Application.Contracts.Persistance;
-using Groceteria.SalesOrder.Domain.Entities;
-using Groceteria.SalesOrder.Domain.Enums;
-using Serilog;
+﻿using Groceteria.SalesOrder.Application.Models.Enums;
 
 namespace Groceteria.SalesOrder.Application.Contracts.Infrastructures
 {

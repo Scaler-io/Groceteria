@@ -7,7 +7,7 @@ namespace Groceteria.SalesOrder.Infrastructure.Persistance
 {
     public class SalesOrderContext: DbContext
     {
-        public SalesOrderContext(DbContextOptions option)
+        public SalesOrderContext(DbContextOptions<SalesOrderContext> option)
             : base(option)
         {
 
@@ -17,7 +17,6 @@ namespace Groceteria.SalesOrder.Infrastructure.Persistance
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<BillingAddress> Addresses { get; set; }
         public DbSet<PaymentDetails> PaymentDetails { get; set; }
-        public DbSet<NotificationEmailHistory> NotificationEmailHistories { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

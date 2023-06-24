@@ -5,6 +5,7 @@ using Groceteria.SalesOrder.Infrastructure.Email;
 using Groceteria.SalesOrder.Infrastructure.Email.Factory;
 using Groceteria.SalesOrder.Infrastructure.Persistance;
 using Groceteria.SalesOrder.Infrastructure.Repositories;
+using Groceteria.SalesOrder.Infrastructure.Repositories.Notifications;
 using Groceteria.SalesOrder.Infrastructure.Repositories.Orders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,15 +21,18 @@ namespace Groceteria.SalesOrder.Infrastructure.DependencyInjections
             services.AddDbContext<SalesOrderContext>(option =>
             {
                 option.UseSqlServer(configuration.GetConnectionString("OrderingConnectionString"));
-                //option.EnableDetailedErrors();
+            });
+
+            services.AddDbContext<NotificationProccessorContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("NotificationProcessor"));
             });
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IEmailServiceFactory, EmailServiceFactory>();
             services.AddScoped<IEmailService, OrderPlacedEmailService>();
-            services.Configure<EmailSettingsOption>(configuration.GetSection(EmailSettingsOption.EmailSettings));
-            services.AddSingleton<IEmailQueue, EmailQueue>();
+            services.AddScoped<INotificationRepository, NotificationRepository>();
             return services;
         }
     }

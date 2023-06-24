@@ -1,12 +1,12 @@
 ﻿using Groceteria.Shared.SharedEntities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Groceteria.NotificationMessgae.Processor.DataAccess
+namespace Groceteria.SalesOrder.Infrastructure.Persistance
 {
-    public class NotificationProcessorContext: DbContext
+    public class NotificationProccessorContext: DbContext
     {
-        public NotificationProcessorContext(DbContextOptions option)
-            :base(option)
+        public NotificationProccessorContext(DbContextOptions<NotificationProccessorContext> options)
+            :base(options)
         {
             
         }
@@ -15,7 +15,7 @@ namespace Groceteria.NotificationMessgae.Processor.DataAccess
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            foreach(var entry in ChangeTracker.Entries<NotificationHistory>())
+            foreach (var entry in ChangeTracker.Entries<NotificationHistory>())
             {
                 switch (entry.State)
                 {

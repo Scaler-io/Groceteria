@@ -20,7 +20,7 @@ namespace Groceteria.NotificationMessgae.Processor.Extensions
             }
 
             logger.Here().Information("Migration started");
-            await dbContext.Database.MigrateAsync();
+              await dbContext.Database.MigrateAsync();
             logger.Here().Information("Migration completed");
 
             await NotificationProcessorSeeder.SeedNotificationsAsync(logger, dbContext);

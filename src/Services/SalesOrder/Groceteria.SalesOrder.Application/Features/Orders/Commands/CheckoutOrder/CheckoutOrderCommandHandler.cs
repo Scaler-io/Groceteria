@@ -1,18 +1,14 @@
 ﻿using AutoMapper;
-using Groceteria.SalesOrder.Application.Configurations;
 using Groceteria.SalesOrder.Application.Contracts.Infrastructures;
 using Groceteria.SalesOrder.Application.Contracts.Persistance;
 using Groceteria.SalesOrder.Application.Extensions;
-using Groceteria.SalesOrder.Application.Models.Email;
+using Groceteria.SalesOrder.Application.Models.Enums;
 using Groceteria.SalesOrder.Domain.Entities;
-using Groceteria.SalesOrder.Domain.Enums;
 using Groceteria.Shared.Core;
 using Groceteria.Shared.Enums;
 using Groceteria.Shared.Extensions;
 using MediatR;
-using Microsoft.Extensions.Configuration;
 using Serilog;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace Groceteria.SalesOrder.Application.Features.Orders.Commands.CheckoutOrder
 {
@@ -21,17 +17,17 @@ namespace Groceteria.SalesOrder.Application.Features.Orders.Commands.CheckoutOrd
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
         private readonly IOrderRepository _orderRepository;
-        private readonly IEmailQueue _emailQueue;
+        private readonly IEmailServiceFactory _emailServiceFactory;
 
         public CheckoutOrderCommandHandler(ILogger logger,
             IMapper mapper,
             IOrderRepository orderRepository,
-            IEmailQueue emailQueue)
+            IEmailServiceFactory emailServiceFactory)
         {
             _logger = logger;
             _mapper = mapper;
             _orderRepository = orderRepository;
-            _emailQueue = emailQueue;
+            _emailServiceFactory = emailServiceFactory;
         }
 
         public async Task<Result<string>> Handle(CheckoutOrderCommand request, CancellationToken cancellationToken)
@@ -48,13 +44,8 @@ namespace Groceteria.SalesOrder.Application.Features.Orders.Commands.CheckoutOrd
                 return Result<string>.Failure(ErrorCode.OperationFailed, "Failed to place order");
             }
 
-            // scehdule for sending order placed email
-            //var emailQueuTask = new EmailQueueTask
-            //{
-            //    EmailServiceType = EmailServiceType.OrderPlaced,
-            //    OrderEntity = orderEntity
-            //};
-            //_emailQueue.Queue.Enqueue(emailQueuTask);
+            var emailService = _emailServiceFactory.GetService(EmailServiceType.OrderPlaced);
+            await emailService.SendEmailAsync(orderEntity);
 
             _logger.Here().WithOrderId(orderEntity.Id).Information("Order placed successfully for {@username}", placedOrder.UserName);
             _logger.Here().MethodExited();
