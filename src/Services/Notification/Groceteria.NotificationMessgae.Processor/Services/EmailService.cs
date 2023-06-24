@@ -30,12 +30,10 @@ namespace Groceteria.NotificationMessgae.Processor.Services
 
         public async Task SendMailAsync()
         {
-            _logger.Here().MethodEnterd();
             var notificationsToProcess = await _notificationRepository.GetNotificationHistory();
 
             if(notificationsToProcess == null || notificationsToProcess.Count() == 0 ) 
             {
-                _logger.Here().Information("No notification to process");
                 return;
             }
 
@@ -49,6 +47,7 @@ namespace Groceteria.NotificationMessgae.Processor.Services
                 {
                     await mailClient.SendAsync(mail);
                     notification.IsPublished = true;
+                    notification.PublishTime = DateTime.UtcNow;
                     await _notificationRepository.UpdateNotificationHistory(notification);
 
                 }
@@ -57,8 +56,6 @@ namespace Groceteria.NotificationMessgae.Processor.Services
                     _logger.Here().Error("{@message} - {@trace}", e.Message, e.StackTrace);
                 }
             }
-                
-            _logger.Here().MethodExited();
             await mailClient.DisconnectAsync(true);
         }
 

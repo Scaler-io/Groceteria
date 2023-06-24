@@ -115,7 +115,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - LoggerConfigOption:OverrideSource=Microsoft
-      - LoggerConfigOption:OutputTemplate=[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {NewLine} {Properties} {NewLine} {NewLine} {Message} {Exception}
+      - LoggerConfigOption:OutputTemplate={NewLine} [{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Properties} {NewLine} {Message} {Exception}
       - "Elasticsearch:Uri=http://elasticsearch:9200"
       - "MongodbSettings:ConnectionString=mongodb://cataloguedb:27017"
       - "MongodbSettings:Database=catalogueDb"
@@ -131,7 +131,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - LoggerConfigOption:OverrideSource=Microsoft
-      - LoggerConfigOption:OutputTemplate=[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {NewLine} {Properties} {NewLine} {NewLine} {Message} {Exception}
+      - LoggerConfigOption:OutputTemplate={NewLine} [{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Properties} {NewLine} {Message} {Exception}
       - "Elasticsearch:Uri=http://elasticsearch:9200"
       - "CatalogueApiSettings:baseAddress=http://groceteria.catalogue.api"
       - "CatalogueApiSettings:version=v2"
@@ -148,7 +148,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - LoggerConfigOption:OverrideSource=Microsoft
-      - LoggerConfigOption:OutputTemplate=[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {NewLine} {Properties} {NewLine} {NewLine} {Message} {Exception}
+      - LoggerConfigOption:OutputTemplate={NewLine} [{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Properties} {NewLine} {Message} {Exception}
       - "Elasticsearch:Uri=http://elasticsearch:9200" 
       - "DiscountDb:ConnectionString=Server=discountdb;Port=5432;Database=discountdb;User Id=admin;Password=admin1234;"
     depends_on:
@@ -156,3 +156,22 @@ services:
     ports:
       - "8002:80"
 
+  groceteria.notificationmessgae.processor:
+    container_name: groceteria.notification.processor
+    restart: always
+    depends_on:
+      - notificationProcessordb 
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - LoggerConfigOption:OverrideSource=Microsoft
+      - LoggerConfigOption:OutputTemplate={NewLine} [{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Properties} {NewLine} {Message} {Exception}
+      - "Elasticsearch:Uri=http://elasticsearch:9200"
+      -  "ProcessInterval=1"
+      - "ConnectionStrings:NotificationProcessor=Server=notificationProcessordb;Database=NotificationDb;User Id=sa;Password=notification@123;"
+      - "EmailSettingsOption:Server=sandbox.smtp.mailtrap.io"
+      - "EmailSettingsOption:Port=25"
+      - "EmailSettingsOption:CompanyAddress=care.groceteria.com"
+      - "EmailSettingsOption:Username=1bc0ad2cff257e"
+      - "EmailSettingsOption:Password=c0039b21a03f21"
+
+  
