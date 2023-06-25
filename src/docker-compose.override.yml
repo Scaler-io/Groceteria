@@ -175,3 +175,19 @@ services:
       - "EmailSettingsOption:Password=c0039b21a03f21"
 
   
+  groceteria.saleseorder.api:
+    container_name: groceteria.saleseorder.api
+    restart: always
+    depends_on:
+      - orderdb
+      - notificationProcessordb
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - LoggerConfigOption:OverrideSource=Microsoft
+      - LoggerConfigOption:OutputTemplate={NewLine} [{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Properties} {NewLine} {Message} {Exception}
+      - "Elasticsearch:Uri=http://elasticsearch:9200"
+      - "ConnectionStrings:NotificationProcessor=Server=notificationProcessordb;Database=NotificationDb;User Id=sa;Password=notification@123;"
+      - "ConnectionStrings:OrderingConnectionString=Server=orderdb,1433;Database=OrderDb;User Id=sa; Password=Orderdb@123;"
+    ports:
+      - "8003:80"
+

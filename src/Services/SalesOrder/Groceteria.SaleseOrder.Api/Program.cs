@@ -25,7 +25,8 @@ try
     app.MigrateDb<SalesOrderContext>((context, service) =>
     {
         var logger = service.GetRequiredService<Serilog.ILogger>();
-        SalesOrderContextSeed.SeedAsync(context, logger).Wait();
+        var environment = service.GetRequiredService<IWebHostEnvironment>();
+        SalesOrderContextSeed.SeedAsync(context, logger, environment).Wait();
     });
 
     await app.RunAsync();

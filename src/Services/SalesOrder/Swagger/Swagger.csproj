@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\shared\Groceteria.Shared\Groceteria.Shared.csproj" />
+    <ProjectReference Include="..\..\Shared\Groceteria.Shared\Groceteria.Shared.csproj" />
     <ProjectReference Include="..\Groceteria.SalesOrder.Application\Groceteria.SalesOrder.Application.csproj" />
   </ItemGroup>
 

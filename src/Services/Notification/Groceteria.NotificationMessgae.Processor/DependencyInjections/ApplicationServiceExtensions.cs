@@ -12,7 +12,8 @@ namespace Groceteria.NotificationMessgae.Processor.DependencyInjections
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            var logIndexPattern = $"Groceteria.Notification.Processor-Dev";
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var logIndexPattern = $"Groceteria.Notification.Processor-{env?.ToLower().Replace(".", "-")}";
             var logger = LoggerConfig.Configure(configuration, logIndexPattern);
             services.AddSingleton(Log.Logger)
                     .AddSingleton(x => logger);
