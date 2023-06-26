@@ -51,7 +51,7 @@ namespace Groceteria.SaleseOrder.Api.Controllers.v2.Order
         {
             Logger.Here().MethodEnterd();
             var validationResult = IsInvalidRequest(request);
-            if (validationResult != null) return ProcessValidationResult(validationResult);
+            if (IsInvalidResult(validationResult)) return ProcessValidationResult(validationResult);
             var command = new DeleteOrderCommand { DeleteOrderRequest = request };   
             var result = await _mediator.Send(command);
             Logger.Here().MethodExited();

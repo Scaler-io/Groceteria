@@ -1,6 +1,6 @@
 ﻿using Groceteria.Infrastructure.Logger;
 using Groceteria.SaleseOrder.Api.Configurations;
-using Groceteria.SalesOrder.Application.Contracts.Infrastructures;
+using Groceteria.SaleseOrder.Api.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Newtonsoft.Json.Converters;
@@ -8,7 +8,6 @@ using Serilog;
 using Swagger.Configurations;
 using Swagger.Examples.Errors;
 using Swashbuckle.AspNetCore.Filters;
-using System.Reflection;
 
 namespace Groceteria.SaleseOrder.Api.DependencyInjections
 {
@@ -85,6 +84,10 @@ namespace Groceteria.SaleseOrder.Api.DependencyInjections
             app.UseAuthorization();
 
             app.MapControllers();
+
+            app.UseMiddleware<RequestLoggingMiddleware>();
+            app.UseMiddleware<CorrelationHeaderEnricher>();
+            app.UseMiddleware<GlobalExceptionMiddleware>();
 
             return app;
         }

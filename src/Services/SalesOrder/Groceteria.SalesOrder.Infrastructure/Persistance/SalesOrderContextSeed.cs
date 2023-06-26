@@ -8,8 +8,8 @@ namespace Groceteria.SalesOrder.Infrastructure.Persistance
     public class SalesOrderContextSeed
     {
         public static async Task SeedAsync(SalesOrderContext context, ILogger logger, IWebHostEnvironment environment)
-         {
-            if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Production" && !context.Orders.Any())
+         {           
+            if (!context.Orders.Any())
             {
                 context.Orders.AddRange(GetSampleOrders(environment, logger));
                 await context.SaveChangesAsync();
@@ -18,7 +18,7 @@ namespace Groceteria.SalesOrder.Infrastructure.Persistance
 
         public static IEnumerable<Order> GetSampleOrders(IWebHostEnvironment environment, ILogger logger)
         {
-            var path = Path.Combine(environment.ContentRootPath, "../Groceteria.SalesOrder.Infrastructure/Persistance/Seeders");
+            var path = Path.Combine(environment.ContentRootPath, "App_Data/SeedData");
             logger.Information(path);
             var orders = FileReaderHelper<Order>.SeederFileReader("OrderSample", path);
             return orders;

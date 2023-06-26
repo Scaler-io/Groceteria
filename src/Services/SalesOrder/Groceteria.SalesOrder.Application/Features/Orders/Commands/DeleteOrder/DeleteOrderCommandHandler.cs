@@ -28,7 +28,9 @@ namespace Groceteria.SalesOrder.Application.Features.Orders.Commands.DeleteOrder
             _logger.Here().Information("Request - Delete order {@request}", request.DeleteOrderRequest);
 
             var orderId = request.DeleteOrderRequest.OrderId;
-            var orderToDelete = await _orderRepository.GetByIdAsync(request.DeleteOrderRequest.OrderId);
+            Guid parsedId;
+            Guid.TryParse(orderId, out parsedId);
+            var orderToDelete = await _orderRepository.GetByIdAsync(parsedId);
 
             if(orderToDelete == null)
             {

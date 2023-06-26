@@ -28,11 +28,4 @@
     <ProjectReference Include="..\Groceteria.SalesOrder.Application\Groceteria.SalesOrder.Application.csproj" />
     <ProjectReference Include="..\Groceteria.SalesOrder.Domain\Groceteria.SalesOrder.Domain.csproj" />
   </ItemGroup>
-
-
-	<ItemGroup>
-		<Content Include="Persistance\Seeders\*.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-	</ItemGroup>
 </Project>

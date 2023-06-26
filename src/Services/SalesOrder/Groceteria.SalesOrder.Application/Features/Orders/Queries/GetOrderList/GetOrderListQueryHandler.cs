@@ -29,6 +29,8 @@ namespace Groceteria.SalesOrder.Application.Features.Orders.Queries.GetOrderList
             _logger.Here().Information("Request - get order list for {@username}", request.Username);
 
             var orderList = await _orderRepository.GetOrdersByUserName(request.Username, request.Query);
+            var orderCount = await _orderRepository.GetCount(o => o.UserName == request.Username);
+
             if (orderList == null || orderList.Count() == 0)
             {
                 _logger.Here().Error("{@ErrorCode} - No order was found.", ErrorCode.NotFound);
@@ -39,7 +41,7 @@ namespace Groceteria.SalesOrder.Application.Features.Orders.Queries.GetOrderList
 
             _logger.Here().Information("Order list fetch successfull");
             _logger.Here().MethodExited();
-            return Result<Pagination<OrderDto>>.Success(new Pagination<OrderDto>(request.Query.PageIndex, request.Query.PageSize, result.Count(), result));
+            return Result<Pagination<OrderDto>>.Success(new Pagination<OrderDto>(request.Query.PageIndex, request.Query.PageSize, orderCount, result));
         }
     }
 }

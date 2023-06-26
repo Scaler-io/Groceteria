@@ -74,7 +74,7 @@ namespace Groceteria.NotificationMessgae.Processor.Services
             }
 
             var email = new MimeMessage();
-            email.To.Add(MailboxAddress.Parse("sharthak@email.com"));
+            email.To.Add(MailboxAddress.Parse(notification.RecipientEmail));
             email.Subject = notification.Subject;
             email.Sender = MailboxAddress.Parse(_emailSettings.CompanyAddress);
             builder.HtmlBody = emailBuilder.ToString();

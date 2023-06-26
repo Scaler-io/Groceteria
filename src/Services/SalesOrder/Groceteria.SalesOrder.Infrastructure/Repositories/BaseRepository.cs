@@ -64,6 +64,11 @@ namespace Groceteria.SalesOrder.Infrastructure.Repositories
             return await query.ToListAsync();
         }
 
+        public async Task<long> GetCount(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().Where(predicate).LongCountAsync();
+        }
+
         public async Task<T> GetByIdAsync(object id)
         {
             return await _context.Set<T>().FindAsync(id);
