@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Groceteria.Shared.SharedEntities;
 
 namespace Groceteria.NotificationMessgae.Processor.DataAccess.Repositories
 {
     public interface INotificationRepository
     {
-        Task<NotificationHistory> GetNotificationHistory();
+        Task<IEnumerable<NotificationHistory>> GetNotificationHistory();
+        Task UpdateNotificationHistory(NotificationHistory history);
     }
 }

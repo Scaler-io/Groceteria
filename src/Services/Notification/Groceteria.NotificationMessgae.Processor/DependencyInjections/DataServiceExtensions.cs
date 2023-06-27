@@ -1,4 +1,5 @@
 ﻿using Groceteria.NotificationMessgae.Processor.DataAccess;
+using Groceteria.NotificationMessgae.Processor.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ namespace Groceteria.NotificationMessgae.Processor.DependencyInjections
             {
                 options.UseSqlServer(configuration.GetConnectionString("NotificationProcessor"));
             });
+            services.AddScoped<INotificationRepository, NotificationHistoryRepository>();
             return services;
         }
     }

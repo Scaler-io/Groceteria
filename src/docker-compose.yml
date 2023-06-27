@@ -9,6 +9,8 @@ services:
     image: redis:alpine
   discountdb:
     image: postgres
+  orderdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
   notificationProcessordb:
     image: mcr.microsoft.com/mssql/server:2022-latest
   discountdbViewer:
@@ -44,10 +46,19 @@ services:
       context: .
       dockerfile: Services/Notification/Groceteria.NotificationMessgae.Processor/Dockerfile
 
+  groceteria.saleseorder.api:
+    image: ${DOCKER_REGISTRY-}groceteriasaleseorderapi
+    build:
+      context: .
+      dockerfile: Services/SalesOrder/Groceteria.SaleseOrder.Api/Dockerfile
+
 volumes:
   elasticsearch-data:
   cataloguedb_data:
   postgres_data:
   pgadmin_data:
+  notificationProcessor_data:
+  salesorder_data:
+
 
 

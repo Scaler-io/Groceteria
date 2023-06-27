@@ -1,6 +1,5 @@
 ﻿using Groceteria.Shared.SharedEntities;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace Groceteria.NotificationMessgae.Processor.DataAccess
 {
@@ -30,10 +29,5 @@ namespace Groceteria.NotificationMessgae.Processor.DataAccess
             }
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
-
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());  
-        //}
     }
 }

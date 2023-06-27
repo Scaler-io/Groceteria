@@ -37,11 +37,14 @@ namespace Groceteria.NotificationMessgae.Processor.DataAccess.Migrations
                     b.Property<bool>("IsPublished")
                         .HasColumnType("bit");
 
-                    b.Property<string>("MessageType")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("PublishTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("RecipientEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TemplateName")
                         .HasColumnType("nvarchar(max)");

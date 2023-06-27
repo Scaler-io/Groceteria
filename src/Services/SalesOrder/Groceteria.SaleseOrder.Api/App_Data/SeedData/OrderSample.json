@@ -1,0 +1,52 @@
+[
+  {
+    "userName": "JohnDoe",
+    "totalPrice": 89.98,
+    "orderedItems": [
+      {
+        "productId": "6468f29fa551b1642a7f6be2",
+        "name": "Example Product",
+        "category": "Electronics",
+        "brand": "Example Brand",
+        "summary": "Lorem ipsum dolor sit amet",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "price": 49.99,
+        "color": "Black",
+        "image": "product-image.jpg",
+        "quantity": 2,
+        "orderId": "a210cd45-8a87-4fe9-9f14-d92c23a4ff4d"
+      },
+      {
+        "productId": "6468f29fa551b1642a7f6bde",
+        "name": "Another Product",
+        "category": "Home & Kitchen",
+        "brand": "Another Brand",
+        "summary": "Lorem ipsum dolor sit amet",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "price": 39.99,
+        "color": "White",
+        "image": "another-product-image.jpg",
+        "quantity": 1,
+        "orderId": "a210cd45-8a87-4fe9-9f14-d92c23a4ff4d"
+      }
+    ],
+    "billingAddress": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "emailAddress": "john.doe@example.com",
+      "addressLine": "123 Main St",
+      "mobile": "0123456789",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001"
+    },
+    "paymentDetails": {
+      "cardName": "John Doe",
+      "cardNumber": "1234567890123456",
+      "expiration": "12/24",
+      "cvv": "123",
+      "paymentMethod": 1
+    }
+  }
+
+]
