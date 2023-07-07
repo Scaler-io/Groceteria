@@ -9,6 +9,7 @@ using Groceteria.Basket.Api.Swagger;
 using Groceteria.Basket.Api.Swagger.Examples.Errors;
 using Groceteria.Basket.Api.Models.Requests;
 using Groceteria.Basket.Api.Swagger.Examples;
+using Groceteria.Basket.Api.Models.Requests.BasketCheckout;
 
 namespace Groceteria.Basket.Api.Controllers.v2
 {
@@ -89,6 +90,30 @@ namespace Groceteria.Basket.Api.Controllers.v2
             await _basketWorkflowService.DeleteBasket(username);
             Logger.Here().MethodExited();
             return NoContent();
+        }
+
+        [HttpPost("basket/checkout/{username}")]
+        [SwaggerHeader("CorrelationId", "string", "", false)]
+        [SwaggerOperation(OperationId = "CreateBasket", Summary = "Chekouts basket")]
+        [SwaggerRequestExample(typeof(ShoppingCartCreateRequest), typeof(ShoppingCartCreateRequest))]
+        //200
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(ShoppingCartResponseExample))]
+        [ProducesResponseType(typeof(ShoppingCartResponseExample), (int)HttpStatusCode.OK)]
+        // 400
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(BadRequestApiResponseExample))]
+        [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.BadRequest)]
+        // 404
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(NotFoundApiResponseExample))]
+        [ProducesResponseType(typeof(IReadOnlyList<ApiResponse>), (int)HttpStatusCode.NotFound)]
+        // 500
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(InternalServerErrrorResponseExample))]
+        [ProducesResponseType(typeof(ApiExceptionResponse), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> CheckoutBasket([FromBody] BasketCheckoutRequest request, CancellationToken cancellationToken)
+        {
+            Logger.Here().MethodEnterd();
+            var result = await _basketWorkflowService.CheckoutBasket(request, cancellationToken);
+            Logger.Here().MethodExited();
+            return OkOrFailure(result);
         }
     }
 }

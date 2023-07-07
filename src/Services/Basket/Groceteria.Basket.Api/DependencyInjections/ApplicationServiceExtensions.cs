@@ -4,10 +4,11 @@ using Groceteria.Basket.Api.Swagger;
 using Groceteria.Discount.Grpc.Protos;
 using Groceteria.Infrastructure.Logger;
 using Grpc.Core;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
+using RabbitMQ.Client;
 using Serilog;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
@@ -50,7 +51,14 @@ namespace Groceteria.Basket.Api.DependencyInjections
                 options.ChannelOptionsActions.Add(channelOptions => channelOptions.Credentials = ChannelCredentials.Insecure);
             });
 
-            
+            // masstransit-Rabbitmq
+            services.AddMassTransit(config =>
+            {
+                config.UsingRabbitMq((context, configurator) =>
+                {
+                    configurator.Host(configuration["RabbitMq:ConnectionString"]);
+                });
+            });
 
             // http
             services.AddHttpContextAccessor();
