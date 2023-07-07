@@ -1,4 +1,5 @@
 ﻿using Groceteria.ApiGateway.Infrastructures.Logger;
+using Ocelot.DependencyInjection;
 using Serilog;
 
 namespace Groceteria.ApiGateway.DI
@@ -13,6 +14,9 @@ namespace Groceteria.ApiGateway.DI
             var logger = LoggerConfig.Configure(configuration, logIndexPattern);
             services.AddSingleton(Log.Logger)
                     .AddSingleton(x => logger);
+
+            // ocelot
+            services.AddOcelot();
 
             return services;
         }
