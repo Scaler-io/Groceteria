@@ -56,7 +56,18 @@ services:
     restart: always
     ports:
       - 1433:1433
-    
+    volumes:
+      - salesorder_data:/var/opt/mssql
+   
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=Passw0rd
 
   discountdbViewer:
     container_name: discountdbViewer
@@ -138,6 +149,7 @@ services:
       - "RedisCache:InstanceName=Groceteria.Basket.Cache"
       - "RedisCache:ConnectionString=basketdb:6379"
       - "GrpcSettings:DiscountUrl=http://groceteria.discount.grpc"
+      - "RabbitMq:ConnectionString=amqp://user:Passw0rd@rabbitmq:5672"
     ports:
       - "8001:80"
 
@@ -150,7 +162,7 @@ services:
       - LoggerConfigOption:OverrideSource=Microsoft
       - LoggerConfigOption:OutputTemplate={NewLine} [{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Properties} {NewLine} {Message} {Exception}
       - "Elasticsearch:Uri=http://elasticsearch:9200" 
-      - "DiscountDb:ConnectionString=Server=discountdb;Port=5432;Database=discountdb;User Id=admin;Password=admin1234;"
+      - "DiscountDb:ConnectionString=Server=discountdb;Port=5432;Database=DiscountDb;User Id=admin;Password=admin1234;"
     depends_on:
       - discountdb 
     ports:
@@ -188,6 +200,7 @@ services:
       - "Elasticsearch:Uri=http://elasticsearch:9200"
       - "ConnectionStrings:NotificationProcessor=Server=notificationProcessordb;Database=NotificationDb;User Id=sa;Password=notification@123;"
       - "ConnectionStrings:OrderingConnectionString=Server=orderdb,1433;Database=OrderDb;User Id=sa; Password=Orderdb@123;"
+      - "RabbitMq:ConnectionString=amqp://user:Passw0rd@rabbitmq:5672"
     ports:
       - "8003:80"
 

@@ -13,7 +13,8 @@ var host = builder.Host;
 host.UseSerilog();
 builder.Services.AddApplicationServices(configuration)
                 .AddBusinessLayerServices(configuration)
-                .AddInfrastructureLayerServices(configuration);
+                .AddInfrastructureLayerServices(configuration)
+                .AddEventBusServices(configuration);
 
 var app = builder.Build();
 var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();

@@ -2,14 +2,18 @@
 using Groceteria.Basket.Api.DataAccess.Interfaces;
 using Groceteria.Basket.Api.Entities;
 using Groceteria.Basket.Api.Models.Requests;
+using Groceteria.Basket.Api.Models.Requests.BasketCheckout;
 using Groceteria.Basket.Api.Models.Responses;
-using Groceteria.Basket.Api.Services.Grpc;
 using Groceteria.Basket.Api.Services.Interfaces.Grpc;
 using Groceteria.Basket.Api.Services.Interfaces.v2;
+using Groceteria.Infrastructure.EventBus.Message.Events.BasketEvents;
+using Groceteria.Infrastructure.EventBus.Message.Models;
 using Groceteria.Shared.Core;
 using Groceteria.Shared.Enums;
 using Groceteria.Shared.Extensions;
 using Grpc.Core;
+using MassTransit;
+using System.Net;
 using ILogger = Serilog.ILogger;
 
 namespace Groceteria.Basket.Api.Services.v2
@@ -21,18 +25,21 @@ namespace Groceteria.Basket.Api.Services.v2
         private readonly IMapper _mapper;
         private readonly IProductSearchService _productSearchService;
         private readonly IDiscountGrpcService _discountGrpcService;
+        private readonly IPublishEndpoint _busEvent;
 
         public BasketWorkflowService(ILogger logger,
             IBasketRepository basketRepository,
             IMapper mapper,
             IProductSearchService productSearchService,
-            IDiscountGrpcService discountGrpcService)
+            IDiscountGrpcService discountGrpcService,
+            IPublishEndpoint busEvent)
         {
             _logger = logger;
             _basketRepository = basketRepository;
             _mapper = mapper;
             _productSearchService = productSearchService;
             _discountGrpcService = discountGrpcService;
+            _busEvent = busEvent;
         }
 
         public async Task<Result<ShoppingCartResponse>> GetBasket(ShoppingCartFetchRequest request, RequestQuery queryParams)
@@ -162,6 +169,32 @@ namespace Groceteria.Basket.Api.Services.v2
                     Summary = catalogue.Summary
                 };
             });
+        }
+
+        public async Task<Result<EventResponse>> CheckoutBasket(BasketCheckoutRequest request, CancellationToken cancellationToken)
+        {
+            _logger.Here().MethodEnterd();
+            _logger.Here().Information("Request - basket checkout for {@username}", request.UserName);
+
+            var basket = await _basketRepository.GetCart(request.UserName);
+            if(basket == null)
+            {
+                _logger.Here().Error("No basket found for {@username}", request.UserName);
+                return Result<EventResponse>.Failure(ErrorCode.NotFound);
+            }
+
+            var message = _mapper.Map<BasketCheckoutEvent>(request);
+            
+            var publishTask =  _busEvent.Publish(message);
+            var deleteCartTask = _basketRepository.DeleteCart(request.UserName);
+
+            await Task.WhenAll(publishTask, deleteCartTask);
+
+            _logger.Here().Information("Basket checkout message published");
+            _logger.Here().Information("basket deleted for {@username}", request.UserName);
+
+            _logger.Here().MethodExited();
+            return Result<EventResponse>.Success(new EventResponse((int)HttpStatusCode.OK, "Data processing in background"));
         }
     }
 }

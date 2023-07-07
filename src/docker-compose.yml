@@ -11,6 +11,8 @@ services:
     image: postgres
   orderdb:
     image: mcr.microsoft.com/mssql/server:2022-latest
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
   notificationProcessordb:
     image: mcr.microsoft.com/mssql/server:2022-latest
   discountdbViewer:
@@ -59,6 +61,3 @@ volumes:
   pgadmin_data:
   notificationProcessor_data:
   salesorder_data:
-
-
-
