@@ -23,6 +23,8 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
   kibana:
     image: docker.elastic.co/kibana/kibana:7.9.2
+  portainer:
+    image: portainer/portainer-ce
 
   groceteria.catalogue.api:
     image: ${DOCKER_REGISTRY-}groceteriacatalogueapi
@@ -54,6 +56,12 @@ services:
       context: .
       dockerfile: Services/SalesOrder/Groceteria.SaleseOrder.Api/Dockerfile
 
+  groceteria.apigateway:
+    image: ${DOCKER_REGISTRY-}groceteriaapigateway
+    build:
+      context: .
+      dockerfile: Services/ApiGateways/Groceteria.ApiGateway/Dockerfile
+
 volumes:
   elasticsearch-data:
   cataloguedb_data:
@@ -61,3 +69,5 @@ volumes:
   pgadmin_data:
   notificationProcessor_data:
   salesorder_data:
+  portainer_data:
+

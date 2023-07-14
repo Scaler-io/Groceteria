@@ -10,9 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Mappers\CustomMappers\**" />
     <Compile Remove="Services\Interfaces\v1\**" />
+    <Content Remove="Mappers\CustomMappers\**" />
     <Content Remove="Services\Interfaces\v1\**" />
+    <EmbeddedResource Remove="Mappers\CustomMappers\**" />
     <EmbeddedResource Remove="Services\Interfaces\v1\**" />
+    <None Remove="Mappers\CustomMappers\**" />
     <None Remove="Services\Interfaces\v1\**" />
   </ItemGroup>
 
@@ -40,10 +44,6 @@
     <Protobuf Include="..\..\Discount\Groceteria.Discount.Grpc\Protos\Discount.proto" GrpcServices="Client">
       <Link>Protos\Discount.proto</Link>
     </Protobuf>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Mappers\CustomMappers\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="https://json.schemastore.org/local.settings.json" /></VisualStudio></ProjectExtensions>

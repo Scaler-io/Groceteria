@@ -1,4 +1,5 @@
 ﻿using Groceteria.ApiGateway.Infrastructures.Logger;
+using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Serilog;
 
@@ -12,11 +13,16 @@ namespace Groceteria.ApiGateway.DI
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var logIndexPattern = $"Groceteria.ApiGateway-{env?.ToLower().Replace(".", "-")}";
             var logger = LoggerConfig.Configure(configuration, logIndexPattern);
-            services.AddSingleton(Log.Logger)
-                    .AddSingleton(x => logger);
+
+            Log.Logger = logger;
+            services.AddSingleton(Log.Logger);
 
             // ocelot
-            services.AddOcelot();
+            services.AddOcelot()
+                .AddCacheManager(settings =>
+                {
+                    settings.WithDictionaryHandle();
+                });
 
             return services;
         }

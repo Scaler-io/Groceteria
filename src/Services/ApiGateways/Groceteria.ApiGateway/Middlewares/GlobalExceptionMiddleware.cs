@@ -1,4 +1,5 @@
-﻿using Groceteria.ApiGateway.Extensions.Logger;
+﻿using Groceteria.ApiGateway.Extensions.Environment;
+using Groceteria.ApiGateway.Extensions.Logger;
 using Groceteria.ApiGateway.Models.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -41,7 +42,7 @@ namespace Groceteria.ApiGateway.Middlewares
             var message = e.Message;
             var stackTrace = e.StackTrace;
 
-            var response = _environment.IsDevelopment() 
+            var response = _environment.IsDevelopment() || _environment.IsLocal()
                             ? new ErrorResponse(code, message, stackTrace)
                             : new ErrorResponse(code, message);
 

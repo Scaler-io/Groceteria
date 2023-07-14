@@ -15,7 +15,7 @@ namespace Groceteria.Basket.Api.Controllers.v1
         }
 
         [HttpGet]
-        [Route("healthcheck")]
+        [Route("basket/healthcheck")]
         [SwaggerHeader("CorrelationId", "string", "", false)]
         [SwaggerOperation(OperationId = "GetHealthCheckResult", Summary = "Performs api endpoint healthcheck")]
         public IActionResult GetHealthCheckResult()

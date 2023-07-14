@@ -28,7 +28,7 @@ namespace Groceteria.ApiGateway.Infrastructures.Logger
                 .Enrich.WithProperty(nameof(Environment.MachineName), Environment.MachineName)
                 .Enrich.WithEnvironmentName()
                 .Enrich.WithMachineName()
-                .CreateLogger(); ;
+                .CreateLogger();
         }
     }
 }
