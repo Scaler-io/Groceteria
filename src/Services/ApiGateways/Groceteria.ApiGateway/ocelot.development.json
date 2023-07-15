@@ -11,10 +11,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/healthcheck",
-      "UpstreamHttpMethod": [ "Get" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -37,10 +34,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/brands",
-      "UpstreamHttpMethod": [ "Get" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -62,10 +56,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/brand",
-      "UpstreamHttpMethod": [ "Get" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -87,10 +78,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/brands/upsert",
-      "UpstreamHttpMethod": [ "Post" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Post"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -109,10 +97,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/brand/delete",
-      "UpstreamHttpMethod": [ "Delete" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Delete"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -131,10 +116,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/categories",
-      "UpstreamHttpMethod": [ "Get" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -156,10 +138,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/categories/{id}",
-      "UpstreamHttpMethod": [ "Get" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -181,10 +160,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/category/upsert",
-      "UpstreamHttpMethod": [ "Post" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Post"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -203,10 +179,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/category/{id}",
-      "UpstreamHttpMethod": [ "Delete" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Delete"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -225,10 +198,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/products",
-      "UpstreamHttpMethod": [ "Get" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -250,10 +220,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/bulk/products",
-      "UpstreamHttpMethod": [ "Get" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -272,10 +239,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/product/{id}",
-      "UpstreamHttpMethod": [ "Get" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -294,10 +258,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/products/upsert",
-      "UpstreamHttpMethod": [ "Post" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Post"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -316,10 +277,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/products/delete/{id}",
-      "UpstreamHttpMethod": [ "Delete" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Delete"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -340,10 +298,7 @@
         }
       ],
       "UpstreamPathTemplate": "/basket/healthcheck",
-      "UpstreamHttpMethod": [ "Get" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -363,10 +318,7 @@
         }
       ],
       "UpstreamPathTemplate": "/basket",
-      "UpstreamHttpMethod": [ "Get" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -385,10 +337,7 @@
         }
       ],
       "UpstreamPathTemplate": "/basket/update",
-      "UpstreamHttpMethod": [ "Post" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Post"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -407,10 +356,7 @@
         }
       ],
       "UpstreamPathTemplate": "/basket/delete/{username}",
-      "UpstreamHttpMethod": [ "Delete" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Delete"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -429,10 +375,7 @@
         }
       ],
       "UpstreamPathTemplate": "/basket/checkout/{username}",
-      "UpstreamHttpMethod": [ "Post" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Post"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -448,14 +391,12 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "groceteria.saleseorder.api"
+          "Host": "groceteria.saleseorder.api",
+          "Port": "80"
         }
       ],
       "UpstreamPathTemplate": "/slaesorder/healthcheck",
-      "UpstreamHttpMethod": [ "Get" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -470,14 +411,12 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
+          "Host": "groceteria.saleseorder.api",
           "Port": "80"
         }
       ],
       "UpstreamPathTemplate": "/salesorder/{username}",
-      "UpstreamHttpMethod": [ "Get" ],
-      "GlobalConfiguration": {
-        "BaseUrl": "http://locahost:8010"
-      },
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -486,5 +425,8 @@
         "Limit": 1
       }
     }
-  ]
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://locahost:8010"
+  }
 }

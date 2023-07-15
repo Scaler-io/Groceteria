@@ -139,7 +139,7 @@ services:
       - LoggerConfigOption:OverrideSource=Microsoft
       - LoggerConfigOption:OutputTemplate={NewLine} [{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Properties} {NewLine} {Message} {Exception}
       - "Elasticsearch:Uri=http://elasticsearch:9200"
-      - "CatalogueApiSettings:baseAddress=http://groceteria.catalogue.api"
+      - "CatalogueApiSettings:baseAddress=http://groceteria.apigateway/Catalogue"
       - "CatalogueApiSettings:version=v2"
       - "RedisCache:InstanceName=Groceteria.Basket.Cache"
       - "RedisCache:ConnectionString=basketdb:6379"
