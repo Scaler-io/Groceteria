@@ -1,0 +1,432 @@
+{
+  "Routes": [
+    //Catalogue API - v1
+    {
+      "DownstreamPathTemplate": "/api/v1/catalogue/healthCheck",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.catalogue.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/catalogue/healthcheck",
+      "UpstreamHttpMethod": ["Get"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      }
+    },
+    //Catalogue API - v2
+    {
+      "DownstreamPathTemplate": "/api/v2/brands",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.catalogue.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/catalogue/brands",
+      "UpstreamHttpMethod": ["Get"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/brand",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.catalogue.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/catalogue/brand",
+      "UpstreamHttpMethod": ["Get"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/brand/upsert",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.catalogue.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/catalogue/brands/upsert",
+      "UpstreamHttpMethod": ["Post"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/brand/delete",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.catalogue.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/catalogue/brand/delete",
+      "UpstreamHttpMethod": ["Delete"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/categories",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.catalogue.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/catalogue/categories",
+      "UpstreamHttpMethod": ["Get"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/categories/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.catalogue.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/catalogue/categories/{id}",
+      "UpstreamHttpMethod": ["Get"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/category/upsert",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.catalogue.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/catalogue/category/upsert",
+      "UpstreamHttpMethod": ["Post"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/category/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.catalogue.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/catalogue/category/{id}",
+      "UpstreamHttpMethod": ["Delete"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/products",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.catalogue.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/catalogue/products",
+      "UpstreamHttpMethod": ["Get"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/bulk/products",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.catalogue.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/catalogue/bulk/products",
+      "UpstreamHttpMethod": ["Get"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/product/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.catalogue.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/catalogue/product/{id}",
+      "UpstreamHttpMethod": ["Get"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/products/upsert",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.catalogue.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/catalogue/products/upsert",
+      "UpstreamHttpMethod": ["Post"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/products/delete/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.catalogue.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/catalogue/products/delete/{id}",
+      "UpstreamHttpMethod": ["Delete"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+
+    // Basket API - v1
+    {
+      "DownstreamPathTemplate": "/api/v1/basket/healthcheck",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.basket.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/basket/healthcheck",
+      "UpstreamHttpMethod": ["Get"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    // Basket API - v2
+    {
+      "DownstreamPathTemplate": "/api/v2/basket",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.basket.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/basket",
+      "UpstreamHttpMethod": ["Get"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/basket/update",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.basket.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/basket/update",
+      "UpstreamHttpMethod": ["Post"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/basket/delete/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.basket.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/basket/delete/{username}",
+      "UpstreamHttpMethod": ["Delete"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v2/basket/checkout/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.basket.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/basket/checkout/{username}",
+      "UpstreamHttpMethod": ["Post"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+
+    // Ordering API - v1
+    {
+      "DownstreamPathTemplate": "/api/v1/salesorder/healthcheck",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.saleseorder.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/salesorder/healthcheck",
+      "UpstreamHttpMethod": ["Get"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    // Ordering API - v2
+    {
+      "DownstreamPathTemplate": "/api/v2/order/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "groceteria.saleseorder.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/salesorder/{username}",
+      "UpstreamHttpMethod": ["Get"],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://locahost:8010"
+  }
+}

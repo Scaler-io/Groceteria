@@ -4,6 +4,5 @@
     {
         public const string catalogueApiSettings = "CatalogueApiSettings";
         public string BaseAddress { get; set; }
-        public string Version { get; set; }
     }
 }

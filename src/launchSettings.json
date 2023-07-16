@@ -8,7 +8,8 @@
         "groceteria.catalogue.api": "StartDebugging",
         "groceteria.discount.grpc": "StartDebugging",
         "groceteria.notificationmessgae.processor": "StartDebugging",
-        "groceteria.saleseorder.api": "StartDebugging"
+        "groceteria.saleseorder.api": "StartDebugging",
+        "groceteria.apigateway": "StartDebugging"
       }
     }
   }

@@ -33,7 +33,7 @@ namespace Groceteria.Basket.Api.Services.v2
             _logger.Here().Information("SearchProduct - {@ids}", prodictIds);
 
             using var client = _httpClientFactory.CreateClient(HttpClientNames.CatalogueApi);
-            var route = $"/api/{_catalogueApi.Version}/bulk/products?productIds={prodictIds}";
+            var route = $"{_catalogueApi.BaseAddress}/bulk/products?productIds={prodictIds}";
             using var request = new HttpRequestMessage(HttpMethod.Get, route);
             request.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse(MediaTypeNames.Application.Json));
             var httpResponse = await client.SendAsync(request);

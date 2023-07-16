@@ -3,7 +3,6 @@ version: '3.4'
 services:
   cataloguedb:
     container_name: cataloguedb
-    restart: always
     volumes:
        - cataloguedb_data:/data/db
     ports:
@@ -11,7 +10,6 @@ services:
 
   cataloguedbViewer:
     container_name: cataloguedbViewer
-    restart: always
     depends_on:
        - cataloguedb
     environment:
@@ -22,12 +20,10 @@ services:
 
   basketdb:
     container_name: basketdb
-    restart: always
     ports:
       - "6379:6379"
   basketdbViewer:
     container_name: basketdbViewer
-    restart: always
     depends_on:
        - basketdb
     environment:
@@ -37,7 +33,6 @@ services:
 
   discountdb:
     container_name: discountdb
-    restart: always
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin1234
@@ -53,7 +48,6 @@ services:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=Orderdb@123
       - MSSQL_PID=Express 
-    restart: always
     ports:
       - 1433:1433
     volumes:
@@ -61,7 +55,6 @@ services:
    
   rabbitmq:
     container_name: rabbitmq
-    restart: always
     ports:
       - 5672:5672
       - 15672:15672
@@ -71,7 +64,6 @@ services:
 
   discountdbViewer:
     container_name: discountdbViewer
-    restart: always
     depends_on:
       - discountdb
     environment:
@@ -88,7 +80,6 @@ services:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=notification@123
       - MSSQL_PID=Express
-    restart: always
     ports:
       - 1434:1433
     volumes:
@@ -96,7 +87,6 @@ services:
 
   elasticsearch:
     container_name: 'elasticsearch'
-    restart: always
     ports:
     - 9200:9200
     volumes:
@@ -109,7 +99,6 @@ services:
 
   kibana:
     container_name: kibana
-    restart: always
     ports:
     - 5601:5601
     depends_on:
@@ -117,10 +106,17 @@ services:
     environment:
     - ELASTICSEARCH_URL=http://elasticsearch:9200
 
+  portainer:
+    container_name: portainer
+    ports:
+    - 7000:8000
+    - 9000:9000
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - portainer_data:/data 
 
   groceteria.catalogue.api:
     container_name: groceteria.catalogue.api
-    restart: always
     depends_on:
       - cataloguedb
     environment:
@@ -135,7 +131,6 @@ services:
 
   groceteria.basket.api:
     container_name: groceteria.basket.api
-    restart: always
     depends_on:
       - basketdb
       - groceteria.catalogue.api
@@ -144,7 +139,7 @@ services:
       - LoggerConfigOption:OverrideSource=Microsoft
       - LoggerConfigOption:OutputTemplate={NewLine} [{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Properties} {NewLine} {Message} {Exception}
       - "Elasticsearch:Uri=http://elasticsearch:9200"
-      - "CatalogueApiSettings:baseAddress=http://groceteria.catalogue.api"
+      - "CatalogueApiSettings:baseAddress=http://groceteria.apigateway/Catalogue"
       - "CatalogueApiSettings:version=v2"
       - "RedisCache:InstanceName=Groceteria.Basket.Cache"
       - "RedisCache:ConnectionString=basketdb:6379"
@@ -156,7 +151,6 @@ services:
 
   groceteria.discount.grpc:
     container_name: groceteria.discount.grpc
-    restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - LoggerConfigOption:OverrideSource=Microsoft
@@ -170,7 +164,6 @@ services:
 
   groceteria.notificationmessgae.processor:
     container_name: groceteria.notification.processor
-    restart: always
     depends_on:
       - notificationProcessordb 
     environment:
@@ -189,7 +182,6 @@ services:
   
   groceteria.saleseorder.api:
     container_name: groceteria.saleseorder.api
-    restart: always
     depends_on:
       - orderdb
       - notificationProcessordb
@@ -203,4 +195,19 @@ services:
       - "RabbitMq:ConnectionString=amqp://user:Passw0rd@rabbitmq:5672"
     ports:
       - "8003:80"
+
+
+  groceteria.apigateway:
+    container_name: groceteria.apigateway
+    depends_on:
+      - groceteria.catalogue.api
+      - groceteria.basket.api
+      - groceteria.saleseorder.api 
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - LoggerConfigOption:OverrideSource=Microsoft
+      - LoggerConfigOption:OutputTemplate={NewLine} [{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Properties} {NewLine} {Message} {Exception}
+      - "Elasticsearch:Uri=http://elasticsearch:9200"
+    ports:
+      - "8010:80"
 

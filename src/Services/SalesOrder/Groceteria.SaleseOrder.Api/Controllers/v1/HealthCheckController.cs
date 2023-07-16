@@ -19,7 +19,7 @@ namespace Groceteria.SaleseOrder.Api.Controllers.v1
         }
 
         [HttpGet]
-        [Route("healthCheck")]
+        [Route("salesOrder/healthCheck")]
         [SwaggerHeader("CorrelationId", "string", "", false)]
         [SwaggerOperation(OperationId = "GetHealthCheckResult", Summary = "Performs api endpoint healthcheck")]
         // 200
