@@ -16,19 +16,26 @@ namespace Groceteria.Catalogue.Api.Services.v2.Products
     {
         private readonly ILogger _logger;
         private readonly IMongoRepository<Product> _productRepository;
+        private readonly IMongoRepository<Brand> _brandRepository;
+        private readonly IMongoRepository<Category> _categoryRepository;
+
         private readonly IMapper _mapper;
         private readonly string _productCollection;
 
-        public ProductService(ILogger logger, 
-            IMongoRepository<Product> productRepository, 
+        public ProductService(ILogger logger,
+            IMongoRepository<Product> productRepository,
             IMapper mapper,
-            IHttpContextAccessor httpContext)
-            :base(httpContext, logger)
+            IHttpContextAccessor httpContext,
+            IMongoRepository<Brand> brandRepository,
+            IMongoRepository<Category> categoryRepository)
+            : base(httpContext, logger)
         {
             _logger = logger;
             _productRepository = productRepository;
             _mapper = mapper;
             _productCollection = MongodbCollectionNames.Products;
+            _brandRepository = brandRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<Result<bool>> CreateProduct(ProductUpsertRequest request)
@@ -36,14 +43,32 @@ namespace Groceteria.Catalogue.Api.Services.v2.Products
             _logger.Here().MethodEnterd();
             _logger.Here().Information("Request - create product. {@request}", request);
 
-            var product = _mapper.Map<Product>(request);
-            await _productRepository.UpsertAsync(product, _productCollection);
+            var product = await PrepareProductEntity(request);
 
+            await _productRepository.UpsertAsync(product, _productCollection);
 
             _logger.Here().Information("Product created successfully. {@id}", product.Id);
             _logger.Here().MethodExited();
 
             return Result<bool>.Success(true);
+        }
+
+        private async Task<Product> PrepareProductEntity(ProductUpsertRequest request)
+        {
+            var productEntity = _mapper.Map<Product>(request);
+
+            var brandTask = _brandRepository.GetByIdAsync(request.BrandId, MongodbCollectionNames.Brands);
+            var categoryTask = _categoryRepository.GetByIdAsync(request.CategoryId, MongodbCollectionNames.Categories);
+
+            await Task.WhenAll(brandTask, categoryTask);
+
+            var brandDetails = brandTask.Result;
+            var categoryDetails = categoryTask.Result;
+
+            productEntity.Brand = brandDetails;
+            productEntity.Category = categoryDetails;
+
+            return productEntity;
         }
 
         public async Task DeleteProduct(string id)
