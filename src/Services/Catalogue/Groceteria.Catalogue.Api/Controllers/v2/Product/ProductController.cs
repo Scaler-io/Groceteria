@@ -124,8 +124,8 @@ namespace Groceteria.Catalogue.Api.Controllers.v2.Product
         [SwaggerHeader("CorrelationId", "string", "", false)]
         // 200
         [SwaggerOperation(OperationId = "DeleteProductsCollection", Summary = "Deletes product details")]
-        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(ProductResponseExample))]
-        [ProducesResponseType(typeof(IReadOnlyList<ProductResponse>), (int)HttpStatusCode.OK)]
+        [SwaggerResponseExample((int)HttpStatusCode.NoContent, typeof(void))]
+        [ProducesResponseType(typeof(IReadOnlyList<ProductResponse>), (int)HttpStatusCode.NoContent)]
         // 400
         [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(BadRequestApiResponseExample))]
         [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.BadRequest)]
@@ -135,12 +135,12 @@ namespace Groceteria.Catalogue.Api.Controllers.v2.Product
         // 500
         [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(InternalServerErrrorResponseExample))]
         [ProducesResponseType(typeof(ApiExceptionResponse), (int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> GetBrandList([FromQuery] RequestQuery query)
+        public async Task<IActionResult> DeleteProduct([FromRoute] string id)
         {
             Logger.Here().MethodEnterd();
-            var result = await _productService.GetAllProducts(query);
+            await _productService.DeleteProduct(id);
             Logger.Here().MethodExited();
-            return OkOrFailure(result);
+            return NoContent();
         }
     }
 }
