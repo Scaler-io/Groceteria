@@ -53,6 +53,17 @@ services:
     volumes:
       - salesorder_data:/var/opt/mssql
    
+  identityProviderDb:
+    container_name: identityProviderDb
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=P@ssw0rd
+      - MSSQL_PID=Express
+    ports:
+      - 1435:1433
+    volumes:
+      - identity_data:/var/opt/mssql
+       
   rabbitmq:
     container_name: rabbitmq
     ports:

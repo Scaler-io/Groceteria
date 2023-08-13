@@ -15,6 +15,8 @@ services:
     image: rabbitmq:3.12-management-alpine
   notificationProcessordb:
     image: mcr.microsoft.com/mssql/server:2022-latest
+  identityProviderDb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
   discountdbViewer:
     image: dpage/pgadmin4
   basketdbViewer:
@@ -70,4 +72,5 @@ volumes:
   notificationProcessor_data:
   salesorder_data:
   portainer_data:
+  identity_data:
 

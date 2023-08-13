@@ -45,7 +45,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Swagger", "Services\SalesOr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{6C3F84DB-D1FF-4DE8-B315-A0B7CA5B1212}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Groceteria.ApiGateway", "Services\ApiGateways\Groceteria.ApiGateway\Groceteria.ApiGateway.csproj", "{53FCCC75-C39E-4672-AAA9-2A53DC5C16FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groceteria.ApiGateway", "Services\ApiGateways\Groceteria.ApiGateway\Groceteria.ApiGateway.csproj", "{53FCCC75-C39E-4672-AAA9-2A53DC5C16FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityServer", "{15B864D6-3503-44D6-8234-53D8A7A6809B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Groceteria.IdentityProvider", "Services\IdentityServer\Groceteria.IdentityProvider\Groceteria.IdentityProvider.csproj", "{D4C2FEF9-E3FF-4284-886D-49471B5C21EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Groceteria.IdentityManager.Api", "Services\IdentityServer\Groceteria.IdentityManager.Api\Groceteria.IdentityManager.Api.csproj", "{6F5E4AD5-C71A-455B-993C-8353D4023483}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +111,14 @@ Global
 		{53FCCC75-C39E-4672-AAA9-2A53DC5C16FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53FCCC75-C39E-4672-AAA9-2A53DC5C16FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53FCCC75-C39E-4672-AAA9-2A53DC5C16FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4C2FEF9-E3FF-4284-886D-49471B5C21EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4C2FEF9-E3FF-4284-886D-49471B5C21EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4C2FEF9-E3FF-4284-886D-49471B5C21EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4C2FEF9-E3FF-4284-886D-49471B5C21EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F5E4AD5-C71A-455B-993C-8353D4023483}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F5E4AD5-C71A-455B-993C-8353D4023483}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F5E4AD5-C71A-455B-993C-8353D4023483}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F5E4AD5-C71A-455B-993C-8353D4023483}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,6 +143,8 @@ Global
 		{16166C28-94BB-44A8-B530-14F8632F7A5E} = {34C8A6E1-C0C4-4264-831A-AA8E032D7596}
 		{57CBE4D7-B8C1-469C-8610-9052508DD6D9} = {34C8A6E1-C0C4-4264-831A-AA8E032D7596}
 		{53FCCC75-C39E-4672-AAA9-2A53DC5C16FB} = {6C3F84DB-D1FF-4DE8-B315-A0B7CA5B1212}
+		{D4C2FEF9-E3FF-4284-886D-49471B5C21EF} = {15B864D6-3503-44D6-8234-53D8A7A6809B}
+		{6F5E4AD5-C71A-455B-993C-8353D4023483} = {15B864D6-3503-44D6-8234-53D8A7A6809B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD4DE02C-8D15-412D-B3F2-3497DE266763}
