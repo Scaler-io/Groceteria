@@ -1,6 +1,5 @@
 ﻿using Groceteria.IdentityProvider.Configurations.Client;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 
 namespace Groceteria.IdentityProvider.DependencyInjections
@@ -31,6 +30,7 @@ namespace Groceteria.IdentityProvider.DependencyInjections
                     sql => sql.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().ToString())
                 );
             })
+            .AddTestUsers(IdentityConfig.TestUsers)
             .AddDeveloperSigningCredential();
 
             return services;

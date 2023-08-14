@@ -21,19 +21,26 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
-app.UseRouting();
-
 app.UseIdentityServer();
 
-app.MapGet("/", () =>
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
 {
-    using (var scope = app.Services.CreateScope())
-    {
-        var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
-        logger.Here().WithCorrelationId(Guid.NewGuid().ToString()).Information("Enriching correlation id");
-    }
-        return "Hello World!";
+    endpoints.MapDefaultControllerRoute();
 });
+
+//app.MapGet("/", () =>
+//{
+//    using (var scope = app.Services.CreateScope())
+//    {
+//        var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
+//        logger.Here().WithCorrelationId(Guid.NewGuid().ToString()).Information("Enriching correlation id");
+//    }
+//    return "Hello World!";
+//});
 
 await app.MigrateAsycn(configuration);
 
