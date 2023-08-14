@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BuildWebCompiler2022" Version="1.14.10" />
     <PackageReference Include="Destructurama.Attributed" Version="3.1.0" />
     <PackageReference Include="IdentityServer4" Version="4.1.2" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
@@ -29,6 +30,10 @@
     <Using Include="Serilog.ILogger">
       <Alias>ILogger</Alias>
     </Using>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\css\nav\" />
   </ItemGroup>
 
 </Project>

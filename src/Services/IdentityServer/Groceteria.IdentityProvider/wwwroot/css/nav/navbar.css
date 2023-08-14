@@ -1,0 +1,56 @@
+﻿/* Navbar styles */
+.nav-page {
+  padding: 10px;
+}
+.nav-page .navbar {
+  background-color: #ffffff; /* White background */
+  padding: 10px;
+  border-radius: 4px;
+}
+.nav-page .navbar .navbar-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333333; /* Replace with your desired text color */
+  font-size: 20px;
+}
+.nav-page .navbar .navbar-brand img.icon-banner {
+  width: 80px; /* Set your desired width for the icon */
+}
+.nav-page .navbar .navbar-nav {
+  margin-left: auto;
+}
+.nav-page .navbar .navbar-nav .nav-item {
+  list-style: none;
+  display: inline-block;
+  margin-left: 10px;
+}
+.nav-page .navbar .navbar-nav .nav-item .nav-link {
+  text-decoration: none;
+  color: #333333; /* Replace with your desired text color */
+  position: relative;
+  padding: 10px 15px;
+}
+.nav-page .navbar .navbar-nav .nav-item .nav-link:hover {
+  background-color: #eeeeee; /* Replace with your desired hover background color */
+  border-radius: 4px;
+}
+.nav-page .navbar .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #ffffff; /* White background for dropdown */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Mat shadow for dropdown */
+  border-radius: 4px;
+  display: none;
+}
+.nav-page .navbar .dropdown-menu .dropdown-item {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333333; /* Replace with your desired text color */
+}
+.nav-page .navbar .dropdown-menu .dropdown-item:hover {
+  background-color: #eeeeee; /* Replace with your desired hover background color */
+  border-radius: 4px;
+}

@@ -8,9 +8,9 @@ namespace IdentityServerHost.Quickstart.UI
 {
     public class LoginInputModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please enter valid username")]
         public string Username { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter valid password")]
         public string Password { get; set; }
         public bool RememberLogin { get; set; }
         public string ReturnUrl { get; set; }
