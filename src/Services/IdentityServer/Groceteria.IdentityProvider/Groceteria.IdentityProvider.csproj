@@ -36,4 +36,8 @@
     <Folder Include="wwwroot\css\nav\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GrOceteria.Identity.Shared\Groceteria.Identity.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
