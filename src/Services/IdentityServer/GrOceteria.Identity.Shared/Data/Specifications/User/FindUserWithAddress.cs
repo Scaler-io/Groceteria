@@ -7,7 +7,7 @@ namespace Groceteria.Identity.Shared.Data.Specifications.User
         public FindUserWithAddress()
             
         {
-            AddIncludes("Addresses")
+            AddIncludes("Addresses");
         }
     }
 }

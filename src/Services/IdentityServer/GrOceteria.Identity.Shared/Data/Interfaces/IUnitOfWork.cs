@@ -3,6 +3,6 @@
     public interface IUnitOfWork
     {
         IBaseRepository<TEntity> Repository<TEntity>() where TEntity : class;
-        Task<Guid> Complete();
+        Task<int> Complete();
     }
 }

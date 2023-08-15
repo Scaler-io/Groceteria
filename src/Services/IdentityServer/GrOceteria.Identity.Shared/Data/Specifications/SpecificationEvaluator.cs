@@ -1,4 +1,5 @@
 ﻿using Groceteria.Identity.Shared.Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace Groceteria.Identity.Shared.Data.Specifications

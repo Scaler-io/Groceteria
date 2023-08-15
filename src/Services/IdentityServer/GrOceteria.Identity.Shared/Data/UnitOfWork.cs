@@ -1,4 +1,5 @@
 ﻿using Groceteria.Identity.Shared.Data.Interfaces;
+using Groceteria.Identity.Shared.Data.Repositories;
 using System.Collections;
 
 namespace Groceteria.Identity.Shared.Data
@@ -27,7 +28,7 @@ namespace Groceteria.Identity.Shared.Data
 
             return (IBaseRepository<TEntity>)_repositories[type];
         }
-        public async Task<Guid> Complete()
+        public async Task<int> Complete()
         {
             return await _context.SaveChangesAsync();
         }

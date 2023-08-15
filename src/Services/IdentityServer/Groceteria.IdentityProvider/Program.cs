@@ -17,13 +17,13 @@ services.AddApplicationServices(configuration)
 
 var app = builder.Build();
 
-app.UseHttpsRedirection();
-
 app.UseStaticFiles();
 
-app.UseIdentityServer();
+app.UseHttpsRedirection();
 
 app.UseRouting();
+
+app.UseIdentityServer();
 
 app.UseAuthorization();
 

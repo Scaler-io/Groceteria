@@ -1,6 +1,7 @@
-﻿using Groceteria.Identity.Shared.Data;
-using Groceteria.Identity.Shared.Entities;
+﻿using Groceteria.Identity.Shared.Entities;
+using Groceteria.IdentityProvider.DataAccess;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Groceteria.IdentityProvider.DependencyInjections
 {
@@ -8,17 +9,20 @@ namespace Groceteria.IdentityProvider.DependencyInjections
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddControllersWithViews();
 
-            services.AddIdentityCore<AppUser>(options =>
+            services.AddDbContext<GroceteriaUserContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("UserDb"));
+            });
+
+            services.AddIdentity<AppUser, AppRole>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
             })
-            .AddRoles<AppRole>()
-            .AddRoleManager<RoleManager<AppRole>>()
-            .AddSignInManager<SignInManager<AppUser>>()
-            .AddRoleValidator<RoleValidator<AppRole>>()
-            .AddEntityFrameworkStores<GroceteriaUserContext>();
+            .AddEntityFrameworkStores<GroceteriaUserContext>()
+            .AddDefaultTokenProviders();
+
+            services.AddControllersWithViews();
 
             return services;
         }

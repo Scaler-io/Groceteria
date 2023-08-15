@@ -1,4 +1,5 @@
 ﻿using Groceteria.Identity.Shared.Data.Interfaces;
+using Groceteria.Identity.Shared.Data.Specifications;
 using Microsoft.EntityFrameworkCore;
 
 namespace Groceteria.Identity.Shared.Data.Repositories
@@ -29,7 +30,7 @@ namespace Groceteria.Identity.Shared.Data.Repositories
             return await ApplySpecification(spec).ToListAsync();
         }
 
-        public async Task<Guid> CountASync(ISpecification<T> spec)
+        public async Task<int> CountASync(ISpecification<T> spec)
         {
             return await ApplySpecification(spec).CountAsync();
         }
