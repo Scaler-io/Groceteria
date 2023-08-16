@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Groceteria.IdentityManager.Api.Controllers
 {
-    [Route("api/v{version:apiVersion}")]
+    [Route("api/v{version:apiVersion}/identity")]
     [ApiController]
     public class BaseApiController : ControllerBase
     {

@@ -12,9 +12,9 @@ var host = builder.Host;
 host.ConfigureAppConfiguration((context, config) =>
     {
         config.AddJsonFile($"ocelot.{context.HostingEnvironment.EnvironmentName}.json", true, true);
-    }).UseSerilog();
+    });
 
-services.AddGatewayServices(config);
+services.AddGatewayServices(host, config);
 var app = builder.Build();
 
 app.MapGet("/", () =>  "Hello world");

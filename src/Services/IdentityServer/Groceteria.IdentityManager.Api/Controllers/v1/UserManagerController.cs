@@ -1,4 +1,4 @@
-﻿using Groceteria.IdentityManager.Api.Models.Core;
+﻿using Groceteria.IdentityManager.Api.Extensions;
 using Groceteria.IdentityManager.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +18,9 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1
         [HttpGet("users")]
         public IActionResult GetUsers()
         {
+            Logger.Here().MethodEnterd();
+
+            Logger.Here().MethodExited();
             return Ok(CurrentUser);
         }
     }
