@@ -2,6 +2,7 @@
 using Groceteria.Identity.Shared.Models;
 using Groceteria.IdentityProvider.Extensions;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Groceteria.IdentityProvider.DataAccess
 {
@@ -52,7 +53,10 @@ namespace Groceteria.IdentityProvider.DataAccess
                     logger.Here().Information("User seed failure");
                     return;
                 }
-                var roleResult = await userManager.AddToRoleAsync(user, UserRoles.SuperAdmin.ToString());
+
+                var createdUser = await userManager.FindByEmailAsync(user.Email);
+
+                var roleResult = await userManager.AddToRoleAsync(createdUser, UserRoles.SuperAdmin.ToString());
                 if (roleResult.Succeeded)
                 {
                     logger.Here().Information("Admin role add to user failure");

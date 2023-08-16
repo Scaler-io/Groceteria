@@ -1,6 +1,7 @@
 ﻿using Groceteria.IdentityManager.Api.Configurations.Identity;
 using Groceteria.IdentityManager.Api.Models.Core;
 using Groceteria.IdentityManager.Api.Models.Enums;
+using Groceteria.IdentityManager.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -57,6 +58,10 @@ namespace Groceteria.IdentityManager.Api.DependencyInjections
             });
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            services.AddScoped<IIdentityService, IdentityService>();
+
+            services.AddHttpContextAccessor();
 
             return services;
         }

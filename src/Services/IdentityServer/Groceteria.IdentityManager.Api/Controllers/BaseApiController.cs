@@ -1,27 +1,33 @@
 ﻿using Groceteria.IdentityManager.Api.Extensions;
 using Groceteria.IdentityManager.Api.Models.Core;
 using Groceteria.IdentityManager.Api.Models.Enums;
+using Groceteria.IdentityManager.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Groceteria.IdentityManager.Api.Controllers
 {
     [Route("api/v{version:apiVersion}")]
     [ApiController]
-    public class BaseApiController: ControllerBase
+    public class BaseApiController : ControllerBase
     {
-        public ILogger Logger { get; set; }
-        public RequestInformation RequestInformation { get; set; }
+        protected readonly IIdentityService IdentityService;
+        protected readonly ILogger Logger;
 
-        public BaseApiController(ILogger logger)
+        public BaseApiController(ILogger logger, IIdentityService identityService)
         {
             Logger = logger;
-            RequestInformation = new RequestInformation
-            {
-                CorrelationId = GetOrGenerateCorelationId(),
-            };
+            IdentityService = identityService;
         }
 
-        public IActionResult OkOrFailure<T>(Result<T> result) where T : class
+        protected UserDto CurrentUser => IdentityService.PrepareUser();
+
+        protected RequestInformation RequestInformation => new RequestInformation
+        {
+            CorrelationId = GetOrGenerateCorelationId(),
+            CurrentUser = CurrentUser
+        };
+
+        protected IActionResult OkOrFailure<T>(Result<T> result) where T : class
         {
             if (result == null) return NotFound(new ApiResponse(ErrorCodes.NotFound));
             if (result.IsSuccess && result.Value == null) return NotFound(new ApiResponse(ErrorCodes.NotFound));
@@ -37,7 +43,7 @@ namespace Groceteria.IdentityManager.Api.Controllers
         }
 
 
-        public IActionResult CreatedWithRoute<T>(Result<T> result, string routeName, object param) where T : class
+        protected IActionResult CreatedWithRoute<T>(Result<T> result, string routeName, object param) where T : class
         {
             if (result.IsSuccess && result.Value != null) return CreatedAtRoute(
                     routeName,
@@ -48,6 +54,6 @@ namespace Groceteria.IdentityManager.Api.Controllers
             return OkOrFailure(result);
         }
 
-        protected string GetOrGenerateCorelationId() => Request?.GetRequestHeaderOrdefault("CorrelationId", $"GEN-{Guid.NewGuid().ToString()}");
+        protected string GetOrGenerateCorelationId() => Request?.GetRequestHeaderOrdefault("CorrelationId", $"GEN-{Guid.NewGuid().ToString()}");  
     }
 }
