@@ -3,10 +3,13 @@ using Groceteria.IdentityManager.Api.Models.Core;
 using Groceteria.IdentityManager.Api.Services;
 using Groceteria.IdentityManager.Api.Services.ApiClient;
 using Groceteria.IdentityManager.Api.Swagger;
+using Groceteria.IdentityManager.Api.Swagger.Examples;
+using Groceteria.IdentityManager.Api.Swagger.Examples.ErrorExamples;
 using IdentityServer4.EntityFramework.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Filters;
 using System.Net;
 
 namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiClient
@@ -28,7 +31,18 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiClient
         [HttpGet("clients")]
         [SwaggerHeader("CorrelationId", "expects unique correlation id")]
         [SwaggerOperation(OperationId = "GetApiClients", Description = "Fetches all api clients")]
+        // 200
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(ListAllApiClientExample))]
         [ProducesResponseType(typeof(IReadOnlyList<Client>), (int)HttpStatusCode.OK)]
+        // 404
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(NotFoundErrorExample))]
+        [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.NotFound)]
+        // 400
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(BadRequestErrorExample))]
+        [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.BadRequest)]
+        // 500
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(InternalServerErrorExample))]
+        [ProducesResponseType(typeof(ApiExceptionResponse), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetApiClients([FromQuery] RequestQuery queryParams)
         {
             Logger.Here().MethodEnterd();
