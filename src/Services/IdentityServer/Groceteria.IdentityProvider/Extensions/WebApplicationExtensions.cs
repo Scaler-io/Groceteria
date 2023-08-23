@@ -1,4 +1,5 @@
-﻿using Groceteria.Identity.Shared.Entities;
+﻿using Groceteria.Identity.Shared.Data;
+using Groceteria.Identity.Shared.Entities;
 using Groceteria.IdentityProvider.Configurations.Client;
 using Groceteria.IdentityProvider.DataAccess;
 using IdentityServer4.EntityFramework.DbContexts;

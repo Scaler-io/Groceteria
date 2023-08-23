@@ -1,7 +1,8 @@
-﻿using Groceteria.Identity.Shared.Entities;
-using Groceteria.IdentityProvider.DataAccess;
+﻿using Groceteria.Identity.Shared.Data;
+using Groceteria.Identity.Shared.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Groceteria.IdentityProvider.DependencyInjections
 {
@@ -12,7 +13,10 @@ namespace Groceteria.IdentityProvider.DependencyInjections
 
             services.AddDbContext<GroceteriaUserContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("UserDb"));
+                options.UseSqlServer(configuration.GetConnectionString("UserDb"), sql =>
+                {
+                    sql.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
+                });
             });
 
             services.AddIdentity<AppUser, AppRole>(options =>

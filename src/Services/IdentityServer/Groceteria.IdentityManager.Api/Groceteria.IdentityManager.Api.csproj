@@ -27,16 +27,18 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="6.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GrOceteria.Identity.Shared\Groceteria.Identity.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Serilog.ILogger">
       <Alias>ILogger</Alias>
     </Using>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DataAccess\" />
   </ItemGroup>
 
 </Project>

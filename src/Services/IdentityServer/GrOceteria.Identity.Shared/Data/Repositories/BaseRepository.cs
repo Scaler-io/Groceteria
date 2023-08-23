@@ -6,8 +6,8 @@ namespace Groceteria.Identity.Shared.Data.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        private readonly GroceteriaUserContext _context;
-        public BaseRepository(GroceteriaUserContext context)
+        private readonly DbContext _context;
+        public BaseRepository(DbContext context)
         {
             _context = context;
         }

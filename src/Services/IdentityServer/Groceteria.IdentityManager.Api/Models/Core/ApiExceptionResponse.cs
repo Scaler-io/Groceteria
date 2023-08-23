@@ -8,6 +8,7 @@ namespace Groceteria.IdentityManager.Api.Models.Core
         public ApiExceptionResponse(string errorMessages = "", string stackTrace = "")
             :base(ErrorCodes.InternalServerError)
         {
+            ErrorMessage = errorMessages ?? GetDefaultMessage(Code);
             StackTrace = stackTrace;
         }
     }

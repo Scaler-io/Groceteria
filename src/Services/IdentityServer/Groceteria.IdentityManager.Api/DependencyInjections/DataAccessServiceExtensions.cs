@@ -1,4 +1,5 @@
-﻿using IdentityServer4.EntityFramework.DbContexts;
+﻿using Groceteria.Identity.Shared.Data;
+using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Storage;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,11 @@ namespace Groceteria.IdentityManager.Api.DependencyInjections
     {
         public static IServiceCollection AddDataAccessServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddDbContext<GroceteriaUserContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("UserDb"));
+            });
+
             services.AddConfigurationDbContext(options =>
             {
                 options.ConfigureDbContext = c =>

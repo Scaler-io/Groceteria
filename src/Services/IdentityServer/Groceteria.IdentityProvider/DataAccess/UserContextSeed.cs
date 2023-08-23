@@ -61,6 +61,17 @@ namespace Groceteria.IdentityProvider.DataAccess
                 {
                     logger.Here().Information("Admin role add to user failure");
                 }
+
+                var claims = new List<Claim>
+                {
+                    new Claim("email", createdUser.Email),
+                    new Claim("username", createdUser.UserName),
+                    new Claim("roles", UserRoles.SuperAdmin.ToString()),
+                    new Claim("firtsName", createdUser.Firstname),
+                    new Claim("lastName", createdUser.LastName),
+                };
+
+                await userManager.AddClaimsAsync(createdUser, claims);
             }
         }
     }

@@ -82,7 +82,7 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AddressType = table.Column<int>(type: "int", nullable: false),
+                    AddressType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AddressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Landmark = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),

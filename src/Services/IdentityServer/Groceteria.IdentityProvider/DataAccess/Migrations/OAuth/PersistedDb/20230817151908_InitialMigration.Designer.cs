@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Groceteria.IdentityProvider.DataAccess.Migrations.OAuth.PersistedDb
 {
     [DbContext(typeof(PersistedGrantDbContext))]
-    [Migration("20230812190043_InitialMigration")]
+    [Migration("20230817151908_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
