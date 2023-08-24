@@ -7,5 +7,6 @@ namespace Groceteria.IdentityManager.Api.Services.ApiClient
     public interface IClientManageService
     {
         Task<Result<Pagination<ApiClientDto>>> GetApiClients(RequestQuery queryParams, RequestInformation requestInformation);
+        Task<Result<bool>> UpsertApiClient(ApiClientDto clientEntity, RequestInformation requestInformation);
     }
 }

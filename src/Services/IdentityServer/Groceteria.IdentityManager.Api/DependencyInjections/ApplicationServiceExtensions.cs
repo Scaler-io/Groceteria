@@ -1,4 +1,6 @@
-﻿using Groceteria.IdentityManager.Api.Configurations.Identity;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using Groceteria.IdentityManager.Api.Configurations.Identity;
 using Groceteria.IdentityManager.Api.Models.Core;
 using Groceteria.IdentityManager.Api.Models.Enums;
 using Groceteria.IdentityManager.Api.Services;
@@ -79,7 +81,8 @@ namespace Groceteria.IdentityManager.Api.DependencyInjections
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateAudience = true,
-                        ValidateIssuer = true
+                        ValidateIssuer = true,
+                        ClockSkew = TimeSpan.Zero
                     };
                 });
 
@@ -89,6 +92,8 @@ namespace Groceteria.IdentityManager.Api.DependencyInjections
             });
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddScoped<IIdentityService, IdentityService>();
 

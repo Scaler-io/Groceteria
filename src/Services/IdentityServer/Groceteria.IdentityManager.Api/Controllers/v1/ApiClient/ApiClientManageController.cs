@@ -1,5 +1,6 @@
 ﻿using Groceteria.IdentityManager.Api.Extensions;
 using Groceteria.IdentityManager.Api.Models.Core;
+using Groceteria.IdentityManager.Api.Models.Dtos;
 using Groceteria.IdentityManager.Api.Services;
 using Groceteria.IdentityManager.Api.Services.ApiClient;
 using Groceteria.IdentityManager.Api.Swagger;
@@ -47,6 +48,19 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiClient
         {
             Logger.Here().MethodEnterd();
             var result = await _clientService.GetApiClients(queryParams, RequestInformation);
+            Logger.Here().MethodExited();
+            return OkOrFailure(result);
+        }
+
+
+        [HttpPost("client/create")]
+        [SwaggerHeader("CorrelationId", "expects unique correlation id")]
+        [SwaggerOperation(OperationId = "CreateOrUpdateApiClient", Description = "Creates or updates api clients")]
+
+        public async Task<IActionResult> CreateOrUpdateApiClient([FromBody] ApiClientDto client)
+        {
+            Logger.Here().MethodEnterd();
+            var result = await _clientService.UpsertApiClient(client, RequestInformation);
             Logger.Here().MethodExited();
             return OkOrFailure(result);
         }

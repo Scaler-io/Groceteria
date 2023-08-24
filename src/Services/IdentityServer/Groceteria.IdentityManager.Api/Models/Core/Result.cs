@@ -2,7 +2,7 @@
 
 namespace Groceteria.IdentityManager.Api.Models.Core
 {
-    public class Result<T> where T: class
+    public class Result<T>
     {
         public bool IsSuccess { get; set; }
         public T Value { get; set; }

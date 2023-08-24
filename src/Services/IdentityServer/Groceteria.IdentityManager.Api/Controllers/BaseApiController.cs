@@ -27,7 +27,7 @@ namespace Groceteria.IdentityManager.Api.Controllers
             CurrentUser = CurrentUser
         };
 
-        protected IActionResult OkOrFailure<T>(Result<T> result) where T : class
+        protected IActionResult OkOrFailure<T>(Result<T> result)
         {
             if (result == null) return NotFound(new ApiResponse(ErrorCodes.NotFound));
             if (result.IsSuccess && result.Value == null) return NotFound(new ApiResponse(ErrorCodes.NotFound));
