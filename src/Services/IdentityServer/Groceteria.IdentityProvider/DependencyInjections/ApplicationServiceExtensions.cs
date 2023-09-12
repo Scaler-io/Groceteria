@@ -1,5 +1,6 @@
 ﻿using Groceteria.Identity.Shared.Data;
 using Groceteria.Identity.Shared.Entities;
+using Groceteria.IdentityProvider.Configurations.App;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -15,8 +16,7 @@ namespace Groceteria.IdentityProvider.DependencyInjections
             {
                 options.UseSqlServer(configuration.GetConnectionString("UserDb"), sql =>
                 {
-                    sql.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
-                    
+                    sql.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);                
                 });
                 options.EnableSensitiveDataLogging();
                 options.EnableDetailedErrors();
@@ -28,6 +28,8 @@ namespace Groceteria.IdentityProvider.DependencyInjections
             })
             .AddEntityFrameworkStores<GroceteriaUserContext>()
             .AddDefaultTokenProviders();
+
+            services.Configure<AppConfigurations>(configuration.GetSection("AppConfigurations"));
 
             services.AddControllersWithViews();
 

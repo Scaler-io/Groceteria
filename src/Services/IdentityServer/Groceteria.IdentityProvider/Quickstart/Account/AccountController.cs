@@ -3,8 +3,10 @@
 
 
 using Groceteria.Identity.Shared.Entities;
+using Groceteria.Identity.Shared.Models;
+using Groceteria.IdentityProvider.Configurations.App;
+using Groceteria.IdentityProvider.Extensions;
 using IdentityModel;
-using IdentityServer4;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
@@ -13,12 +15,9 @@ using IdentityServer4.Stores;
 using IdentityServer4.Test;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Data;
 
 namespace IdentityServerHost.Quickstart.UI
 {
@@ -31,13 +30,13 @@ namespace IdentityServerHost.Quickstart.UI
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private readonly TestUserStore _users;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signinManager;
+        private readonly ILogger _logger;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
@@ -46,18 +45,16 @@ namespace IdentityServerHost.Quickstart.UI
             IEventService events,
             SignInManager<AppUser> signinManager,
             UserManager<AppUser> userManager,
+            ILogger logger,
             TestUserStore users = null)
         {
-            // if the TestUserStore is not in DI, then we'll just use the global users collection
-            // this is where you would plug in your own custom identity management library (e.g. ASP.NET Identity)
-            _users = users ?? new TestUserStore(TestUsers.Users);
-
             _interaction = interaction;
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
             _events = events;
             _userManager = userManager;
             _signinManager = signinManager;
+            _logger = logger;  
         }
 
         /// <summary>
@@ -117,45 +114,55 @@ namespace IdentityServerHost.Quickstart.UI
 
             if (ModelState.IsValid)
             {
-                var result = await _signinManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, true);
-                // validate username/password against in-memory store
-                if (result.Succeeded)
+                var user = await _userManager.FindByNameAsync(model.Username);
+                var roles = await _userManager.GetRolesAsync(user);
+
+                _logger.Here().Information("user roles, {@roles}", roles);
+
+                if (roles.Contains(UserRoles.SuperAdmin.ToString()) || roles.Contains(UserRoles.SystemAdmin.ToString()))
                 {
-                    var user = await _userManager.FindByNameAsync(model.Username);
+                    var result = await _signinManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, true);
 
-                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id.ToString(), user.UserName, clientId: context?.Client.ClientId));
-
-                    if (context != null)
+                    // validate username/password against in-memory store
+                    if (result.Succeeded)
                     {
-                        if (context.IsNativeClient())
+                        user.LastLogin = DateTime.Now;
+                        await _userManager.UpdateAsync(user);
+
+                        await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id.ToString(), user.UserName, clientId: context?.Client.ClientId));
+
+                        if (context != null)
                         {
-                            // The client is native, so this change in how to
-                            // return the response is for better UX for the end user.
-                            return this.LoadingPage("Redirect", model.ReturnUrl);
+                            if (context.IsNativeClient())
+                            {
+                                // The client is native, so this change in how to
+                                // return the response is for better UX for the end user.
+                                return this.LoadingPage("Redirect", model.ReturnUrl);
+                            }
+
+                            // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
+                            return Redirect(model.ReturnUrl);
                         }
 
-                        // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                        return Redirect(model.ReturnUrl);
-                    }
-
-                    // request for a local page
-                    if (Url.IsLocalUrl(model.ReturnUrl))
-                    {
-                        return Redirect(model.ReturnUrl);
-                    }
-                    else if (string.IsNullOrEmpty(model.ReturnUrl))
-                    {
-                        return Redirect("~/");
-                    }
-                    else
-                    {
-                        // user might have clicked on a malicious link - should be logged
-                        throw new Exception("invalid return URL");
+                        // request for a local page
+                        if (Url.IsLocalUrl(model.ReturnUrl))
+                        {
+                            return Redirect(model.ReturnUrl);
+                        }
+                        else if (string.IsNullOrEmpty(model.ReturnUrl))
+                        {
+                            return Redirect("~/");
+                        }
+                        else
+                        {
+                            // user might have clicked on a malicious link - should be logged
+                            throw new Exception("invalid return URL");
+                        }
                     }
                 }
-
+               
                 await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId:context?.Client.ClientId));
-                ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
+                ModelState.AddModelError("Username", AccountOptions.InvalidCredentialsErrorMessage);
             }
 
             // something went wrong, show form with error

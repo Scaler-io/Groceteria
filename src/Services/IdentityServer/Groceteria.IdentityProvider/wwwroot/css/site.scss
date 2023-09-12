@@ -9,6 +9,12 @@ $color-primary: #00cc99;
     padding: 0;
 }
 
+body{
+    max-height: 100vh!important;
+    overflow: hidden!important;
+}
+
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #fff; /* Replace with your desired background color */
