@@ -9,7 +9,8 @@
         "groceteria.discount.grpc": "StartDebugging",
         "groceteria.notificationmessgae.processor": "StartDebugging",
         "groceteria.saleseorder.api": "StartDebugging",
-        "groceteria.apigateway": "StartDebugging"
+        "groceteria.apigateway": "StartDebugging",
+        "groceteria.identityprovider": "StartDebugging"
       }
     }
   }

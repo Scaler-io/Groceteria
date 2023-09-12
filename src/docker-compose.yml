@@ -64,6 +64,12 @@ services:
       context: .
       dockerfile: Services/ApiGateways/Groceteria.ApiGateway/Dockerfile
 
+  groceteria.identityprovider:
+    image: ${DOCKER_REGISTRY-}groceteriaidentityprovider
+    build:
+      context: .
+      dockerfile: Services/IdentityServer/Groceteria.IdentityProvider/Dockerfile
+
 volumes:
   elasticsearch-data:
   cataloguedb_data:
@@ -74,3 +80,8 @@ volumes:
   portainer_data:
   identity_data:
 
+networks:
+  groceteriaIdentity:
+    driver: bridge
+  groceteriaApiGateway:
+    driver: bridge

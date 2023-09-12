@@ -427,6 +427,6 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://locahost:8010"
+    "BaseUrl": "https://locahost:8011"
   }
 }

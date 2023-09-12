@@ -43,5 +43,6 @@ app.MapControllers();
 app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseMiddleware<CorrelationHeaderEnricher>();
 app.UseMiddleware<GlobalExceptionMiddleware>();
+app.UseMiddleware<TokenSizeValidationMiddleware>();
 
 app.Run();

@@ -17,6 +17,8 @@ host.ConfigureAppConfiguration((context, config) =>
 services.AddGatewayServices(host, config);
 var app = builder.Build();
 
+app.UseHttpsRedirection();
+
 app.MapGet("/", () =>  "Hello world");
 
 app.UseMiddleware<GlobalExceptionMiddleware>();

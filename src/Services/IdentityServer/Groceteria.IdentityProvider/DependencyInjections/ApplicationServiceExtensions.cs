@@ -16,7 +16,10 @@ namespace Groceteria.IdentityProvider.DependencyInjections
                 options.UseSqlServer(configuration.GetConnectionString("UserDb"), sql =>
                 {
                     sql.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
+                    
                 });
+                options.EnableSensitiveDataLogging();
+                options.EnableDetailedErrors();
             });
 
             services.AddIdentity<AppUser, AppRole>(options =>
@@ -27,6 +30,14 @@ namespace Groceteria.IdentityProvider.DependencyInjections
             .AddDefaultTokenProviders();
 
             services.AddControllersWithViews();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("GrocetriaCorsPolicy", policy =>
+                {
+                    policy.WithOrigins("https://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+                });
+            });
 
             return services;
         }

@@ -21,6 +21,8 @@ app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 
+app.UseCors("GrocetriaCorsPolicy");
+
 app.UseRouting();
 
 app.UseIdentityServer();
