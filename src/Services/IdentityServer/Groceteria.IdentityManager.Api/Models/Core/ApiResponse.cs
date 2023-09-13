@@ -5,7 +5,7 @@ namespace Groceteria.IdentityManager.Api.Models.Core
 {
     public class ApiResponse
     {
-        public ApiResponse(ErrorCodes code, string errorMessage="")
+        public ApiResponse(ErrorCodes code, string errorMessage=null)
         {
             Code = code;
             ErrorMessage = errorMessage ?? GetDefaultMessage(code);

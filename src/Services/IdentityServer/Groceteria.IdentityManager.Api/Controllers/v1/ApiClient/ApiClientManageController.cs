@@ -1,6 +1,8 @@
 ﻿using Groceteria.IdentityManager.Api.Extensions;
+using Groceteria.IdentityManager.Api.Filters;
 using Groceteria.IdentityManager.Api.Models.Core;
 using Groceteria.IdentityManager.Api.Models.Dtos;
+using Groceteria.IdentityManager.Api.Models.Enums;
 using Groceteria.IdentityManager.Api.Services;
 using Groceteria.IdentityManager.Api.Services.ApiClient;
 using Groceteria.IdentityManager.Api.Swagger;
@@ -44,6 +46,7 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiClient
         // 500
         [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(InternalServerErrorExample))]
         [ProducesResponseType(typeof(ApiExceptionResponse), (int)HttpStatusCode.InternalServerError)]
+        [EnsureOwnership(Roles.SuperAdmin, Roles.SystemAdmin)]
         public async Task<IActionResult> GetApiClients([FromQuery] RequestQuery queryParams)
         {
             Logger.Here().MethodEnterd();
