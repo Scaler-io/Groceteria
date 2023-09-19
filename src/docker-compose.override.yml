@@ -214,6 +214,33 @@ services:
       - "8003:80"
 
 
+  groceteria.identitymanager.api:
+    container_name: groceteria.identitymanager.api
+    depends_on:
+      - identityProviderDb
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=9003
+      - "Logging__IncludeScopes=false"
+      - "Logging__LogOutputTemplate=[{Timestamp:dd-MM-yyyy HH:mm:ss, fff}] {Level} {Properties} [CorrelationId:{CorrelationId}] [Machine:{MachineName}] {CallerType}:{MemberName} {Message}{NewLine}{Exception}"
+      - "Logging__Console__Enabled=true"
+      - "Logging__Console__LogLevel=Debug"
+      - "Logging__Elasticsearch=Enabled=true"
+      - "Logging__Elasticsearch=LogLevel=Debug"
+      - "AppConfigurations__ApplicationIdentifier=Groceteria.IdentityServer"
+      - "AppConfigurations__ApplicationEnvironment=Development"
+      - "IdentityGroupAccess__Authority=https://groceteria.identityprovider"
+      - "IdentityGroupAccess__Audience=groceteria.identitymanager.api"
+    ports:
+      - "8004:80"
+      - "9003:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${USERPROFILE}/.aspnet/https:/root/.aspnet/https/
+    networks:
+      - groceteriaIdentity
+
   groceteria.apigateway:
     container_name: groceteria.apigateway
     depends_on:
@@ -227,6 +254,8 @@ services:
       - LoggerConfigOption:OverrideSource=Microsoft
       - LoggerConfigOption:OutputTemplate={NewLine} [{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Properties} {NewLine} {Message} {Exception}
       - "Elasticsearch:Uri=http://elasticsearch:9200"
+      - "ConnectionStrings:OAuthDb=Server=identityProviderDb;Database=GroceteriaIdentityDb;User Id=sa;Password=P@ssw0rd;"
+      - "ConnectionStrings:UserDb=Server=identityProviderDb;Database=GroceteriaUserDb;User Id=sa;Password=P@ssw0rd;"   
     ports:
       - "8010:80"
       - "8011:443"
@@ -267,3 +296,4 @@ services:
       - ${USERPROFILE}/.aspnet/https:/root/.aspnet/https/
     networks:
       - groceteriaIdentity
+ 

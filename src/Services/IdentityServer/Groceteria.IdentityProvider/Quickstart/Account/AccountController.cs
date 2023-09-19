@@ -114,50 +114,58 @@ namespace IdentityServerHost.Quickstart.UI
 
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.Username);
+                var user = await _userManager.FindByEmailAsync(model.Username);
+                
+                if (user == null)
+                {
+                    _logger.Here().Warning("No user found with {email}", model.Username);
+                    await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.Client.ClientId));
+                    ModelState.AddModelError("Username", AccountOptions.InvalidCredentialsErrorMessage);
+                    return View(await BuildLoginViewModelAsync(model));
+                }
+
                 var roles = await _userManager.GetRolesAsync(user);
 
                 _logger.Here().Information("user roles, {@roles}", roles);
 
-                if (roles.Contains(UserRoles.SuperAdmin.ToString()) || roles.Contains(UserRoles.SystemAdmin.ToString()))
+                if ((roles.Contains(UserRoles.SuperAdmin.ToString()) ||
+                    roles.Contains(UserRoles.SystemAdmin.ToString())) && 
+                    await _userManager.CheckPasswordAsync(user, model.Password))
                 {
-                    var result = await _signinManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, true);
+                    await _signinManager.SignInAsync(user, model.RememberLogin);
 
                     // validate username/password against in-memory store
-                    if (result.Succeeded)
+                    user.LastLogin = DateTime.Now;
+                    await _userManager.UpdateAsync(user);
+
+                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id.ToString(), user.UserName, clientId: context?.Client.ClientId));
+
+                    if (context != null)
                     {
-                        user.LastLogin = DateTime.Now;
-                        await _userManager.UpdateAsync(user);
-
-                        await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id.ToString(), user.UserName, clientId: context?.Client.ClientId));
-
-                        if (context != null)
+                        if (context.IsNativeClient())
                         {
-                            if (context.IsNativeClient())
-                            {
-                                // The client is native, so this change in how to
-                                // return the response is for better UX for the end user.
-                                return this.LoadingPage("Redirect", model.ReturnUrl);
-                            }
-
-                            // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                            return Redirect(model.ReturnUrl);
+                            // The client is native, so this change in how to
+                            // return the response is for better UX for the end user.
+                            return this.LoadingPage("Redirect", model.ReturnUrl);
                         }
 
-                        // request for a local page
-                        if (Url.IsLocalUrl(model.ReturnUrl))
-                        {
-                            return Redirect(model.ReturnUrl);
-                        }
-                        else if (string.IsNullOrEmpty(model.ReturnUrl))
-                        {
-                            return Redirect("~/");
-                        }
-                        else
-                        {
-                            // user might have clicked on a malicious link - should be logged
-                            throw new Exception("invalid return URL");
-                        }
+                        // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
+                        return Redirect(model.ReturnUrl);
+                    }
+
+                    // request for a local page
+                    if (Url.IsLocalUrl(model.ReturnUrl))
+                    {
+                        return Redirect(model.ReturnUrl);
+                    }
+                    else if (string.IsNullOrEmpty(model.ReturnUrl))
+                    {
+                        return Redirect("~/");
+                    }
+                    else
+                    {
+                        // user might have clicked on a malicious link - should be logged
+                        throw new Exception("invalid return URL");
                     }
                 }
                

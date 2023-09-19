@@ -70,6 +70,12 @@ services:
       context: .
       dockerfile: Services/IdentityServer/Groceteria.IdentityProvider/Dockerfile
 
+  groceteria.identitymanager.api:
+    image: ${DOCKER_REGISTRY-}groceteriaidentitymanagerapi
+    build:
+      context: .
+      dockerfile: Services/IdentityServer/Groceteria.IdentityManager.Api/Dockerfile
+
 volumes:
   elasticsearch-data:
   cataloguedb_data:

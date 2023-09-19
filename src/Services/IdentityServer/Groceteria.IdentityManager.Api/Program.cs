@@ -2,7 +2,9 @@ using Groceteria.IdentityManager.Api;
 using Groceteria.IdentityManager.Api.DependencyInjections;
 using Groceteria.IdentityManager.Api.Middlewares;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.IdentityModel.Logging;
 using Serilog;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -21,6 +23,7 @@ var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>()
 
 if (app.Environment.IsDevelopment())
 {
+    IdentityModelEventSource.ShowPII = true;
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
