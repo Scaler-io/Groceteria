@@ -114,13 +114,13 @@ namespace IdentityServerHost.Quickstart.UI
 
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(model.Username);
+                var user = await _userManager.FindByEmailAsync(model.Email);
                 
                 if (user == null)
                 {
-                    _logger.Here().Warning("No user found with {email}", model.Username);
-                    await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.Client.ClientId));
-                    ModelState.AddModelError("Username", AccountOptions.InvalidCredentialsErrorMessage);
+                    _logger.Here().Warning("No user found with {email}", model.Email);
+                    await _events.RaiseAsync(new UserLoginFailureEvent(model.Email, "invalid credentials", clientId: context?.Client.ClientId));
+                    ModelState.AddModelError("Email", AccountOptions.InvalidCredentialsErrorMessage);
                     return View(await BuildLoginViewModelAsync(model));
                 }
 
@@ -169,8 +169,8 @@ namespace IdentityServerHost.Quickstart.UI
                     }
                 }
                
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId:context?.Client.ClientId));
-                ModelState.AddModelError("Username", AccountOptions.InvalidCredentialsErrorMessage);
+                await _events.RaiseAsync(new UserLoginFailureEvent(model.Email, "invalid credentials", clientId:context?.Client.ClientId));
+                ModelState.AddModelError("Email", AccountOptions.InvalidCredentialsErrorMessage);
             }
 
             // something went wrong, show form with error
@@ -254,7 +254,7 @@ namespace IdentityServerHost.Quickstart.UI
                 {
                     EnableLocalLogin = local,
                     ReturnUrl = returnUrl,
-                    Username = context?.LoginHint,
+                    Email = context?.LoginHint,
                 };
 
                 if (!local)
@@ -295,7 +295,7 @@ namespace IdentityServerHost.Quickstart.UI
                 AllowRememberLogin = AccountOptions.AllowRememberLogin,
                 EnableLocalLogin = allowLocal && AccountOptions.AllowLocalLogin,
                 ReturnUrl = returnUrl,
-                Username = context?.LoginHint,
+                Email = context?.LoginHint,
                 ExternalProviders = providers.ToArray()
             };
         }
@@ -303,7 +303,7 @@ namespace IdentityServerHost.Quickstart.UI
         private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
         {
             var vm = await BuildLoginViewModelAsync(model.ReturnUrl);
-            vm.Username = model.Username;
+            vm.Email = model.Email;
             vm.RememberLogin = model.RememberLogin;
             return vm;
         }
