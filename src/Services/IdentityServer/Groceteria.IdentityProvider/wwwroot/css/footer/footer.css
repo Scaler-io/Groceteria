@@ -1,0 +1,30 @@
+﻿.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  padding: 15px 45px;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer__brand {
+  display: flex;
+  align-items: center;
+  color: #00cc99;
+  font-size: 16px;
+  user-select: none;
+}
+.footer__brand-image {
+  width: 75px !important;
+  user-select: none;
+}
+.footer__link {
+  display: flex;
+  column-gap: 45px;
+  color: #00cc99;
+}
+.footer__link-item {
+  font-size: 14px;
+  cursor: pointer;
+}

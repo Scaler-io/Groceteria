@@ -10,5 +10,9 @@
   {
     "outputFile": "wwwroot/css/login/login.css",
     "inputFile": "wwwroot/css/login/login.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/footer/footer.css",
+    "inputFile": "wwwroot/css/footer/footer.scss"
   }
 ]

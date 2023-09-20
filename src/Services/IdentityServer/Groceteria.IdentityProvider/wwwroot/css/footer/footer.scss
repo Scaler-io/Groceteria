@@ -1,0 +1,33 @@
+﻿$color-primary: #00cc99;
+
+.footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    padding: 15px 45px;
+    align-items: center;
+    justify-content: space-between;
+    &__brand{
+        display: flex;
+        align-items: center;
+        color: $color-primary;
+        font-size: 16px;
+        user-select: none;
+        &-image{
+            width: 75px!important;
+            user-select: none;
+        }
+    }
+    &__link{
+        display: flex;
+        column-gap: 45px;
+        color: $color-primary;
+        &-item{
+            font-size: 14px;
+            cursor: pointer;
+            
+        }
+    }
+}

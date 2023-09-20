@@ -1,8 +1,10 @@
-﻿.login-page {
+﻿@import "./footer/footer.css";
+.login-page {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  padding-top: 45px !important;
 }
 .login-page .lead {
   text-align: center;
@@ -148,14 +150,13 @@
   padding: 0;
 }
 
-body {
-  max-height: 100vh !important;
-  overflow: hidden !important;
-}
-
-body {
+html body {
   font-family: "Roboto", sans-serif;
   background-color: #fff; /* Replace with your desired background color */
+}
+
+.body-container {
+  height: 100%;
 }
 
 .welcome-page li {

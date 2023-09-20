@@ -1,8 +1,9 @@
 ﻿.login-page {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  padding-top: 45px !important;
 }
 .login-page .lead {
   text-align: center;
