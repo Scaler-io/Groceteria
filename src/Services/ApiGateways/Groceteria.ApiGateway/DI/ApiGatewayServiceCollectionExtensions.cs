@@ -1,4 +1,5 @@
-﻿using Groceteria.ApiGateway.Infrastructures.Logger;
+﻿using Groceteria.ApiGateway.Configurations;
+using Groceteria.ApiGateway.Infrastructures.Logger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.Cache.CacheManager;
@@ -11,6 +12,7 @@ namespace Groceteria.ApiGateway.DI
     {
         public static IServiceCollection AddGatewayServices(this IServiceCollection services, IHostBuilder host, IConfiguration configuration)
         {
+
             // serilog 
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var logIndexPattern = $"Groceteria.ApiGateway-{env?.ToLower().Replace(".", "-")}";
@@ -35,6 +37,9 @@ namespace Groceteria.ApiGateway.DI
                 {
                     settings.WithDictionaryHandle();
                 });
+
+            // configurations
+            services.Configure<ApiSubscriptions>(configuration.GetSection("ApiSubscriptions"));
 
             return services;
         }

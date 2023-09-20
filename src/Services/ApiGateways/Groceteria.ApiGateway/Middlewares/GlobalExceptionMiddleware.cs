@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System.Net;
-using ILogger = Serilog.ILogger;
 
 namespace Groceteria.ApiGateway.Middlewares
 {

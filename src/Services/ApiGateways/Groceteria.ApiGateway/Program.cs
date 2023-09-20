@@ -1,5 +1,6 @@
 using Groceteria.ApiGateway.DI;
 using Groceteria.ApiGateway.Middlewares;
+using Ocelot.Configuration;
 using Ocelot.Middleware;
 using Serilog;
 
@@ -20,6 +21,8 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 
 app.MapGet("/", () =>  "Hello world");
+
+app.UseMiddleware<ValidateSubscriptionKeyMiddleware>();
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
 

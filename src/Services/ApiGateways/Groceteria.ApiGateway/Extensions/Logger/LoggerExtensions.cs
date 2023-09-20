@@ -1,7 +1,5 @@
 ﻿using Groceteria.ApiGateway.Models.Constants;
 using System.Runtime.CompilerServices;
-using ILogger = Serilog.ILogger;
-
 namespace Groceteria.ApiGateway.Extensions.Logger
 {
     public static class LoggerExtensions

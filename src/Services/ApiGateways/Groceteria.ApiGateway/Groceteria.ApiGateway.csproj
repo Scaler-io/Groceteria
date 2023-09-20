@@ -23,6 +23,16 @@
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\Groceteria.Shared\Groceteria.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Serilog.ILogger">
+      <Alias>ILogger</Alias>
+    </Using>
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties ocelot_1local_1json__JsonSchema="https://codemagic.io/codemagic-schema.json" /></VisualStudio></ProjectExtensions>
 
 
