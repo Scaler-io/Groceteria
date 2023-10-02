@@ -11,7 +11,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/healthcheck",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -34,7 +34,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/brands",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -56,7 +56,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/brand",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -78,7 +78,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/brands/upsert",
-      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamHttpMethod": ["Post"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -97,7 +97,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/brand/delete",
-      "UpstreamHttpMethod": [ "Delete" ],
+      "UpstreamHttpMethod": ["Delete"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -116,7 +116,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/categories",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -138,7 +138,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/categories/{id}",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -160,7 +160,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/category/upsert",
-      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamHttpMethod": ["Post"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -179,7 +179,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/category/{id}",
-      "UpstreamHttpMethod": [ "Delete" ],
+      "UpstreamHttpMethod": ["Delete"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -198,7 +198,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/products",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -220,7 +220,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/bulk/products",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -239,7 +239,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/product/{id}",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -258,7 +258,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/products/upsert",
-      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamHttpMethod": ["Post"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -277,7 +277,7 @@
         }
       ],
       "UpstreamPathTemplate": "/catalogue/products/delete/{id}",
-      "UpstreamHttpMethod": [ "Delete" ],
+      "UpstreamHttpMethod": ["Delete"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -298,7 +298,7 @@
         }
       ],
       "UpstreamPathTemplate": "/basket/healthcheck",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -318,7 +318,7 @@
         }
       ],
       "UpstreamPathTemplate": "/basket",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -337,7 +337,7 @@
         }
       ],
       "UpstreamPathTemplate": "/basket/update",
-      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamHttpMethod": ["Post"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -356,7 +356,7 @@
         }
       ],
       "UpstreamPathTemplate": "/basket/delete/{username}",
-      "UpstreamHttpMethod": [ "Delete" ],
+      "UpstreamHttpMethod": ["Delete"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -375,7 +375,7 @@
         }
       ],
       "UpstreamPathTemplate": "/basket/checkout/{username}",
-      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamHttpMethod": ["Post"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -396,7 +396,7 @@
         }
       ],
       "UpstreamPathTemplate": "/salesorder/healthcheck",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -416,7 +416,7 @@
         }
       ],
       "UpstreamPathTemplate": "/salesorder/{username}",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": ["Get"],
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -437,23 +437,19 @@
         }
       ],
       "UpstreamPathTemplate": "/identity/clients",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": ["Get"],
       "RouteIsCaseSensitive": false,
       "RouteClaimsRequirement": {},
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "Scopes": []
       },
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "5s",
-        "PeriodTimespan": 1,
-        "Limit": 1
+      "FileCacheOptions": {
+        "TtlSeconds": 30
       }
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://locahost:5011"
+    "BaseUrl": "https://locahost:5010"
   }
 }

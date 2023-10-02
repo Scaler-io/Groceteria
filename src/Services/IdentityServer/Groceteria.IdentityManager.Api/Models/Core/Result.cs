@@ -14,7 +14,7 @@ namespace Groceteria.IdentityManager.Api.Models.Core
             return new Result<T> { IsSuccess = true, Value = value };
         }
 
-        public static Result<T> Failure(ErrorCodes errorCode, string errorMessage = "")
+        public static Result<T> Failure(ErrorCodes errorCode, string errorMessage = null)
         {
             return new Result<T> { IsSuccess = false, ErrorCode = errorCode, ErrorMessage = errorMessage };
         }

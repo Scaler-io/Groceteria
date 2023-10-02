@@ -22,6 +22,8 @@ app.UseHttpsRedirection();
 
 app.MapGet("/", () =>  "Hello world");
 
+app.UseCors("GroceteriaCorsPolicy");
+
 app.UseMiddleware<ValidateSubscriptionKeyMiddleware>();
 
 app.UseMiddleware<GlobalExceptionMiddleware>();

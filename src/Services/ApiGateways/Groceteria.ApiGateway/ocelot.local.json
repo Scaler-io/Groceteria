@@ -447,7 +447,7 @@
         "EnableRateLimiting": true,
         "Period": "5s",
         "PeriodTimespan": 1,
-        "Limit": 1
+        "Limit": ,1
       }
     }
   ],

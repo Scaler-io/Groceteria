@@ -41,6 +41,14 @@ namespace Groceteria.ApiGateway.DI
             // configurations
             services.Configure<ApiSubscriptions>(configuration.GetSection("ApiSubscriptions"));
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("GroceteriaCorsPolicy", policy =>
+                {
+                    policy.WithOrigins("https://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+                });
+            });
+
             return services;
         }
     }

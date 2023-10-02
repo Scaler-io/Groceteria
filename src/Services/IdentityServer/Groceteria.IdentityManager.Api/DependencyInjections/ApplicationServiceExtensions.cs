@@ -99,6 +99,14 @@ namespace Groceteria.IdentityManager.Api.DependencyInjections
 
             services.AddHttpContextAccessor();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("GroceteriaCorsPolicy", policy =>
+                {
+                    policy.WithOrigins("https://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+                });
+            });
+
             return services;
         }
 

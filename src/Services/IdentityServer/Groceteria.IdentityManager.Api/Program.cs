@@ -43,6 +43,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseCors("GroceteriaCorsPolicy");
+
 app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseMiddleware<CorrelationHeaderEnricher>();
 app.UseMiddleware<GlobalExceptionMiddleware>();
