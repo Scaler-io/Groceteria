@@ -3,7 +3,6 @@ using Groceteria.ApiGateway.Infrastructures.ElasticSearch;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
-using ILogger = Serilog.ILogger;
 
 namespace Groceteria.ApiGateway.Infrastructures.Logger
 {

@@ -1,0 +1,103 @@
+﻿$color-primary: #00cc99;
+
+.login-page {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 45px !important; 
+    .lead {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 16px;
+        color: #888888; /* Replace with your desired text color */
+    }
+
+    .card {
+        background-color: #ffffff; /* White background for cards */
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); /* Mat shadow for cards */
+        border-radius: 4px;
+        margin: 10px;
+        padding: 20px;
+        width: 250px;
+        max-width:250px;
+
+        &-header {
+            border-bottom: 1px solid #dddddd; /* Replace with your desired border color */
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            h2 {
+                font-size: 18px;
+            }
+        }
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+        color: $color-primary;
+        font-weight: bold;
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+
+        &-label {
+            font-size: 13px;
+            margin-top: 5px;
+            margin-left: 10px;
+        }
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #dddddd; /* Replace with your desired border color */
+        border-radius: 4px;
+        background-color: #ffffff; /* White background for input fields */
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.2); /* Focus shadow for input fields */
+        }
+    }
+
+    .list-inline {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &-item {
+            margin: 10px;
+        }
+    }
+
+    .alert {
+        padding: 20px;
+        font-size: 16px;
+        border-radius: 4px;
+
+        &-warning {
+            background-color: #f8d7da; /* Replace with your desired warning alert color */
+            color: #721c24; /* Replace with your desired warning alert text color */
+            border: 1px solid #f5c6cb; /* Replace with your desired warning alert border color */
+        }
+    }
+}

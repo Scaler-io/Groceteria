@@ -7,6 +7,8 @@ services:
        - cataloguedb_data:/data/db
     ports:
        - "27017:27017"
+    networks:
+      - groceteriaApiGateway
 
   cataloguedbViewer:
     container_name: cataloguedbViewer
@@ -53,6 +55,19 @@ services:
     volumes:
       - salesorder_data:/var/opt/mssql
    
+  identityProviderDb:
+    container_name: identityProviderDb
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=P@ssw0rd
+      - MSSQL_PID=Express
+    ports:
+      - 1435:1433
+    volumes:
+      - identity_data:/var/opt/mssql
+    networks:
+      - groceteriaIdentity
+
   rabbitmq:
     container_name: rabbitmq
     ports:
@@ -128,6 +143,8 @@ services:
       - "MongodbSettings:Database=catalogueDb"
     ports:
       - "8000:80"
+    networks:
+      - groceteriaApiGateway
 
   groceteria.basket.api:
     container_name: groceteria.basket.api
@@ -197,6 +214,33 @@ services:
       - "8003:80"
 
 
+  groceteria.identitymanager.api:
+    container_name: groceteria.identitymanager.api
+    depends_on:
+      - identityProviderDb
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=9003
+      - "Logging__IncludeScopes=false"
+      - "Logging__LogOutputTemplate=[{Timestamp:dd-MM-yyyy HH:mm:ss, fff}] {Level} {Properties} [CorrelationId:{CorrelationId}] [Machine:{MachineName}] {CallerType}:{MemberName} {Message}{NewLine}{Exception}"
+      - "Logging__Console__Enabled=true"
+      - "Logging__Console__LogLevel=Debug"
+      - "Logging__Elasticsearch=Enabled=true"
+      - "Logging__Elasticsearch=LogLevel=Debug"
+      - "AppConfigurations__ApplicationIdentifier=Groceteria.IdentityServer"
+      - "AppConfigurations__ApplicationEnvironment=Development"
+      - "IdentityGroupAccess__Authority=https://groceteria.identityprovider"
+      - "IdentityGroupAccess__Audience=groceteria.identitymanager.api"
+    ports:
+      - "8004:80"
+      - "9003:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${USERPROFILE}/.aspnet/https:/root/.aspnet/https/
+    networks:
+      - groceteriaIdentity
+
   groceteria.apigateway:
     container_name: groceteria.apigateway
     depends_on:
@@ -205,9 +249,51 @@ services:
       - groceteria.saleseorder.api 
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT="8011"
       - LoggerConfigOption:OverrideSource=Microsoft
       - LoggerConfigOption:OutputTemplate={NewLine} [{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Properties} {NewLine} {Message} {Exception}
       - "Elasticsearch:Uri=http://elasticsearch:9200"
+      - "ConnectionStrings:OAuthDb=Server=identityProviderDb;Database=GroceteriaIdentityDb;User Id=sa;Password=P@ssw0rd;"
+      - "ConnectionStrings:UserDb=Server=identityProviderDb;Database=GroceteriaUserDb;User Id=sa;Password=P@ssw0rd;"   
     ports:
       - "8010:80"
+      - "8011:443"
+    networks:
+      - groceteriaApiGateway
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${USERPROFILE}/.aspnet/https:/root/.aspnet/https
 
+
+  groceteria.identityprovider:
+    container_name: groceteria.identityprovider
+    depends_on:
+      - identityProviderDb
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT="9001"
+      - "Logging:IncludeScopes=false"
+      - "Logging:LogOutputTemplate=[{Timestamp:dd-MM-yyyy HH:mm:ss, fff}] {Level} {Properties} [CorrelationId:{CorrelationId}] [Machine:{MachineName}] {CallerType}:{MemberName} {Message}{NewLine}{Exception}"
+      - "Logging:Console=Enabled=true"
+      - "Logging:Console=LogLevel=Debug"
+      - "Logging:Elasticsearch=Enabled=true"
+      - "Logging:Elasticsearch=LogLevel=Debug"
+      - "AppConfigurations:ApplicationIdentifier=Groceteria.IdentityServer"
+      - "AppConfigurations:ApplicationEnvironment=Development"
+      - "AppConfigurations:LoginProvider=Groceteria.IdentityProvider"
+      - "AppConfigurations:ProviderDisplayName=Groceteria Identity"
+      - "AppConfigurations:ProviderKey=b89627d505554641bfdf91f520afff79"
+      - "Elasticsearch:Uri=http://elasticsearch:9200"
+      - "ConnectionStrings:OAuthDb=Server=identityProviderDb;Database=GroceteriaIdentityDb;User Id=sa;Password=P@ssw0rd;"
+      - "ConnectionStrings:UserDb=Server=identityProviderDb;Database=GroceteriaUserDb;User Id=sa;Password=P@ssw0rd;"
+    ports:
+      - "9002:80"
+      - "9001:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${USERPROFILE}/.aspnet/https:/root/.aspnet/https/
+    networks:
+      - groceteriaIdentity
+ 

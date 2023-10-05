@@ -15,6 +15,8 @@ services:
     image: rabbitmq:3.12-management-alpine
   notificationProcessordb:
     image: mcr.microsoft.com/mssql/server:2022-latest
+  identityProviderDb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
   discountdbViewer:
     image: dpage/pgadmin4
   basketdbViewer:
@@ -62,6 +64,18 @@ services:
       context: .
       dockerfile: Services/ApiGateways/Groceteria.ApiGateway/Dockerfile
 
+  groceteria.identityprovider:
+    image: ${DOCKER_REGISTRY-}groceteriaidentityprovider
+    build:
+      context: .
+      dockerfile: Services/IdentityServer/Groceteria.IdentityProvider/Dockerfile
+
+  groceteria.identitymanager.api:
+    image: ${DOCKER_REGISTRY-}groceteriaidentitymanagerapi
+    build:
+      context: .
+      dockerfile: Services/IdentityServer/Groceteria.IdentityManager.Api/Dockerfile
+
 volumes:
   elasticsearch-data:
   cataloguedb_data:
@@ -70,4 +84,10 @@ volumes:
   notificationProcessor_data:
   salesorder_data:
   portainer_data:
+  identity_data:
 
+networks:
+  groceteriaIdentity:
+    driver: bridge
+  groceteriaApiGateway:
+    driver: bridge
