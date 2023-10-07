@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using Groceteria.IdentityManager.Api.Configurations.ElasticSearch;
 using Groceteria.IdentityManager.Api.Configurations.Identity;
 using Groceteria.IdentityManager.Api.Models.Core;
 using Groceteria.IdentityManager.Api.Models.Enums;
@@ -56,6 +57,7 @@ namespace Groceteria.IdentityManager.Api.DependencyInjections
 
             services.AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly());
             services.ConfigureOptions<ConfigureSwaggerOptions>();
+            services.Configure<ElasticSearchConfiguration>(configuration.GetSection("ElasticSearch"));
 
             services.AddApiVersioning(options =>
             {

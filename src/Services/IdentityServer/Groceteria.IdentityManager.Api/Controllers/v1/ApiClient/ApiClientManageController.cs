@@ -1,10 +1,12 @@
 ﻿using Groceteria.IdentityManager.Api.Extensions;
 using Groceteria.IdentityManager.Api.Filters;
+using Groceteria.IdentityManager.Api.Models.Contracts;
 using Groceteria.IdentityManager.Api.Models.Core;
 using Groceteria.IdentityManager.Api.Models.Dtos;
 using Groceteria.IdentityManager.Api.Models.Enums;
 using Groceteria.IdentityManager.Api.Services;
 using Groceteria.IdentityManager.Api.Services.ApiClient;
+using Groceteria.IdentityManager.Api.Services.PaginatedRequest;
 using Groceteria.IdentityManager.Api.Swagger;
 using Groceteria.IdentityManager.Api.Swagger.Examples;
 using Groceteria.IdentityManager.Api.Swagger.Examples.ErrorExamples;
@@ -22,13 +24,16 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiClient
     public class ApiClientManageController : BaseApiController
     {
         private readonly IClientManageService _clientService;
+        private readonly IPaginatedService<ApiClientSummary> _paginatedService;
 
         public ApiClientManageController(ILogger logger,
             IIdentityService identityService,
-            IClientManageService clientService)
+            IClientManageService clientService,
+            IPaginatedService<ApiClientSummary> paginatedService)
             : base(logger, identityService)
         {
             _clientService = clientService;
+            _paginatedService = paginatedService;
         }
 
         [HttpGet("clients")]
@@ -50,7 +55,7 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiClient
         public async Task<IActionResult> GetApiClients([FromQuery] RequestQuery queryParams)
         {
             Logger.Here().MethodEnterd();
-            var result = await _clientService.GetApiClients(queryParams, RequestInformation);
+            var result = await _paginatedService.GetPaginatedData(queryParams, RequestInformation.CorrelationId, SearchIndex.ApiClient);
             Logger.Here().MethodExited();
             return OkOrFailure(result);
         }

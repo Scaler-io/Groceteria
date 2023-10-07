@@ -6,7 +6,7 @@ namespace Groceteria.IdentityManager.Api.Models.Core
     {
         public bool IsSuccess { get; set; }
         public T Value { get; set; }
-        public ErrorCodes ErrorCode { get; set; }
+        public ErrorCodes? ErrorCode { get; set; }
         public string ErrorMessage { get; set; }
 
         public static Result<T> Success(T value)
