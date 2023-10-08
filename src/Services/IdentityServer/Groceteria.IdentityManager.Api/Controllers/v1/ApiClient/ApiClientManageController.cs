@@ -61,6 +61,30 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiClient
         }
 
 
+        [HttpGet("clients/{clientId}")]
+        [SwaggerHeader("CorrelationId", "expects unique correlation id")]
+        [SwaggerOperation(OperationId = "GetApiClient", Description = "Fetches api client bt client id")]
+        // 200
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(ApiClientResultExample))]
+        [ProducesResponseType(typeof(ApiClientDto), (int)HttpStatusCode.OK)]
+        // 404
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(NotFoundErrorExample))]
+        [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.NotFound)]
+        // 400
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(BadRequestErrorExample))]
+        [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.BadRequest)]
+        // 500
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(InternalServerErrorExample))]
+        [ProducesResponseType(typeof(ApiExceptionResponse), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> GetApiClient([FromRoute] string clientId)
+        {
+            Logger.Here().MethodEnterd();
+            var result = await _clientService.GetApiClient(clientId);
+            Logger.Here().MethodExited();
+            return OkOrFailure(result);
+        }
+
+
         [HttpPost("client/create")]
         [SwaggerHeader("CorrelationId", "expects unique correlation id")]
         [SwaggerOperation(OperationId = "CreateOrUpdateApiClient", Description = "Creates or updates api clients")]

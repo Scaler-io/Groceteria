@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Groceteria.IdentityManager.Api.Models.Contracts;
 using Groceteria.IdentityManager.Api.Models.Dtos;
-
+using IdentityServer4.EntityFramework.Entities;
 
 namespace Groceteria.IdentityManager.Api.Mappers.ApiClient
 {
@@ -23,6 +23,9 @@ namespace Groceteria.IdentityManager.Api.Mappers.ApiClient
                     o.PreCondition(s => !string.IsNullOrEmpty(s.MetaData.LastAccesseOn));
                 })
                 .ReverseMap();
+
+            CreateMap<Client, ApiClientSummary>()
+                .ForMember(d => d.ClientDescription, o => o.MapFrom(s => s.Description));
         }
     }
 }

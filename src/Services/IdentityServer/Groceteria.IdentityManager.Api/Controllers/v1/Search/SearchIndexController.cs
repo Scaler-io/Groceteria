@@ -39,7 +39,7 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.Search
         }
 
         [HttpPost("reindex/{index}")]
-        [EnsureOwnership(Roles.SystemAdmin)]
+        [EnsureOwnership(Roles.SuperAdmin)]
         public async Task<IActionResult> ReIndex([FromRoute] string index)
         {
             Logger.Here().MethodEnterd();

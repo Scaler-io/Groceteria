@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Elasticsearch.Net;
+﻿using Elasticsearch.Net;
 using Groceteria.IdentityManager.Api.Configurations.ElasticSearch;
 using Groceteria.IdentityManager.Api.Extensions;
 using Groceteria.IdentityManager.Api.Models.Constants;
@@ -14,14 +13,12 @@ namespace Groceteria.IdentityManager.Api.Services.Search
     {
         private readonly IElasticClient _elasticClient;
         private readonly ILogger _logger;
-        private readonly IMapper _mapper;
         private readonly ElasticSearchConfiguration _settings;
 
-        public SearchService(ILogger logger, IOptions<ElasticSearchConfiguration> settings, IMapper mapper)
+        public SearchService(ILogger logger, IOptions<ElasticSearchConfiguration> settings)
         {
             _logger = logger;
             _settings = settings.Value;
-            _mapper = mapper;
             var elasticUri = new Uri(_settings.Uri);
             var connectionSetting = new ConnectionSettings(elasticUri)
                 .DefaultIndex(_settings.IdetityClientIndex);
@@ -45,11 +42,42 @@ namespace Groceteria.IdentityManager.Api.Services.Search
 
             if (!indexResponse.IsValid)
             {
-                _logger.Here().Error("Data seeding to elastci serach index {@index} failed", index);
+                _logger.Here().Error("Data seeding to elastic serach index {@index} failed", index);
                 return Result<bool>.Failure(ErrorCodes.InternalServerError, ErrorMessages.InternalServerError);
             }
 
             _logger.Here().Information("Data seeding completed successfully for document {id}", id);
+            _logger.Here().MethodExited();
+            return Result<bool>.Success(true);
+        }
+
+        public async Task<Result<bool>> UpdateDocumentAsync(TDocument updatedDocument, Dictionary<string, string> fieldValue, string index)
+        {
+            _logger.Here().MethodEnterd();
+
+            var documentResponse = await _elasticClient
+                .SearchAsync<TDocument>(s => s
+                .Index(index)
+                .Query(q => q.Match(m => m
+                    .Field(fieldValue.Keys.First())
+                    .Query(fieldValue.Values.First())
+                )));
+
+            var docId = documentResponse.Hits.First().Id;
+            var document = documentResponse.Documents.First(); 
+            var documentUpdateResponse = await _elasticClient.UpdateAsync<TDocument, object>(
+                    new DocumentPath<TDocument>(docId) ,
+                    u => u.Doc(updatedDocument)
+                          .DocAsUpsert()
+                );
+
+            if (!documentUpdateResponse.IsValid)
+            {
+                _logger.Here().Error("Elastic search docuemnt update failed");
+                return Result<bool>.Failure(ErrorCodes.InternalServerError, "Elastic document update failed");
+            }
+
+            _logger.Here().Information("Elastic document update successfull");
             _logger.Here().MethodExited();
             return Result<bool>.Success(true);
         }
@@ -59,17 +87,17 @@ namespace Groceteria.IdentityManager.Api.Services.Search
             _logger.Here().MethodEnterd();
             _logger.Here().Information("Request - reindex search data for {index}", index);
 
-            if (!await IndexExist(index))
+            if (await IndexExist(index))
             {
-                await CreateNewIndex(index);
+                var deleteResponse = await _elasticClient.Indices.DeleteAsync(index);
+                if (!deleteResponse.IsValid)
+                {
+                    _logger.Here().Error("Index deletion failed");
+                    return Result<bool>.Failure(ErrorCodes.InternalServerError, "Index deletion failed");
+                }
             }
 
-            var flushResponse = await _elasticClient.Indices.FlushAsync(index);
-            if (!flushResponse.IsValid)
-            {
-                _logger.Here().Error("Index flushing failed");
-                return Result<bool>.Failure(ErrorCodes.InternalServerError, "Index flush operation failed");
-            }
+            await CreateNewIndex(index);
 
             var bulkResponse = await _elasticClient.BulkAsync(b => b.Index(index).IndexMany(documents));
 

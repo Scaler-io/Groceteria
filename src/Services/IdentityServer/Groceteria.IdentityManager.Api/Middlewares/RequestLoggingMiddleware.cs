@@ -28,7 +28,7 @@ namespace Groceteria.IdentityManager.Api.Middlewares
             {
                 LogContext.PushProperty("HttpMethod", verb);
                 _logger.Here()
-                        .Information("Http request starting. Headers: {@headers}", headers);
+                        .Information("Http request starting");
                 await _next(context);
 
                 stopwatch.Stop();
