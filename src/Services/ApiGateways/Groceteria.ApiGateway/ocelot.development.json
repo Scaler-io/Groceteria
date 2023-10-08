@@ -447,6 +447,27 @@
       "FileCacheOptions": {
         "TtlSeconds": 30
       }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/identity/clients/{clientId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7002"
+        }
+      ],
+      "UpstreamPathTemplate": "/identity/clients/{clientId}",
+      "UpstreamHttpMethod": ["Get"],
+      "RouteIsCaseSensitive": false,
+      "RouteClaimsRequirement": {},
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "Scopes": []
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      }
     }
   ],
   "GlobalConfiguration": {
