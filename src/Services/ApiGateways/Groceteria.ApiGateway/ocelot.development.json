@@ -468,6 +468,24 @@
       "FileCacheOptions": {
         "TtlSeconds": 30
       }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/identity/client/create",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7002"
+        }
+      ],
+      "UpstreamPathTemplate": "/identity/client/create",
+      "UpstreamHttpMethod": ["Post"],
+      "RouteIsCaseSensitive": false,
+      "RouteClaimsRequirement": {},
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "Scopes": []
+      }
     }
   ],
   "GlobalConfiguration": {
