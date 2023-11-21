@@ -11,6 +11,7 @@ using Groceteria.IdentityManager.Api.Swagger;
 using Groceteria.IdentityManager.Api.Swagger.Examples;
 using Groceteria.IdentityManager.Api.Swagger.Examples.ErrorExamples;
 using IdentityServer4.EntityFramework.Entities;
+using IdentityServer4.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -41,7 +42,7 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiClient
         [SwaggerOperation(OperationId = "GetApiClients", Description = "Fetches all api clients")]
         // 200
         [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(ListAllApiClientExample))]
-        [ProducesResponseType(typeof(IReadOnlyList<Client>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IReadOnlyList<IdentityServer4.EntityFramework.Entities.Client>), (int)HttpStatusCode.OK)]
         // 404
         [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(NotFoundErrorExample))]
         [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.NotFound)]
@@ -93,6 +94,17 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiClient
         {
             Logger.Here().MethodEnterd();
             var result = await _clientService.UpsertApiClient(client, RequestInformation);
+            Logger.Here().MethodExited();
+            return OkOrFailure(result);
+        }
+
+        [HttpGet("clients/count")]
+        [SwaggerHeader("CorrelationId", "expects unique correlation id")]
+        [SwaggerOperation(OperationId = "GerApiClientCount", Description = "Gets total api client counts")]
+        public async Task<IActionResult> GerApiClientCount()
+        {
+            Logger.Here().MethodEnterd();
+            var result = await _paginatedService.GetCount(RequestInformation.CorrelationId, SearchIndex.ApiClient);
             Logger.Here().MethodExited();
             return OkOrFailure(result);
         }
