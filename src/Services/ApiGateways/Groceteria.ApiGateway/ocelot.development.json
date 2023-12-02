@@ -449,6 +449,28 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/v1/identity/clients/count",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7002"
+        }
+      ],
+      "UpstreamPathTemplate": "/identity/clients/count",
+      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": [ "Get" ],
+      "RouteIsCaseSensitive": false,
+      "RouteClaimsRequirement": {},
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "Scopes": []
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/v1/identity/clients/{clientId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

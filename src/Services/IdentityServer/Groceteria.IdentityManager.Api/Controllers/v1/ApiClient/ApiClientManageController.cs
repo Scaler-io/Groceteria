@@ -10,7 +10,6 @@ using Groceteria.IdentityManager.Api.Services.PaginatedRequest;
 using Groceteria.IdentityManager.Api.Swagger;
 using Groceteria.IdentityManager.Api.Swagger.Examples;
 using Groceteria.IdentityManager.Api.Swagger.Examples.ErrorExamples;
-using IdentityServer4.EntityFramework.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -41,7 +40,7 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiClient
         [SwaggerOperation(OperationId = "GetApiClients", Description = "Fetches all api clients")]
         // 200
         [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(ListAllApiClientExample))]
-        [ProducesResponseType(typeof(IReadOnlyList<Client>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IReadOnlyList<IdentityServer4.EntityFramework.Entities.Client>), (int)HttpStatusCode.OK)]
         // 404
         [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(NotFoundErrorExample))]
         [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.NotFound)]

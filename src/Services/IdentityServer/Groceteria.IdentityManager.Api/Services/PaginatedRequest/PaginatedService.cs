@@ -20,14 +20,13 @@ namespace Groceteria.IdentityManager.Api.Services.PaginatedRequest
             _logger = logger;
             _settings = settings.Value;
             var elasticUri = new Uri(_settings.Uri, UriKind.Absolute);
-            var connectionSettings = new ConnectionSettings(elasticUri);
             _elasticClient = new ElasticClient(elasticUri);
         }
 
         public async Task<Result<long>> GetCount(string correlationId, SearchIndex searchIndex)
         {
             _logger.Here().MethodEnterd();
-            _logger.Here().Information("Request - get paginated data count");
+            _logger.Here().WithCorrelationId(correlationId).Information("Request - get requested data count in total from elastic search");
 
             string indexName = GetIndexPattern(searchIndex);
             if (string.IsNullOrEmpty(indexName))
@@ -40,11 +39,11 @@ namespace Groceteria.IdentityManager.Api.Services.PaginatedRequest
 
             if (!countResponse.IsValid)
             {
-                _logger.Here().WithCorrelationId(correlationId).Error("{documentType} count result failed", typeof(TDocument).Name);
+                _logger.Here().WithCorrelationId(correlationId).Error("{documentType} search failed", typeof(TDocument).Name);
                 return Result<long>.Failure(ErrorCodes.InternalServerError, ErrorMessages.InternalServerError);
             }
 
-            _logger.Here().WithCorrelationId(correlationId).Information("{documentType} document search successfull", typeof(TDocument).Name);
+            _logger.Here().WithCorrelationId(correlationId).Information("total {count} items found of type {documentType}", typeof(TDocument).Name, countResponse.Count);
             _logger.Here().MethodExited();
             return Result<long>.Success(countResponse.Count);
         }
@@ -52,7 +51,7 @@ namespace Groceteria.IdentityManager.Api.Services.PaginatedRequest
         public async Task<Result<Pagination<TDocument>>> GetPaginatedData(RequestQuery query, string correlationId, SearchIndex searchIndex)
         {
             _logger.Here().MethodEnterd();
-            _logger.Here().WithCorrelationId(correlationId).Information("Request - get pagoncated data from elastic search");
+            _logger.Here().WithCorrelationId(correlationId).Information("Request - get pagincated data from elastic search");
 
             string indexName = GetIndexPattern(searchIndex);
             if (string.IsNullOrEmpty(indexName))
@@ -88,6 +87,7 @@ namespace Groceteria.IdentityManager.Api.Services.PaginatedRequest
             return searchIndex switch
             {
                 SearchIndex.ApiClient => _settings.IdetityClientIndex,
+                SearchIndex.ApiScope => _settings.IdentityScopeIndex,
                 _ => string.Empty
             }; ;
         }

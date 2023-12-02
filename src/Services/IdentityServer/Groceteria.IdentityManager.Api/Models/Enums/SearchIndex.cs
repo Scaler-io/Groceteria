@@ -5,6 +5,8 @@ namespace Groceteria.IdentityManager.Api.Models.Enums
     public enum SearchIndex
     {
        [EnumMember(Value = "ApiClient")]
-       ApiClient
+       ApiClient,
+       [EnumMember(Value = "ApiScope")]
+       ApiScope
     }
 }
