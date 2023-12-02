@@ -3,6 +3,7 @@ using Groceteria.IdentityManager.Api.Models.Core;
 using Groceteria.IdentityManager.Api.Models.Enums;
 using Groceteria.IdentityManager.Api.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Groceteria.IdentityManager.Api.Controllers
 {
@@ -35,11 +36,13 @@ namespace Groceteria.IdentityManager.Api.Controllers
 
             return result.ErrorCode switch
             {
+                ErrorCodes.BadRequest => BadRequest(new ApiResponse(ErrorCodes.BadRequest, result.ErrorMessage)),
+                ErrorCodes.InternalServerError => InternalServerError(new ApiResponse(ErrorCodes.InternalServerError, result.ErrorMessage)),
                 ErrorCodes.NotFound => NotFound(new ApiResponse(ErrorCodes.NotFound, result.ErrorMessage)),
                 ErrorCodes.Unauthorized => Unauthorized(new ApiResponse(ErrorCodes.Unauthorized, result.ErrorMessage)),
                 ErrorCodes.OperationFailed => BadRequest(new ApiResponse(ErrorCodes.OperationFailed, result.ErrorMessage)),
                 _ => BadRequest(new ApiResponse(ErrorCodes.BadRequest, result.ErrorMessage))
-            };
+            };;
         }
 
 
@@ -55,5 +58,17 @@ namespace Groceteria.IdentityManager.Api.Controllers
         }
 
         protected string GetOrGenerateCorelationId() => Request?.GetRequestHeaderOrdefault("CorrelationId", $"GEN-{Guid.NewGuid().ToString()}");
+    
+        private ObjectResult InternalServerError(ApiResponse response)
+        {
+            return new ObjectResult(response)
+            {
+                StatusCode = (int)HttpStatusCode.InternalServerError,
+                ContentTypes = new Microsoft.AspNetCore.Mvc.Formatters.MediaTypeCollection
+                {
+                    "application/json"
+                }
+            };
+        }
     }
 }
