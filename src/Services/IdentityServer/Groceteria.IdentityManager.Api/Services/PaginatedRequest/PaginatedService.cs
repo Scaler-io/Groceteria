@@ -24,6 +24,31 @@ namespace Groceteria.IdentityManager.Api.Services.PaginatedRequest
             _elasticClient = new ElasticClient(elasticUri);
         }
 
+        public async Task<Result<long>> GetCount(string correlationId, SearchIndex searchIndex)
+        {
+            _logger.Here().MethodEnterd();
+            _logger.Here().Information("Request - get paginated data count");
+
+            string indexName = GetIndexPattern(searchIndex);
+            if (string.IsNullOrEmpty(indexName))
+            {
+                _logger.Here().WithCorrelationId(correlationId).Error("No actual index found with index type {serachIndex}", searchIndex);
+                return Result<long>.Failure(ErrorCodes.NotFound, "Search index not found");
+            }
+
+            var countResponse = await _elasticClient.CountAsync<TDocument>(s => s.Index(indexName));
+
+            if (!countResponse.IsValid)
+            {
+                _logger.Here().WithCorrelationId(correlationId).Error("{documentType} count result failed", typeof(TDocument).Name);
+                return Result<long>.Failure(ErrorCodes.InternalServerError, ErrorMessages.InternalServerError);
+            }
+
+            _logger.Here().WithCorrelationId(correlationId).Information("{documentType} document search successfull", typeof(TDocument).Name);
+            _logger.Here().MethodExited();
+            return Result<long>.Success(countResponse.Count);
+        }
+
         public async Task<Result<Pagination<TDocument>>> GetPaginatedData(RequestQuery query, string correlationId, SearchIndex searchIndex)
         {
             _logger.Here().MethodEnterd();

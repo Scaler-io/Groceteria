@@ -54,6 +54,6 @@ namespace Groceteria.IdentityManager.Api.Controllers
             return OkOrFailure(result);
         }
 
-        protected string GetOrGenerateCorelationId() => Request?.GetRequestHeaderOrdefault("CorrelationId", $"GEN-{Guid.NewGuid().ToString()}");  
+        protected string GetOrGenerateCorelationId() => Request?.GetRequestHeaderOrdefault("CorrelationId", $"GEN-{Guid.NewGuid().ToString()}");
     }
 }

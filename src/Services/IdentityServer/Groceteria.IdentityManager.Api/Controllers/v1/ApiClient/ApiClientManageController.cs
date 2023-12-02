@@ -88,13 +88,47 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiClient
         [HttpPost("client/create")]
         [SwaggerHeader("CorrelationId", "expects unique correlation id")]
         [SwaggerOperation(OperationId = "CreateOrUpdateApiClient", Description = "Creates or updates api clients")]
-
+        // 200
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(bool))]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        // 404
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(NotFoundErrorExample))]
+        [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.NotFound)]
+        // 400
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(BadRequestErrorExample))]
+        [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.BadRequest)]
+        // 500
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(InternalServerErrorExample))]
+        [ProducesResponseType(typeof(ApiExceptionResponse), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> CreateOrUpdateApiClient([FromBody] ApiClientDto client)
         {
             Logger.Here().MethodEnterd();
             var result = await _clientService.UpsertApiClient(client, RequestInformation);
             Logger.Here().MethodExited();
             return OkOrFailure(result);
+        }
+
+        [HttpGet("clients/count")]
+        [SwaggerHeader("CorrelationId", "expects unique correlation id")]
+        [SwaggerOperation(OperationId = "GetApiClientCount", Description = "Fetches total api client count")]
+        // 200
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(int))]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+        // 404
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(NotFoundErrorExample))]
+        [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.NotFound)]
+        // 400
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(BadRequestErrorExample))]
+        [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.BadRequest)]
+        // 500
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(InternalServerErrorExample))]
+        [ProducesResponseType(typeof(ApiExceptionResponse), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> GetApiClientCount() 
+        {
+            Logger.Here().MethodEnterd();
+            var response = await _paginatedService.GetCount(RequestInformation.CorrelationId, SearchIndex.ApiClient);
+            Logger.Here().MethodExited();
+            return OkOrFailure(response);
         }
     }
 }
