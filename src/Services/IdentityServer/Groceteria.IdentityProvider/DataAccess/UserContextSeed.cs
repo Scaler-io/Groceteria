@@ -67,7 +67,7 @@ namespace Groceteria.IdentityProvider.DataAccess
                     new Claim("email", createdUser.Email),
                     new Claim("username", createdUser.UserName),
                     new Claim("roles", UserRoles.SuperAdmin.ToString()),
-                    new Claim("firtsName", createdUser.Firstname),
+                    new Claim("firstName", createdUser.Firstname),
                     new Claim("lastName", createdUser.LastName),
                 };
 
