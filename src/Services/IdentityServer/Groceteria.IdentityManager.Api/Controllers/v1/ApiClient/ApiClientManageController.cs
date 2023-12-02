@@ -10,8 +10,6 @@ using Groceteria.IdentityManager.Api.Services.PaginatedRequest;
 using Groceteria.IdentityManager.Api.Swagger;
 using Groceteria.IdentityManager.Api.Swagger.Examples;
 using Groceteria.IdentityManager.Api.Swagger.Examples.ErrorExamples;
-using IdentityServer4.EntityFramework.Entities;
-using IdentityServer4.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

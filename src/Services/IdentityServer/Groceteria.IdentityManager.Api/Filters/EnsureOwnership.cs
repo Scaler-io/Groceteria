@@ -19,6 +19,10 @@ namespace Groceteria.IdentityManager.Api.Filters
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
+            if (_roles.Contains(Roles.All))
+            {
+                return;
+            }
             if(context != null)
             {
                 var user = context.HttpContext.User;

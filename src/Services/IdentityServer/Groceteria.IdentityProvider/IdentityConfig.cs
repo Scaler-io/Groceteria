@@ -53,16 +53,26 @@ namespace Groceteria.IdentityProvider
                     Scopes = { 
                         DefaultApiScopes.IdentityManagerApi.GetEnumMemberAttributeValue()
                     },
-                    UserClaims = { "roles" }
+                    UserClaims = { "roles", "firstName", "lastName", "email", "username" }
                 }
             };
         public static IEnumerable<IdentityResource> IdentityResources =>
            new IdentityResource[]
            {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile(),
-                new IdentityResources.Email(),
+                new IdentityResources.Profile()
+                {
+                    Required = true,
+                    UserClaims = { "firstName", "lastName", "username" }
+                },
+                new IdentityResources.Email()
+                {
+                    Required = true
+                },
                 new IdentityResource("roles", "User role(s)", new List<string>{ "roles" })
+                {
+                    Required = true
+                }
            };
         public static List<TestUser> TestUsers =>
            new List<TestUser>

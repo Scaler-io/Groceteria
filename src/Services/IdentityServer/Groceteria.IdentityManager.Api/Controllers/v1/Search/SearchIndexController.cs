@@ -7,6 +7,7 @@ using Groceteria.IdentityManager.Api.Models.Core;
 using Groceteria.IdentityManager.Api.Models.Enums;
 using Groceteria.IdentityManager.Api.Services;
 using Groceteria.IdentityManager.Api.Services.ApiClient;
+using Groceteria.IdentityManager.Api.Services.ApiScope;
 using Groceteria.IdentityManager.Api.Services.Search;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,36 +22,31 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.Search
         private readonly IClientManageService _clientManagerService;
         private readonly IMapper _mapper;
         private readonly ElasticSearchConfiguration _settings;
-        private readonly ISearchService<ApiClientSummary> _searchService;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceFactory _serviceFactory;
 
         public SearchIndexController(ILogger logger,
             IIdentityService identityService,
             IClientManageService clientManagerService,
             IMapper mapper,
-            IOptions<ElasticSearchConfiguration> settings
-,
-            ISearchService<ApiClientSummary> searchService)
+            IOptions<ElasticSearchConfiguration> settings,
+            IServiceFactory serviceFactory,
+            IServiceProvider serviceProvider)
             : base(logger, identityService)
         {
             _mapper = mapper;
             _settings = settings.Value;
             _clientManagerService = clientManagerService;
-            _searchService = searchService;
+            _serviceFactory = serviceFactory;
+            _serviceProvider = serviceProvider;
         }
 
-        [HttpPost("reindex/{index}")]
+        [HttpPost("reindex")]
         [EnsureOwnership(Roles.SuperAdmin)]
-        public async Task<IActionResult> ReIndex([FromRoute] string index)
+        public async Task<IActionResult> ReIndex([FromQuery] string index)
         {
             Logger.Here().MethodEnterd();
-
-            var indexPattern = GetIndexPattern(index);
-            var apiClients = await _clientManagerService.GetApiClients(new RequestQuery(), RequestInformation);
-
-            var apiClientSummary = _mapper.Map<IEnumerable<ApiClientSummary>>(apiClients.Value.Data.AsEnumerable());
-
-            var response = await _searchService.SearchReIndex(apiClientSummary, indexPattern);
-
+            var response = await ApplyReIndexing(index);
             Logger.Here().MethodExited();
             return OkOrFailure(response);
         }
@@ -60,8 +56,45 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.Search
             return index switch
             {
                 "apiclient" => _settings.IdetityClientIndex,
+                "apiscope" => _settings.IdentityScopeIndex,
                 _ => string.Empty
             };
+        }
+
+        private async Task<Result<bool>> ApplyReIndexing(string index)
+        {
+            var indexPattern = GetIndexPattern(index);
+            Result<bool> response = new Result<bool>();
+
+            switch (index)
+            {
+                case "apiclient":
+                    var apiClientService = (IClientManageService)_serviceFactory.GetService(IdentityManagerApis.ApiClient);
+                    var apiClients = await apiClientService.GetApiClients(new RequestQuery(), RequestInformation);
+                    var apiClientSummary = _mapper.Map<IEnumerable<ApiClientSummary>>(apiClients.Value.Data.AsEnumerable());
+                    using(var scope = _serviceProvider.CreateScope())
+                    {
+                        var serviceProvider = scope.ServiceProvider;
+                        var searchService = serviceProvider.GetRequiredService<ISearchService<ApiClientSummary>>();
+                        response = await searchService.SearchReIndex(apiClientSummary, indexPattern);
+                    }
+                    break;
+                case "apiscope":
+                    var apiScopeService = (IApiScopeManagerService)_serviceFactory.GetService(IdentityManagerApis.ApiScope);
+                    var apiScopes = await apiScopeService.GetApiScopes(new RequestQuery(), RequestInformation.CorrelationId);
+                    var apiScopeSummary = _mapper.Map<IEnumerable<ApiScopeSummary>>(apiScopes.Value.Data.AsEnumerable());
+                    using (var scope = _serviceProvider.CreateScope())
+                    {
+                        var serviceProvider = scope.ServiceProvider;
+                        var searchService = serviceProvider.GetRequiredService<ISearchService<ApiScopeSummary>>();
+                        response = await searchService.SearchReIndex(apiScopeSummary, indexPattern);
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            return response;
         }
     }
 }

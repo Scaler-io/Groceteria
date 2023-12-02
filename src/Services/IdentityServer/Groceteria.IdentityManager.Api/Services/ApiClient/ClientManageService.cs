@@ -14,7 +14,7 @@ using Microsoft.Extensions.Options;
 
 namespace Groceteria.IdentityManager.Api.Services.ApiClient
 {
-    public class ClientManageService : IClientManageService
+    public class ClientManageService : IClientManageService, IIdentityManagerService
     {
         private readonly IBaseRepository<Client> _clientRepository;  
         private readonly IUnitOfWork _unitOfWork;
@@ -23,6 +23,8 @@ namespace Groceteria.IdentityManager.Api.Services.ApiClient
         private readonly ISearchService<ApiClientSummary> _searchService;
         private readonly ElasticSearchConfiguration _settings;
         private readonly ConfigurationDbContext _dbContext;
+
+        public IdentityManagerApis Type { get; set; } = IdentityManagerApis.ApiClient;
 
         public ClientManageService(IUnitOfWork unitOfWork,
             ILogger logger,

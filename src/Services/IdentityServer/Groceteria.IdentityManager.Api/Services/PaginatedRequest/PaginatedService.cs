@@ -87,6 +87,7 @@ namespace Groceteria.IdentityManager.Api.Services.PaginatedRequest
             return searchIndex switch
             {
                 SearchIndex.ApiClient => _settings.IdetityClientIndex,
+                SearchIndex.ApiScope => _settings.IdentityScopeIndex,
                 _ => string.Empty
             }; ;
         }
