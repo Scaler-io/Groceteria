@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.AspNetCore;
 using Groceteria.IdentityManager.Api.Configurations.ElasticSearch;
 using Groceteria.IdentityManager.Api.Configurations.Identity;
 using Groceteria.IdentityManager.Api.Models.Core;

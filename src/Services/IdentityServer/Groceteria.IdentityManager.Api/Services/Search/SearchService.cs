@@ -11,18 +11,13 @@ namespace Groceteria.IdentityManager.Api.Services.Search
 {
     public class SearchService<TDocument> : ISearchService<TDocument> where TDocument: class
     {
-        private readonly IElasticClient _elasticClient;
         private readonly ILogger _logger;
         private readonly ElasticSearchConfiguration _settings;
 
         public SearchService(ILogger logger, IOptions<ElasticSearchConfiguration> settings)
         {
             _logger = logger;
-            _settings = settings.Value;
-            var elasticUri = new Uri(_settings.Uri);
-            var connectionSetting = new ConnectionSettings(elasticUri)
-                .DefaultIndex(_settings.IdetityClientIndex);
-            _elasticClient = new ElasticClient(connectionSetting);
+            _settings = settings.Value;       
         }
 
         public async Task<Result<bool>> SeedDataAsync(TDocument document, string id, string index)
@@ -30,13 +25,14 @@ namespace Groceteria.IdentityManager.Api.Services.Search
             _logger.Here().MethodEnterd();
             _logger.Here().Information("Request - storing data to elastic serach {index}", index);
 
+            var elasticClient = GetElasticClient(index);
 
-            if (! await IndexExist(index))
+            if (! await IndexExist(elasticClient, index))
             {
-                await CreateNewIndex(index);
+                await CreateNewIndex(elasticClient, index);
             }
 
-            var indexResponse = await _elasticClient.IndexAsync(document, idx => idx.Index(index)
+            var indexResponse = await elasticClient.IndexAsync(document, idx => idx.Index(index)
                 .Id(id)
                 .Refresh(Refresh.WaitFor));
 
@@ -54,8 +50,9 @@ namespace Groceteria.IdentityManager.Api.Services.Search
         public async Task<Result<bool>> UpdateDocumentAsync(TDocument updatedDocument, Dictionary<string, string> fieldValue, string index)
         {
             _logger.Here().MethodEnterd();
+            var elasticClient = GetElasticClient(index);
 
-            var documentResponse = await _elasticClient
+            var documentResponse = await elasticClient
                 .SearchAsync<TDocument>(s => s
                 .Index(index)
                 .Query(q => q.Match(m => m
@@ -65,11 +62,12 @@ namespace Groceteria.IdentityManager.Api.Services.Search
 
             var docId = documentResponse.Hits.First().Id;
             var document = documentResponse.Documents.First(); 
-            var documentUpdateResponse = await _elasticClient.UpdateAsync<TDocument, object>(
+            var documentUpdateResponse = await elasticClient.UpdateAsync<TDocument, object>(
                     new DocumentPath<TDocument>(docId) ,
                     u => u.Doc(updatedDocument)
                           .DocAsUpsert()
                 );
+            var docData = documentUpdateResponse.Result;
 
             if (!documentUpdateResponse.IsValid)
             {
@@ -87,9 +85,11 @@ namespace Groceteria.IdentityManager.Api.Services.Search
             _logger.Here().MethodEnterd();
             _logger.Here().Information("Request - reindex search data for {index}", index);
 
-            if (await IndexExist(index))
+            var elasticClient = GetElasticClient(index);
+
+            if (await IndexExist(elasticClient, index))
             {
-                var deleteResponse = await _elasticClient.Indices.DeleteAsync(index);
+                var deleteResponse = await elasticClient.Indices.DeleteAsync(index);
                 if (!deleteResponse.IsValid)
                 {
                     _logger.Here().Error("Index deletion failed");
@@ -97,9 +97,9 @@ namespace Groceteria.IdentityManager.Api.Services.Search
                 }
             }
 
-            await CreateNewIndex(index);
+            await CreateNewIndex(elasticClient, index);
 
-            var bulkResponse = await _elasticClient.BulkAsync(b => b.Index(index).IndexMany(documents));
+            var bulkResponse = await elasticClient.BulkAsync(b => b.Index(index).IndexMany(documents));
 
             if (!bulkResponse.IsValid)
             {
@@ -111,17 +111,17 @@ namespace Groceteria.IdentityManager.Api.Services.Search
             return Result<bool>.Success(true);
         }
 
-        private async Task<bool> IndexExist(string index)
+        private async Task<bool> IndexExist(ElasticClient elasticClient, string index)
         {
             _logger.Here().Information("No index found with name {index}", index);
-            var indexResponse = await _elasticClient.Indices.ExistsAsync(index);
+            var indexResponse = await elasticClient.Indices.ExistsAsync(index);
             return indexResponse.Exists;
         }
 
-        private async Task<bool> CreateNewIndex(string index)
+        private async Task<bool> CreateNewIndex(ElasticClient elasticClient, string index)
         {
             _logger.Here().Information("Creating new index with name {index}", index);
-            var createIndexResponse = await _elasticClient.Indices.CreateAsync(index, c => c
+            var createIndexResponse = await elasticClient.Indices.CreateAsync(index, c => c
             .Map<TDocument>(m => m.AutoMap())
             .Settings(s => s
                 .NumberOfShards(1)
@@ -129,6 +129,14 @@ namespace Groceteria.IdentityManager.Api.Services.Search
                 ));
 
             return createIndexResponse.IsValid;
+        }
+    
+        private ElasticClient GetElasticClient(string index)
+        {
+            var elasticUri = new Uri(_settings.Uri);
+            var connectionSetting = new ConnectionSettings(elasticUri)
+                            .DefaultIndex(index);
+            return new ElasticClient(connectionSetting);
         }
     }
 }

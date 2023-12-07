@@ -1,9 +1,9 @@
 ﻿using Groceteria.Identity.Shared.Data.Specifications;
-using IdentityServer4.EntityFramework.Entities;
+using Groceteria.Identity.Shared.Entities;
 
 namespace Groceteria.IdentityManager.Api.Specifications.ApiScopes
 {
-    public class GetAllScopesWithPagination: BaseSpecification<ApiScope>
+    public class GetAllScopesWithPagination: BaseSpecification<ApiScopeExtended>
     {
         public GetAllScopesWithPagination(int pageIndex = 1, int pageSize = 50)
         {

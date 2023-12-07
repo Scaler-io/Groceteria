@@ -1,4 +1,5 @@
-﻿using Groceteria.IdentityManager.Api.Extensions;
+﻿using FluentValidation.Results;
+using Groceteria.IdentityManager.Api.Extensions;
 using Groceteria.IdentityManager.Api.Models.Core;
 using Groceteria.IdentityManager.Api.Models.Enums;
 using Groceteria.IdentityManager.Api.Services;
@@ -45,6 +46,27 @@ namespace Groceteria.IdentityManager.Api.Controllers
             };;
         }
 
+
+        protected IActionResult Failure(ValidationResult validationResult)
+        {
+            var errors = validationResult.Errors;
+            var apiValidationResponse = new ApiValidationResponse
+            {
+                Errors = new List<FieldLevelError>(),
+                ErrorMessage = "Validation failed"
+            };
+            foreach(var error in errors)
+            {
+                var fieldLevelError = new FieldLevelError
+                {
+                    Code = error.ErrorCode,
+                    Field = error.PropertyName,
+                    Message = error.ErrorMessage
+                };
+                apiValidationResponse.Errors.Add(fieldLevelError);
+            }
+            return BadRequest(apiValidationResponse);
+        }
 
         protected IActionResult CreatedWithRoute<T>(Result<T> result, string routeName, object param) where T : class
         {

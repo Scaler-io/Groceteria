@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="BuildWebCompiler2022" Version="1.14.10" />
     <PackageReference Include="Destructurama.Attributed" Version="3.1.0" />
     <PackageReference Include="IdentityServer4" Version="4.1.2" />
@@ -38,6 +39,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DataAccess\Migrations\OAuth\" />
+    <Folder Include="DataAccess\Migrations\OAuth\ConfigurationDb\" />
+    <Folder Include="DataAccess\Migrations\User\" />
     <Folder Include="wwwroot\css\nav\" />
   </ItemGroup>
 

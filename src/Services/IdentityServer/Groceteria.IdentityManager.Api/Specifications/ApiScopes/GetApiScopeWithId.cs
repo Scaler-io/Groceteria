@@ -1,9 +1,9 @@
 ﻿using Groceteria.Identity.Shared.Data.Specifications;
-using IdentityServer4.EntityFramework.Entities;
+using Groceteria.Identity.Shared.Entities;
 
 namespace Groceteria.IdentityManager.Api.Specifications.ApiScopes
 {
-    public class GetApiScopeWithId: BaseSpecification<ApiScope>
+    public class GetApiScopeWithId: BaseSpecification<ApiScopeExtended>
     {
         public GetApiScopeWithId(int id):base(x => x.Id == id) 
         {

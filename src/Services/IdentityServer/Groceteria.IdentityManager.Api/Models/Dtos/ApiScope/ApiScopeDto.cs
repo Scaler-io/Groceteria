@@ -8,6 +8,7 @@
         public string DisplayName { get; set; }
         public string Description { get; set; }
         public bool IsRequired { get; set; }
+        public bool IsDefault { get; set; }
         public bool ShouldShowInDiscovery { get; set; }
         public IEnumerable<ApiScopeClaimsDto> UserClaims { get; set; }
     }

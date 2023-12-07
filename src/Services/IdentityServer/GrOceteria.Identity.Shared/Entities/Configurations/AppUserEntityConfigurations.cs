@@ -1,5 +1,4 @@
-﻿using Groceteria.Identity.Shared.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Groceteria.Identity.Shared.Entities.Configurations

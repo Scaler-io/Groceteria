@@ -1,4 +1,5 @@
-﻿using Groceteria.IdentityManager.Api.Extensions;
+﻿using FluentValidation;
+using Groceteria.IdentityManager.Api.Extensions;
 using Groceteria.IdentityManager.Api.Filters;
 using Groceteria.IdentityManager.Api.Models.Contracts;
 using Groceteria.IdentityManager.Api.Models.Core;
@@ -20,15 +21,18 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiScope
     {
         private readonly IPaginatedService<ApiScopeSummary> _paginatedScopeService;
         private readonly IApiScopeManagerService _apiScopeService;
+        private readonly IValidator<ApiScopeDto> _validator;
 
         public ApiScopeController(ILogger logger,
             IIdentityService identityService,
             IPaginatedService<ApiScopeSummary> paginatedScopeService,
-            IApiScopeManagerService apiScopeService)
+            IApiScopeManagerService apiScopeService,
+            IValidator<ApiScopeDto> validator)
             : base(logger, identityService)
         {
             _paginatedScopeService = paginatedScopeService;
             _apiScopeService = apiScopeService;
+            _validator = validator;
         }
 
         [HttpGet("api-scopes")]
@@ -38,6 +42,7 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiScope
         public async Task<IActionResult> GetApiScopes([FromQuery] RequestQuery query)
         {
             Logger.Here().MethodEnterd();
+            query.SortField = "scopeId";
             var result = await _paginatedScopeService.GetPaginatedData(query, RequestInformation.CorrelationId, SearchIndex.ApiScope);
             Logger.Here().MethodExited();
             return OkOrFailure(result);
@@ -61,6 +66,14 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiScope
         public async Task<IActionResult> UpsertApiScope([FromBody] ApiScopeDto scope)
         {
             Logger.Here().MethodEnterd();
+
+            var validationResult = _validator.Validate(scope);
+
+            if (!validationResult.IsValid)
+            {
+                return Failure(validationResult);
+            }
+
             var result = await _apiScopeService.UpsertApiScope(scope, RequestInformation.CorrelationId);
             Logger.Here().MethodExited();
             return OkOrFailure(result);

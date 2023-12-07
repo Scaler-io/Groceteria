@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Groceteria.IdentityProvider.DataAccess.Migrations.OAuth.PersistedDb
+namespace Groceteria.IdentityProvider.DataAccess.Migrations.OAuth.PersistanceDb
 {
     [DbContext(typeof(PersistedGrantDbContext))]
-    [Migration("20230817151908_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20231204172006_initialMigration")]
+    partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -64,7 +64,7 @@ namespace Groceteria.IdentityManager.Api.Services.PaginatedRequest
             .Index(indexName)
             .Size(query.PageSize)
             .From((query.PageIndex - 1) * query.PageSize)
-            .Sort(sort => sort.Field("_score", SortOrder.Descending))
+            .Sort(sort => sort.Field(query.SortField, query.SortOrder == "Asc" ? SortOrder.Ascending : SortOrder.Descending))
             .Query(q => q.MatchAll()));
 
             if (!searchResponse.IsValid)
@@ -73,10 +73,11 @@ namespace Groceteria.IdentityManager.Api.Services.PaginatedRequest
                 return Result<Pagination<TDocument>>.Failure(ErrorCodes.InternalServerError, ErrorMessages.InternalServerError);
             }
 
-
             var paginatedResult = new Pagination<TDocument>(query.PageIndex, query.PageSize, searchResponse.Documents.Count , searchResponse.Documents.ToList());
 
-            _logger.Here().WithCorrelationId(correlationId).Information("{documentType} document search successfull", typeof(TDocument).Name);
+            _logger.Here().WithCorrelationId(correlationId)
+                .ForContext("maxSearchScore", searchResponse.MaxScore)
+                .Information("{documentType} document search successfull", typeof(TDocument).Name);
             _logger.Here().MethodExited();
             return Result<Pagination<TDocument>>.Success(paginatedResult);
         }

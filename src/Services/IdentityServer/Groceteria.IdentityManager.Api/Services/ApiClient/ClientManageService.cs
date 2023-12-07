@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Groceteria.Identity.Shared.Data;
 using Groceteria.Identity.Shared.Data.Interfaces;
 using Groceteria.IdentityManager.Api.Configurations.ElasticSearch;
 using Groceteria.IdentityManager.Api.Extensions;
@@ -8,7 +9,6 @@ using Groceteria.IdentityManager.Api.Models.Dtos;
 using Groceteria.IdentityManager.Api.Models.Enums;
 using Groceteria.IdentityManager.Api.Services.Search;
 using Groceteria.IdentityManager.Api.Specifications.ApiClient;
-using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using Microsoft.Extensions.Options;
 
@@ -16,26 +16,26 @@ namespace Groceteria.IdentityManager.Api.Services.ApiClient
 {
     public class ClientManageService : IClientManageService, IIdentityManagerService
     {
-        private readonly IBaseRepository<Client> _clientRepository;  
+        private readonly IBaseRepository<Identity.Shared.Entities.ApiClient> _clientRepository;  
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly ISearchService<ApiClientSummary> _searchService;
         private readonly ElasticSearchConfiguration _settings;
-        private readonly ConfigurationDbContext _dbContext;
+        private readonly GroceteriaOauthDbContext _dbContext;
 
         public IdentityManagerApis Type { get; set; } = IdentityManagerApis.ApiClient;
 
         public ClientManageService(IUnitOfWork unitOfWork,
             ILogger logger,
-            ConfigurationDbContext context,
+            GroceteriaOauthDbContext context,
             IMapper mapper,
             ISearchService<ApiClientSummary> searchService,
             IOptions<ElasticSearchConfiguration> settings)
         {
             _unitOfWork = unitOfWork;
             _dbContext = context;
-            _clientRepository = _unitOfWork.Repository<Client>(context);
+            _clientRepository = _unitOfWork.Repository<Identity.Shared.Entities.ApiClient>(context);
             _logger = logger;
             _mapper = mapper;
             _settings = settings.Value;
@@ -113,7 +113,7 @@ namespace Groceteria.IdentityManager.Api.Services.ApiClient
                 return Result<bool>.Success(true);
             }
 
-            var entity = _mapper.Map<Client>(clientEntity);
+            var entity = _mapper.Map<Groceteria.Identity.Shared.Entities.ApiClient>(clientEntity);
 
             _clientRepository.Add(entity);
             await _unitOfWork.Complete(_dbContext);          

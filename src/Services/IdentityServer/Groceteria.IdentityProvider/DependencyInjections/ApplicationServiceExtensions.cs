@@ -41,6 +41,8 @@ namespace Groceteria.IdentityProvider.DependencyInjections
                 });
             });
 
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
             return services;
         }
     }

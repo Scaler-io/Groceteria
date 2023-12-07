@@ -6,32 +6,32 @@ using AutoMapper;
 using Groceteria.IdentityManager.Api.Services.Search;
 using Groceteria.IdentityManager.Api.Models.Contracts;
 using Groceteria.IdentityManager.Api.Configurations.ElasticSearch;
-using IdentityServer4.EntityFramework.DbContexts;
 using Groceteria.IdentityManager.Api.Extensions;
 using Groceteria.IdentityManager.Api.Specifications.ApiScopes;
 using Microsoft.Extensions.Options;
-using System.Runtime;
+using Groceteria.Identity.Shared.Entities;
+using Groceteria.Identity.Shared.Data;
 
 namespace Groceteria.IdentityManager.Api.Services.ApiScope
 {
     public class ApiScopeManagerService : IApiScopeManagerService, IIdentityManagerService
     {
-        private readonly IBaseRepository<IdentityServer4.EntityFramework.Entities.ApiScope> _apiScopeRepository;
+        private readonly IBaseRepository<ApiScopeExtended> _apiScopeRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
         private readonly ISearchService<ApiScopeSummary> _searchService;
         private readonly ElasticSearchConfiguration _elasticSettings;
-        private readonly ConfigurationDbContext _dbContext;
+        private readonly GroceteriaOauthDbContext _dbContext;
 
         public ApiScopeManagerService(IUnitOfWork unitOfWork, ILogger logger, 
             IMapper mapper, 
             ISearchService<ApiScopeSummary> searchService, 
             IOptions<ElasticSearchConfiguration> elasticSettings, 
-            ConfigurationDbContext dbContext)
+            GroceteriaOauthDbContext dbContext)
         {
             _unitOfWork = unitOfWork;
-            _apiScopeRepository = _unitOfWork.Repository<IdentityServer4.EntityFramework.Entities.ApiScope>(dbContext);
+            _apiScopeRepository = _unitOfWork.Repository<ApiScopeExtended>(dbContext);
             _logger = logger;
             _mapper = mapper;
             _searchService = searchService;
@@ -118,11 +118,11 @@ namespace Groceteria.IdentityManager.Api.Services.ApiScope
                     .WithCorrelationId(correlationId)
                     .Information("Request - adding new api scope {apiScopeName}", scopeEntity.Name);
 
-                var entity = _mapper.Map<IdentityServer4.EntityFramework.Entities.ApiScope>(scopeEntity);
+                var entity = _mapper.Map<ApiScopeExtended>(scopeEntity);
                 _apiScopeRepository.Add(entity);
                 await _unitOfWork.Complete(_dbContext);
 
-                await UpdateSearchIndex(entity);
+                await SeedOnDemand(entity);
 
                 _logger.Here()
                     .WithCorrelationId(correlationId)
@@ -135,11 +135,17 @@ namespace Groceteria.IdentityManager.Api.Services.ApiScope
             return Result<bool>.Failure(ErrorCodes.OperationFailed, "Backend operation failed");
         }
 
+        private async Task SeedOnDemand(ApiScopeExtended entity)
+        {
+            var apiScopeSummary = _mapper.Map<ApiScopeSummary>(entity);
+            await _searchService.SeedDataAsync(apiScopeSummary, Guid.NewGuid().ToString(), _elasticSettings.IdentityScopeIndex);
+        }
+
         private async Task UpdateSearchIndex(IdentityServer4.EntityFramework.Entities.ApiScope scopeEntity)
         {
             var apiScopeSummary = _mapper.Map<ApiScopeSummary>(scopeEntity);
             var fieldValue = new Dictionary<string, string>();
-            fieldValue.Add("id", scopeEntity.Id.ToString());
+            fieldValue.Add("scopeId", scopeEntity.Id.ToString());
             await _searchService.UpdateDocumentAsync(apiScopeSummary, fieldValue, _elasticSettings.IdentityScopeIndex);
         }
 

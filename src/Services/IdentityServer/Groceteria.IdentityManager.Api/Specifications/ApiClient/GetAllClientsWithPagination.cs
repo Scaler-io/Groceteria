@@ -3,7 +3,7 @@ using IdentityServer4.EntityFramework.Entities;
 
 namespace Groceteria.IdentityManager.Api.Specifications.ApiClient
 {
-    public class GetAllClientsWithPagination : BaseSpecification<Client> 
+    public class GetAllClientsWithPagination : BaseSpecification<Groceteria.Identity.Shared.Entities.ApiClient> 
     {
         public GetAllClientsWithPagination(int pageIndex = 1, int pageSize = 50)
         {

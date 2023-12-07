@@ -54,6 +54,7 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiClient
         public async Task<IActionResult> GetApiClients([FromQuery] RequestQuery queryParams)
         {
             Logger.Here().MethodEnterd();
+            queryParams.SortField = "created";
             var result = await _paginatedService.GetPaginatedData(queryParams, RequestInformation.CorrelationId, SearchIndex.ApiClient);
             Logger.Here().MethodExited();
             return OkOrFailure(result);

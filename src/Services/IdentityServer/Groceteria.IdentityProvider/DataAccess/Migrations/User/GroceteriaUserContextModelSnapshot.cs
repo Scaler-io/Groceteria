@@ -215,6 +215,85 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                     b.ToTable("Addresses");
                 });
 
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiScope", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Emphasize")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Required")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ShowInDiscoveryDocument")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ApiScope");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiScopeClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ScopeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScopeId");
+
+                    b.ToTable("ApiScopeClaim");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiScopeProperty", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ScopeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScopeId");
+
+                    b.ToTable("ApiScopeProperty");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
@@ -303,6 +382,26 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Groceteria.Identity.Shared.Entities.ApiScopeExtended", b =>
+                {
+                    b.HasBaseType("IdentityServer4.EntityFramework.Entities.ApiScope");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2023, 12, 4, 21, 58, 18, 627, DateTimeKind.Local).AddTicks(4206));
+
+                    b.Property<bool>("IsDefault")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.ToTable("ApiScopes", (string)null);
+                });
+
             modelBuilder.Entity("Groceteria.Identity.Shared.Entities.AppUserRole", b =>
                 {
                     b.HasOne("Groceteria.Identity.Shared.Entities.AppRole", null)
@@ -341,6 +440,28 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiScopeClaim", b =>
+                {
+                    b.HasOne("IdentityServer4.EntityFramework.Entities.ApiScope", "Scope")
+                        .WithMany("UserClaims")
+                        .HasForeignKey("ScopeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Scope");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiScopeProperty", b =>
+                {
+                    b.HasOne("IdentityServer4.EntityFramework.Entities.ApiScope", "Scope")
+                        .WithMany("Properties")
+                        .HasForeignKey("ScopeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Scope");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Groceteria.Identity.Shared.Entities.AppRole", null)
@@ -377,6 +498,15 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Groceteria.Identity.Shared.Entities.ApiScopeExtended", b =>
+                {
+                    b.HasOne("IdentityServer4.EntityFramework.Entities.ApiScope", null)
+                        .WithOne()
+                        .HasForeignKey("Groceteria.Identity.Shared.Entities.ApiScopeExtended", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Groceteria.Identity.Shared.Entities.AppRole", b =>
                 {
                     b.Navigation("UserRoles");
@@ -387,6 +517,13 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                     b.Navigation("Addresses");
 
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiScope", b =>
+                {
+                    b.Navigation("Properties");
+
+                    b.Navigation("UserClaims");
                 });
 #pragma warning restore 612, 618
         }

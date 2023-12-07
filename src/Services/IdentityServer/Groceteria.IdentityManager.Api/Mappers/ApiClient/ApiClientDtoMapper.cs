@@ -10,7 +10,7 @@ namespace Groceteria.IdentityManager.Api.Mappers.ApiClient
     {
         public ApiClientDtoMapper()
         {
-            CreateMap<IdentityServer4.EntityFramework.Entities.Client, ApiClientDto>()
+            CreateMap<Identity.Shared.Entities.ApiClient, ApiClientDto>()
                 .ForMember(d => d.ClientDescription, o => o.MapFrom(s => s.Description))
                 .ForMember(d => d.AllowedScopes, o => o.MapFrom(s => s.AllowedScopes.Select(i => i.Scope)))
                 .ForMember(d => d.AllowedGrantTypes, o => o.MapFrom(s => s.AllowedGrantTypes.Select(i => i.GrantType)))
@@ -32,7 +32,7 @@ namespace Groceteria.IdentityManager.Api.Mappers.ApiClient
                 .ForMember(d => d.Value, o => o.MapFrom(s => s.Value.Sha256()))
                 .ForMember(d => d.Type, o => o.MapFrom(s => SecretTypes.SharedSecret));
 
-            CreateMap<ApiClientDto, IdentityServer4.EntityFramework.Entities.Client>()
+            CreateMap<ApiClientDto, Identity.Shared.Entities.ApiClient>()
                 .ForMember(d => d.Description, o => o.MapFrom(s => s.ClientDescription))
                 .ForMember(d => d.AllowedScopes, o => o.MapFrom(s => s.AllowedScopes.Select(i => new ClientScope
                 {

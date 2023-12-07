@@ -1,4 +1,5 @@
-﻿using Groceteria.Identity.Shared.Data;
+﻿using AutoMapper;
+using Groceteria.Identity.Shared.Data;
 using Groceteria.Identity.Shared.Entities;
 using Groceteria.IdentityProvider.Configurations.Client;
 using Groceteria.IdentityProvider.DataAccess;
@@ -20,36 +21,49 @@ namespace Groceteria.IdentityProvider.Extensions
                     var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
                     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
                     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+                    var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
 
                     await scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>()
                         .Database
                         .MigrateAsync();
 
-                    using (var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>())
+                    using (var context = scope.ServiceProvider.GetRequiredService<GroceteriaOauthDbContext>())
                     {
                         try
                         {
                             await context.Database.MigrateAsync();
-                            if (!context.Clients.Any())
+                            if (!context.ApiClients.Any())
                             {
                                 var clientSettings = configuration.GetSection("DefaultApiClients").Get<DefaultApiClients>();
                                 foreach (var client in IdentityConfig.Clients(clientSettings))
-                                    context.Clients.Add(client.ToEntity());
+                                {
+                                    var clientEntity = client.ToEntity();
+                                    var apiClient = mapper.Map<ApiClient>(clientEntity);
+                                    context.ApiClients.Add(apiClient);
+                                }
                             }
                             if (!context.IdentityResources.Any())
                             {
                                 foreach (var resource in IdentityConfig.IdentityResources)
                                     context.IdentityResources.Add(resource.ToEntity());
                             }
-                            if (!context.ApiScopes.Any())
+                            if (!context.ApiScopesExtended.Any())
                             {
                                 foreach (var apiScope in IdentityConfig.ApiScopes)
-                                    context.ApiScopes.Add(apiScope.ToEntity());
+                                {
+                                    var scopeEntity = apiScope.ToEntity();
+                                    var apiScopeExtended = mapper.Map<ApiScopeExtended>(scopeEntity);
+                                    context.ApiScopesExtended.Add(apiScopeExtended);
+                                }
                             }
-                            if (!context.ApiResources.Any())
+                            if (!context.ApiResourcesExtended.Any())
                             {
                                 foreach (var apiResource in IdentityConfig.ApiResources)
-                                    context.ApiResources.Add(apiResource.ToEntity());
+                                {
+                                    var apiResourceEntity = apiResource.ToEntity();
+                                    var apiResourceExtended = mapper.Map<ApiResourceExtended>(apiResourceEntity);
+                                    context.ApiResourcesExtended.Add(apiResourceExtended);
+                                }
                             }
                             await context.SaveChangesAsync();
                         }

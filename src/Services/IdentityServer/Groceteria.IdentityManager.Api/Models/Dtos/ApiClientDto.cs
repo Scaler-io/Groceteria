@@ -7,6 +7,7 @@
         public string ClientId { get; set; }
         public string ClientName { get; set; }
         public string ClientDescription { get; set; }
+        public bool IsDefault { get; set; }
 
         public List<string> AllowedGrantTypes { get; set; }
         public List<ClientSecretDto> ClientSecrets { get; set; }
