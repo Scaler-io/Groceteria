@@ -38,12 +38,24 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiScope
         [HttpGet("api-scopes")]
         [SwaggerHeader("CorrelationId", "expects unique correlation id")]
         [SwaggerOperation(OperationId = "GetApiScopes", Description = "Fetches all api scopes")]
-        [EnsureOwnership(Roles.SystemAdmin, Roles.SuperAdmin)]
+        [EnsureOwnership(Roles.All)]
         public async Task<IActionResult> GetApiScopes([FromQuery] RequestQuery query)
         {
             Logger.Here().MethodEnterd();
             query.SortField = "scopeId";
             var result = await _paginatedScopeService.GetPaginatedData(query, RequestInformation.CorrelationId, SearchIndex.ApiScope);
+            Logger.Here().MethodExited();
+            return OkOrFailure(result);
+        }
+
+        [HttpGet("api-scopes/count")]
+        [SwaggerHeader("CorrelationId", "expects unique correlation id")]
+        [SwaggerOperation(OperationId = "GetApiScope", Description = "Fetches api scope details using id")]
+        [EnsureOwnership(Roles.All)]
+        public async Task<IActionResult> GetApiScopeCount()
+        {
+            Logger.Here().MethodEnterd();
+            var result = await _paginatedScopeService.GetCount(RequestInformation.CorrelationId, SearchIndex.ApiScope);
             Logger.Here().MethodExited();
             return OkOrFailure(result);
         }
@@ -82,7 +94,7 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiScope
 
         [HttpDelete("api-scope/delete/{id}")]
         [SwaggerHeader("CorrelationId", "expects unique correlation id")]
-        [SwaggerOperation(OperationId = "UpsertApiScope", Description = "Deletes api scope details using id")]
+        [SwaggerOperation(OperationId = "DeleteApiScope", Description = "Deletes api scope details using id")]
         [EnsureOwnership(Roles.SystemAdmin)]
         public async Task<IActionResult> DeleteApiScope([FromRoute] string id)
         {
