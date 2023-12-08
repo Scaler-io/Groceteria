@@ -78,5 +78,16 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiScope
             Logger.Here().MethodExited();
             return OkOrFailure(result);
         }
+
+        [HttpDelete("api-scope/delete/{id}")]
+        [SwaggerHeader("CorrelationId", "expects unique correlation id")]
+        [SwaggerOperation(OperationId = "UpsertApiScope", Description = "Deletes api scope details using id")]
+        public async Task<IActionResult> DeleteApiScope([FromRoute] string id)
+        {
+            Logger.Here().MethodEnterd();
+            var result = await _apiScopeService.DeleteApiScope(id, RequestInformation.CorrelationId);
+            Logger.Here().MethodExited();
+            return OkOrFailure(result);
+        }
     }
 }

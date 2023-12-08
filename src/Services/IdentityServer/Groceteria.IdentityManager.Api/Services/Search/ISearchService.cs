@@ -7,5 +7,6 @@ namespace Groceteria.IdentityManager.Api.Services.Search
         Task<Result<bool>> SeedDataAsync(TDocument document, string id, string index);
         Task<Result<bool>> UpdateDocumentAsync(TDocument updatedDocument, Dictionary<string, string> fieldValue, string index);
         Task<Result<bool>> SearchReIndex(IEnumerable<TDocument> documents, string index);
+        Task<Result<bool>> RemoveDocumentFromIndex(Dictionary<string, object> query, string index);
     }
 }

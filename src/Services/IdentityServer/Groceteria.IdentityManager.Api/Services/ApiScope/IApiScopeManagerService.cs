@@ -8,5 +8,6 @@ namespace Groceteria.IdentityManager.Api.Services.ApiScope
         Task<Result<Pagination<ApiScopeDto>>> GetApiScopes(RequestQuery query, string correaltionId);
         Task<Result<ApiScopeDto>> GetApiScope(int id, string correlationId);
         Task<Result<bool>> UpsertApiScope(ApiScopeDto scopeEntity, string correlationId);
+        Task<Result<bool>> DeleteApiScope(string id, string correaltionId);
     }
 }

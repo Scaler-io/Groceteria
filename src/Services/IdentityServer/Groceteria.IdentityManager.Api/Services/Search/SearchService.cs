@@ -9,7 +9,7 @@ using Nest;
 
 namespace Groceteria.IdentityManager.Api.Services.Search
 {
-    public class SearchService<TDocument> : ISearchService<TDocument> where TDocument: class
+    public class SearchService<TDocument> : ISearchService<TDocument> where TDocument : class
     {
         private readonly ILogger _logger;
         private readonly ElasticSearchConfiguration _settings;
@@ -17,7 +17,7 @@ namespace Groceteria.IdentityManager.Api.Services.Search
         public SearchService(ILogger logger, IOptions<ElasticSearchConfiguration> settings)
         {
             _logger = logger;
-            _settings = settings.Value;       
+            _settings = settings.Value;
         }
 
         public async Task<Result<bool>> SeedDataAsync(TDocument document, string id, string index)
@@ -27,7 +27,7 @@ namespace Groceteria.IdentityManager.Api.Services.Search
 
             var elasticClient = GetElasticClient(index);
 
-            if (! await IndexExist(elasticClient, index))
+            if (!await IndexExist(elasticClient, index))
             {
                 await CreateNewIndex(elasticClient, index);
             }
@@ -39,7 +39,7 @@ namespace Groceteria.IdentityManager.Api.Services.Search
             if (!indexResponse.IsValid)
             {
                 _logger.Here().Error("Data seeding to elastic serach index {@index} failed", index);
-                return Result<bool>.Failure(ErrorCodes.InternalServerError, ErrorMessages.InternalServerError);
+                return Result<bool>.Failure(ErrorCodes.OperationFailed, ErrorMessages.Operationfailed);
             }
 
             _logger.Here().Information("Data seeding completed successfully for document {id}", id);
@@ -61,9 +61,9 @@ namespace Groceteria.IdentityManager.Api.Services.Search
                 )));
 
             var docId = documentResponse.Hits.First().Id;
-            var document = documentResponse.Documents.First(); 
+            var document = documentResponse.Documents.First();
             var documentUpdateResponse = await elasticClient.UpdateAsync<TDocument, object>(
-                    new DocumentPath<TDocument>(docId) ,
+                    new DocumentPath<TDocument>(docId),
                     u => u.Doc(updatedDocument)
                           .DocAsUpsert()
                 );
@@ -72,7 +72,7 @@ namespace Groceteria.IdentityManager.Api.Services.Search
             if (!documentUpdateResponse.IsValid)
             {
                 _logger.Here().Error("Elastic search docuemnt update failed");
-                return Result<bool>.Failure(ErrorCodes.InternalServerError, "Elastic document update failed");
+                return Result<bool>.Failure(ErrorCodes.OperationFailed, "Elastic document update failed");
             }
 
             _logger.Here().Information("Elastic document update successfull");
@@ -93,7 +93,7 @@ namespace Groceteria.IdentityManager.Api.Services.Search
                 if (!deleteResponse.IsValid)
                 {
                     _logger.Here().Error("Index deletion failed");
-                    return Result<bool>.Failure(ErrorCodes.InternalServerError, "Index deletion failed");
+                    return Result<bool>.Failure(ErrorCodes.OperationFailed, "Index deletion failed");
                 }
             }
 
@@ -104,10 +104,40 @@ namespace Groceteria.IdentityManager.Api.Services.Search
             if (!bulkResponse.IsValid)
             {
                 _logger.Here().Error("Re-indexing failed");
-                return Result<bool>.Failure(ErrorCodes.InternalServerError, "Re-index operation failed");
+                return Result<bool>.Failure(ErrorCodes.OperationFailed, "Re-index operation failed");
             }
 
             _logger.Here().Information("Re-index for {index} successful", index);
+            return Result<bool>.Success(true);
+        }
+
+        public async Task<Result<bool>> RemoveDocumentFromIndex(Dictionary<string, object> query, string index)
+        {
+            _logger.Here().MethodEnterd();
+            _logger.Here().Information("Request - remove data from elastic search {index}", index);
+
+            var elasticClient = GetElasticClient(index);
+            if (!await IndexExist(elasticClient, index))
+            {
+                return Result<bool>.Failure(ErrorCodes.OperationFailed, $"Elastic operation failed, index {index} was not found");
+            }
+
+            var fieldName = query.Keys.First();
+            var fieldValue = query.Values.First();
+
+            var deleteResponse = await elasticClient.DeleteByQueryAsync<TDocument>(d => d
+                    .Index(index)
+                    .Query(q => q
+                    .Match(m => m.Field(fieldName).Query(fieldValue.ToString()))));
+
+            if (!deleteResponse.IsValid)
+            {
+                _logger.Here().Error("Elastic search delete operation failed");
+                return Result<bool>.Failure(ErrorCodes.OperationFailed, "Elastic document delete operation failed");
+            }
+
+            _logger.Here().Information("Elastic document delete successful");
+            _logger.Here().MethodExited();
             return Result<bool>.Success(true);
         }
 
@@ -130,7 +160,7 @@ namespace Groceteria.IdentityManager.Api.Services.Search
 
             return createIndexResponse.IsValid;
         }
-    
+
         private ElasticClient GetElasticClient(string index)
         {
             var elasticUri = new Uri(_settings.Uri);
