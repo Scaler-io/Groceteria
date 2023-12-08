@@ -38,7 +38,7 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiScope
         [HttpGet("api-scopes")]
         [SwaggerHeader("CorrelationId", "expects unique correlation id")]
         [SwaggerOperation(OperationId = "GetApiScopes", Description = "Fetches all api scopes")]
-        [EnsureOwnership(Roles.All)]
+        [EnsureOwnership(Roles.SystemAdmin, Roles.SuperAdmin)]
         public async Task<IActionResult> GetApiScopes([FromQuery] RequestQuery query)
         {
             Logger.Here().MethodEnterd();
@@ -55,7 +55,7 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiScope
         public async Task<IActionResult> GetApiScope([FromRoute] string id)
         {
             Logger.Here().MethodEnterd();
-            var result = await _apiScopeService.GetApiScope(System.Int32.Parse(id), RequestInformation.CorrelationId);
+            var result = await _apiScopeService.GetApiScope(int.Parse(id), RequestInformation.CorrelationId);
             Logger.Here().MethodExited();
             return OkOrFailure(result);
         }
@@ -63,6 +63,7 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiScope
         [HttpPost("api-scope/upsert")]
         [SwaggerHeader("CorrelationId", "expects unique correlation id")]
         [SwaggerOperation(OperationId = "UpsertApiScope", Description = "Creates or update api scope details using id")]
+        [EnsureOwnership(Roles.All)]
         public async Task<IActionResult> UpsertApiScope([FromBody] ApiScopeDto scope)
         {
             Logger.Here().MethodEnterd();
@@ -82,6 +83,7 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiScope
         [HttpDelete("api-scope/delete/{id}")]
         [SwaggerHeader("CorrelationId", "expects unique correlation id")]
         [SwaggerOperation(OperationId = "UpsertApiScope", Description = "Deletes api scope details using id")]
+        [EnsureOwnership(Roles.SystemAdmin)]
         public async Task<IActionResult> DeleteApiScope([FromRoute] string id)
         {
             Logger.Here().MethodEnterd();

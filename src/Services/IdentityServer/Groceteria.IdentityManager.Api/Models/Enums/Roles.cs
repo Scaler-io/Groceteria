@@ -4,6 +4,8 @@
     {
         All,
         SuperAdmin,
-        SystemAdmin
+        SystemAdmin,
+        StoreManager,
+        BAU
     }
 }
