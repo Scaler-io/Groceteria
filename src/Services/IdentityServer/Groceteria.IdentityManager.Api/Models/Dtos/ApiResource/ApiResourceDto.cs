@@ -1,5 +1,3 @@
-using Groceteria.IdentityManager.Api.Models.Dtos.ApiScope;
-
 namespace Groceteria.IdentityManager.Api.Models.Dtos.ApiResource
 {
     public class ApiResourceDto
@@ -9,6 +7,7 @@ namespace Groceteria.IdentityManager.Api.Models.Dtos.ApiResource
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
+        public bool IsDefault { get; set; }
         public string AllowedAccessTokenSigningAlgorithms { get; set; }
         public bool ShowInDiscoveryDocument { get; set; } = true;
         public List<ApiResourceSecretDto> Secrets { get; set; }
