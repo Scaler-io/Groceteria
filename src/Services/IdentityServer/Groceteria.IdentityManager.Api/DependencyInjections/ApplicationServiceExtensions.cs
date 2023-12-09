@@ -81,7 +81,7 @@ namespace Groceteria.IdentityManager.Api.DependencyInjections
                     options.Authority = identityGroupAccess.Authority;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateAudience = false,
+                        ValidateAudience = true,
                         ValidateIssuer = true,
                         ClockSkew = TimeSpan.Zero
                     };
