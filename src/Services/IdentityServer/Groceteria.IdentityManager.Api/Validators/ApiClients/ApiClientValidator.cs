@@ -13,6 +13,9 @@ namespace Groceteria.IdentityManager.Api.Validators.ApiClients
             RuleFor(c => c.ClientName)
                 .NotEmpty()
                 .WithMessage("Client name is required");
+            RuleFor(c => c.ClientDescription)
+                .NotEmpty()
+                .WithMessage("Client description is required");
         }
     }
 }

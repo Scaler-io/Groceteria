@@ -2,14 +2,15 @@
 using Groceteria.Identity.Shared.Models;
 using Groceteria.IdentityProvider.Extensions;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace Groceteria.IdentityProvider.DataAccess
 {
     public class UserContextSeed
     {
-        public static async Task SeedDefaultAdminAndRoleAsync(ILogger logger, 
-            UserManager<AppUser> userManager, 
+        public static async Task SeedDefaultAdminAndRoleAsync(ILogger logger,
+            UserManager<AppUser> userManager,
             RoleManager<AppRole> roleManager)
         {
             if (!roleManager.Roles.Any())
@@ -56,7 +57,13 @@ namespace Groceteria.IdentityProvider.DataAccess
 
                 var createdUser = await userManager.FindByEmailAsync(user.Email);
 
-                var roleResult = await userManager.AddToRoleAsync(createdUser, UserRoles.SuperAdmin.ToString());
+                var selectedRoles = new List<string>{
+                    UserRoles.SuperAdmin.ToString(),
+                    UserRoles.SystemAdmin.ToString(),
+                    UserRoles.StoreManager.ToString()
+                };
+
+                var roleResult = await userManager.AddToRolesAsync(createdUser, selectedRoles);
                 if (roleResult.Succeeded)
                 {
                     logger.Here().Information("Admin role add to user failure");
@@ -66,8 +73,8 @@ namespace Groceteria.IdentityProvider.DataAccess
                 {
                     new Claim("email", createdUser.Email),
                     new Claim("username", createdUser.UserName),
-                    new Claim("roles", UserRoles.SuperAdmin.ToString()),
-                    new Claim("firtsName", createdUser.Firstname),
+                    new Claim("roles", JsonConvert.SerializeObject(selectedRoles)),
+                    new Claim("firstName", createdUser.Firstname),
                     new Claim("lastName", createdUser.LastName),
                 };
 

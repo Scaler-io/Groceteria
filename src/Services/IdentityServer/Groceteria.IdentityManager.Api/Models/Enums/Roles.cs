@@ -2,7 +2,10 @@
 {
     public enum Roles
     {
+        All,
         SuperAdmin,
-        SystemAdmin
+        SystemAdmin,
+        StoreManager,
+        BAU
     }
 }

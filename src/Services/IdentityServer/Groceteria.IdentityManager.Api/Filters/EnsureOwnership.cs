@@ -2,6 +2,7 @@
 using Groceteria.IdentityManager.Api.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Newtonsoft.Json;
 using System.Net;
 using System.Security.Claims;
 
@@ -19,17 +20,22 @@ namespace Groceteria.IdentityManager.Api.Filters
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            if(context != null)
+            if (_roles.Contains(Roles.All))
+            {
+                return;
+            }
+            if (context != null)
             {
                 var user = context.HttpContext.User;
                 if (user.Identity.IsAuthenticated)
                 {
-                    var roles = user.Identities.Select(identity => identity.Claims.Where(c => c.Type == ClaimTypes.Role)).FirstOrDefault();
-                    foreach(var role in roles)
+                    var roleString = user.Identities.Select(identity => identity.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault().Value).FirstOrDefault();
+                    var roles = JsonConvert.DeserializeObject<List<string>>(roleString);
+                    foreach (var role in roles)
                     {
-                       foreach(var item in _roles)
+                        foreach (var item in _roles)
                         {
-                            if (role.Value == item.ToString())
+                            if (role == item.ToString())
                             {
                                 return;
                             }

@@ -1,8 +1,10 @@
-﻿using Groceteria.IdentityManager.Api.Extensions;
+﻿using FluentValidation.Results;
+using Groceteria.IdentityManager.Api.Extensions;
 using Groceteria.IdentityManager.Api.Models.Core;
 using Groceteria.IdentityManager.Api.Models.Enums;
 using Groceteria.IdentityManager.Api.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Groceteria.IdentityManager.Api.Controllers
 {
@@ -35,13 +37,36 @@ namespace Groceteria.IdentityManager.Api.Controllers
 
             return result.ErrorCode switch
             {
+                ErrorCodes.BadRequest => BadRequest(new ApiResponse(ErrorCodes.BadRequest, result.ErrorMessage)),
+                ErrorCodes.InternalServerError => InternalServerError(new ApiResponse(ErrorCodes.InternalServerError, result.ErrorMessage)),
                 ErrorCodes.NotFound => NotFound(new ApiResponse(ErrorCodes.NotFound, result.ErrorMessage)),
                 ErrorCodes.Unauthorized => Unauthorized(new ApiResponse(ErrorCodes.Unauthorized, result.ErrorMessage)),
                 ErrorCodes.OperationFailed => BadRequest(new ApiResponse(ErrorCodes.OperationFailed, result.ErrorMessage)),
                 _ => BadRequest(new ApiResponse(ErrorCodes.BadRequest, result.ErrorMessage))
-            };
+            };;
         }
 
+
+        protected IActionResult Failure(ValidationResult validationResult)
+        {
+            var errors = validationResult.Errors;
+            var apiValidationResponse = new ApiValidationResponse
+            {
+                Errors = new List<FieldLevelError>(),
+                ErrorMessage = "Validation failed"
+            };
+            foreach(var error in errors)
+            {
+                var fieldLevelError = new FieldLevelError
+                {
+                    Code = error.ErrorCode,
+                    Field = error.PropertyName,
+                    Message = error.ErrorMessage
+                };
+                apiValidationResponse.Errors.Add(fieldLevelError);
+            }
+            return BadRequest(apiValidationResponse);
+        }
 
         protected IActionResult CreatedWithRoute<T>(Result<T> result, string routeName, object param) where T : class
         {
@@ -54,6 +79,18 @@ namespace Groceteria.IdentityManager.Api.Controllers
             return OkOrFailure(result);
         }
 
-        protected string GetOrGenerateCorelationId() => Request?.GetRequestHeaderOrdefault("CorrelationId", $"GEN-{Guid.NewGuid().ToString()}");  
+        protected string GetOrGenerateCorelationId() => Request?.GetRequestHeaderOrdefault("CorrelationId", $"GEN-{Guid.NewGuid().ToString()}");
+    
+        private ObjectResult InternalServerError(ApiResponse response)
+        {
+            return new ObjectResult(response)
+            {
+                StatusCode = (int)HttpStatusCode.InternalServerError,
+                ContentTypes = new Microsoft.AspNetCore.Mvc.Formatters.MediaTypeCollection
+                {
+                    "application/json"
+                }
+            };
+        }
     }
 }

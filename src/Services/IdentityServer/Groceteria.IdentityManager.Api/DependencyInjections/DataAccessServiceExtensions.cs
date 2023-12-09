@@ -31,6 +31,11 @@ namespace Groceteria.IdentityManager.Api.DependencyInjections
             services.AddDbContext<ConfigurationDbContext>();
             services.AddDbContext<PersistedGrantDbContext>();
 
+            services.AddDbContext<GroceteriaOauthDbContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("OAuthDb"));
+            });
+
             return services;
         }
     }

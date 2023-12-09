@@ -1,5 +1,8 @@
-﻿using Groceteria.Identity.Shared.Entities;
+﻿using Groceteria.Identity.Shared.Data;
+using Groceteria.Identity.Shared.Entities;
 using Groceteria.IdentityProvider.Configurations.Client;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -15,7 +18,7 @@ namespace Groceteria.IdentityProvider.DependencyInjections
             {
                 options.EmitStaticAudienceClaim = true;
             })
-            .AddConfigurationStore(options =>
+            .AddConfigurationStore<GroceteriaOauthDbContext>(options =>
             {
                 options.ConfigureDbContext = c =>
                 c.UseSqlServer(
@@ -33,7 +36,6 @@ namespace Groceteria.IdentityProvider.DependencyInjections
             })
             .AddAspNetIdentity<AppUser>()
             .AddDeveloperSigningCredential();
-
             return services;
         }
     }

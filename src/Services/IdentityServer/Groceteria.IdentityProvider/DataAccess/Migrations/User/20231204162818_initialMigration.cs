@@ -5,10 +5,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
 {
-    public partial class InitialUserMigration : Migration
+    public partial class initialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ApiScope",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Enabled = table.Column<bool>(type: "bit", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Required = table.Column<bool>(type: "bit", nullable: false),
+                    Emphasize = table.Column<bool>(type: "bit", nullable: false),
+                    ShowInDiscoveryDocument = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApiScope", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -54,6 +73,66 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ApiScopeClaim",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ScopeId = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApiScopeClaim", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ApiScopeClaim_ApiScope_ScopeId",
+                        column: x => x.ScopeId,
+                        principalTable: "ApiScope",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ApiScopeProperty",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ScopeId = table.Column<int>(type: "int", nullable: false),
+                    Key = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApiScopeProperty", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ApiScopeProperty_ApiScope_ScopeId",
+                        column: x => x.ScopeId,
+                        principalTable: "ApiScope",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ApiScopes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2023, 12, 4, 21, 58, 18, 627, DateTimeKind.Local).AddTicks(4206)),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApiScopes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ApiScopes_ApiScope_Id",
+                        column: x => x.Id,
+                        principalTable: "ApiScope",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -209,6 +288,16 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                 column: "AppUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ApiScopeClaim_ScopeId",
+                table: "ApiScopeClaim",
+                column: "ScopeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApiScopeProperty_ScopeId",
+                table: "ApiScopeProperty",
+                column: "ScopeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -264,6 +353,15 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                 name: "Addresses");
 
             migrationBuilder.DropTable(
+                name: "ApiScopeClaim");
+
+            migrationBuilder.DropTable(
+                name: "ApiScopeProperty");
+
+            migrationBuilder.DropTable(
+                name: "ApiScopes");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -277,6 +375,9 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "ApiScope");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

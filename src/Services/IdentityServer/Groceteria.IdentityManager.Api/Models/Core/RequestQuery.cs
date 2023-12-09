@@ -5,6 +5,9 @@
         private int MaxPageSize { get; set; } = 50;
         public int PageIndex { get; set; } = 1;
 
+        public string SortField { get; set; }
+        public string SortOrder { get; set; } = "Asc";
+
         private int _pageSize { get; set; } = 5;
 
         public int PageSize

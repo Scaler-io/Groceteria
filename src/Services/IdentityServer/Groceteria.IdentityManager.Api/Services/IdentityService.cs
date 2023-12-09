@@ -1,4 +1,5 @@
 ﻿using Groceteria.IdentityManager.Api.Models.Core;
+using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace Groceteria.IdentityManager.Api.Services
@@ -21,14 +22,14 @@ namespace Groceteria.IdentityManager.Api.Services
         public UserDto PrepareUser()
         {
             var claims = _contextAccessor.HttpContext.User.Claims;
-
+            var roles = claims.Where(c => c.Type == RoleClaim).FirstOrDefault().Value;
             return new UserDto
             {
                 FirstName = claims.Where(c => c.Type == FirstNameClaim).FirstOrDefault().Value,
                 LastName = claims.Where(c => c.Type == LastNameClaim).FirstOrDefault().Value,
                 Username = claims.Where(c => c.Type == UsernameClaim).FirstOrDefault().Value,
                 Email = claims.Where(c => c.Type == EmailClaim).FirstOrDefault().Value,
-                Roles = claims.Where(c => c.Type == RoleClaim).FirstOrDefault().Value,
+                Roles = JsonConvert.DeserializeObject<List<string>>(claims.Where(c => c.Type == RoleClaim).FirstOrDefault().Value),
             };
         }
     }
