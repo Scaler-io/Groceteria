@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Groceteria.Identity.Shared.Entities;
+using Groceteria.IdentityManager.Api.Models.Dtos;
 using Groceteria.IdentityManager.Api.Models.Dtos.ApiScope;
 using IdentityServer4.EntityFramework.Entities;
 
@@ -16,7 +17,7 @@ namespace Groceteria.IdentityManager.Api.Mappers.ApiScope
                 .ForMember(s => s.UserClaims, o => o.MapFrom(d => d.UserClaims))
                 .ReverseMap();
 
-            CreateMap<ApiScopeClaim, ApiScopeClaimsDto>()
+            CreateMap<ApiScopeClaim, ClaimsDto>()
                 .ForMember(s => s.Type, o => o.MapFrom(d => d.Type))
                 .ReverseMap();
                 

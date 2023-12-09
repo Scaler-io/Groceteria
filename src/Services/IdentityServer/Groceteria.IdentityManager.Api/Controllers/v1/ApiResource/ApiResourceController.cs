@@ -1,9 +1,13 @@
+using FluentValidation;
+using Groceteria.Identity.Shared.Data;
 using Groceteria.IdentityManager.Api.Extensions;
 using Groceteria.IdentityManager.Api.Models.Core;
+using Groceteria.IdentityManager.Api.Models.Dtos.ApiResource;
 using Groceteria.IdentityManager.Api.Services;
 using Groceteria.IdentityManager.Api.Swagger;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiResource
@@ -13,9 +17,15 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiResource
     [Authorize]
     public class ApiResourceController : BaseApiController
     {
-        public ApiResourceController(ILogger logger, IIdentityService identityService)
+        private readonly GroceteriaOauthDbContext _dbContext;
+        private readonly IValidator<ApiResourceDto> _validator;
+        public ApiResourceController(ILogger logger, IIdentityService identityService,
+            GroceteriaOauthDbContext dbContext,
+            IValidator<ApiResourceDto> validator)
             : base(logger, identityService)
         {
+            _dbContext = dbContext;
+            _validator = validator;
         }
 
         [HttpGet("api-resource")]
@@ -25,8 +35,8 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiResource
         {
             Logger.Here().MethodEnterd();
             Logger.Here().MethodExited();
-            await Task.Yield();
-            return Ok();
+            var apiResources = await _dbContext.ApiResourcesExtended.ToListAsync();
+            return Ok(apiResources);
         }
 
         [HttpGet("api-resource/{id}")]
@@ -54,9 +64,16 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiResource
         [HttpPost("api-resource/upsert")]
         [SwaggerHeader("CorrelationId", "expects unique correlation id")]
         [SwaggerOperation(OperationId = "UpsertApiResource", Description = "Creates or updates total api resource")]
-        public async Task<IActionResult> UpsertApiResource()
+        public async Task<IActionResult> UpsertApiResource([FromBody] ApiResourceDto apiResource)
         {
             Logger.Here().MethodEnterd();
+
+            var validationResult = _validator.Validate(apiResource);
+            if (!validationResult.IsValid)
+            {
+                return Failure(validationResult);
+            }
+
             Logger.Here().MethodExited();
             await Task.Yield();
             return Ok();
