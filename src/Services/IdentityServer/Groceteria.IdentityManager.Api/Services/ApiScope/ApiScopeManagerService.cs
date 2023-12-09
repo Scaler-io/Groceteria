@@ -150,7 +150,7 @@ namespace Groceteria.IdentityManager.Api.Services.ApiScope
             if (entity.IsDefault)
             {
                 _logger.Here().Warning("Delete operation aborted. Default scopes cannot be deleted");
-                return Result<bool>.Failure(ErrorCodes.BadRequest, ErrorMessages.BadRequest);
+                return Result<bool>.Failure(ErrorCodes.BadRequest, "Default scopes cannot be deleted");
             }
 
             if (entity is null)
