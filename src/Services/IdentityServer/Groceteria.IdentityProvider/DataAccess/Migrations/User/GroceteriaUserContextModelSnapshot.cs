@@ -294,6 +294,361 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                     b.ToTable("ApiScopeProperty");
                 });
 
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.Client", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AbsoluteRefreshTokenLifetime")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AccessTokenLifetime")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AccessTokenType")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("AllowAccessTokensViaBrowser")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AllowOfflineAccess")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AllowPlainTextPkce")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AllowRememberConsent")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("AllowedIdentityTokenSigningAlgorithms")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("AlwaysIncludeUserClaimsInIdToken")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AlwaysSendClientClaims")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("AuthorizationCodeLifetime")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("BackChannelLogoutSessionRequired")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("BackChannelLogoutUri")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientClaimsPrefix")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientUri")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ConsentLifetime")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DeviceCodeLifetime")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EnableLocalLogin")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("FrontChannelLogoutSessionRequired")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FrontChannelLogoutUri")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdentityTokenLifetime")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IncludeJwtId")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastAccessed")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LogoUri")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("NonEditable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PairWiseSubjectSalt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProtocolType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RefreshTokenExpiration")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RefreshTokenUsage")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("RequireClientSecret")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("RequireConsent")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("RequirePkce")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("RequireRequestObject")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("SlidingRefreshTokenLifetime")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("UpdateAccessTokenClaimsOnRefresh")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("Updated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserCodeType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserSsoLifetime")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Client");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Client");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("ClientClaim");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientCorsOrigin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Origin")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("ClientCorsOrigin");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientGrantType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("GrantType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("ClientGrantType");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientIdPRestriction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Provider")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("ClientIdPRestriction");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientPostLogoutRedirectUri", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PostLogoutRedirectUri")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("ClientPostLogoutRedirectUri");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientProperty", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("ClientProperty");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientRedirectUri", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RedirectUri")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("ClientRedirectUri");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientScope", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Scope")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("ClientScope");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientSecret", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Expiration")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("ClientSecret");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
@@ -382,6 +737,18 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Groceteria.Identity.Shared.Entities.ApiClient", b =>
+                {
+                    b.HasBaseType("IdentityServer4.EntityFramework.Entities.Client");
+
+                    b.Property<bool>("IsDefault")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.HasDiscriminator().HasValue("ApiClient");
+                });
+
             modelBuilder.Entity("Groceteria.Identity.Shared.Entities.ApiScopeExtended", b =>
                 {
                     b.HasBaseType("IdentityServer4.EntityFramework.Entities.ApiScope");
@@ -389,7 +756,7 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 12, 4, 21, 58, 18, 627, DateTimeKind.Local).AddTicks(4206));
+                        .HasDefaultValue(new DateTime(2023, 12, 10, 21, 46, 32, 626, DateTimeKind.Local).AddTicks(7621));
 
                     b.Property<bool>("IsDefault")
                         .ValueGeneratedOnAdd()
@@ -462,6 +829,105 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                     b.Navigation("Scope");
                 });
 
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientClaim", b =>
+                {
+                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                        .WithMany("Claims")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientCorsOrigin", b =>
+                {
+                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                        .WithMany("AllowedCorsOrigins")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientGrantType", b =>
+                {
+                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                        .WithMany("AllowedGrantTypes")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientIdPRestriction", b =>
+                {
+                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                        .WithMany("IdentityProviderRestrictions")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientPostLogoutRedirectUri", b =>
+                {
+                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                        .WithMany("PostLogoutRedirectUris")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientProperty", b =>
+                {
+                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                        .WithMany("Properties")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientRedirectUri", b =>
+                {
+                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                        .WithMany("RedirectUris")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientScope", b =>
+                {
+                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                        .WithMany("AllowedScopes")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ClientSecret", b =>
+                {
+                    b.HasOne("IdentityServer4.EntityFramework.Entities.Client", "Client")
+                        .WithMany("ClientSecrets")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Groceteria.Identity.Shared.Entities.AppRole", null)
@@ -524,6 +990,27 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                     b.Navigation("Properties");
 
                     b.Navigation("UserClaims");
+                });
+
+            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.Client", b =>
+                {
+                    b.Navigation("AllowedCorsOrigins");
+
+                    b.Navigation("AllowedGrantTypes");
+
+                    b.Navigation("AllowedScopes");
+
+                    b.Navigation("Claims");
+
+                    b.Navigation("ClientSecrets");
+
+                    b.Navigation("IdentityProviderRestrictions");
+
+                    b.Navigation("PostLogoutRedirectUris");
+
+                    b.Navigation("Properties");
+
+                    b.Navigation("RedirectUris");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
 ﻿using Groceteria.IdentityManager.Api.Models.Core;
+using IdentityModel;
 using Newtonsoft.Json;
 using System.Security.Claims;
 
@@ -14,10 +15,10 @@ namespace Groceteria.IdentityManager.Api.Services
         }
 
         public const string RoleClaim = ClaimTypes.Role;
-        public const string FirstNameClaim = "firstName";
-        public const string LastNameClaim = "lastName";
+        public const string FirstNameClaim = JwtClaimTypes.GivenName;
+        public const string LastNameClaim = JwtClaimTypes.FamilyName;
         public const string EmailClaim = ClaimTypes.Email;
-        public const string UsernameClaim = "username";
+        public const string UsernameClaim = JwtClaimTypes.PreferredUserName;
 
         public UserDto PrepareUser()
         {

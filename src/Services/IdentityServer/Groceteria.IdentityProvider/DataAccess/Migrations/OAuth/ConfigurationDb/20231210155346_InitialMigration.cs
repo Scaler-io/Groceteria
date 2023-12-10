@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Groceteria.IdentityProvider.DataAccess.Migrations.OAuth.configurationDb
+namespace Groceteria.IdentityProvider.DataAccess.Migrations.OAuth.ConfigurationDb
 {
     public partial class InitialMigration : Migration
     {
