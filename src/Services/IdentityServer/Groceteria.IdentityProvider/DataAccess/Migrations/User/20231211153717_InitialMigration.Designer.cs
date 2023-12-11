@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
 {
     [DbContext(typeof(GroceteriaUserContext))]
-    [Migration("20231210161632_InitialUserMigration")]
-    partial class InitialUserMigration
+    [Migration("20231211153717_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -758,7 +758,7 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 12, 10, 21, 46, 32, 626, DateTimeKind.Local).AddTicks(7621));
+                        .HasDefaultValue(new DateTime(2023, 12, 11, 21, 7, 17, 226, DateTimeKind.Local).AddTicks(3158));
 
                     b.Property<bool>("IsDefault")
                         .ValueGeneratedOnAdd()

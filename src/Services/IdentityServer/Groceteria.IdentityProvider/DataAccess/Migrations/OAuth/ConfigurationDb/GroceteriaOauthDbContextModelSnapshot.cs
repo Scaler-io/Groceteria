@@ -701,10 +701,6 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.OAuth.ConfigurationD
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("DisplayName")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
@@ -738,8 +734,6 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.OAuth.ConfigurationD
                         .IsUnique();
 
                     b.ToTable("IdentityResources", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityResource");
                 });
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.IdentityResourceClaim", b =>
@@ -833,18 +827,6 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.OAuth.ConfigurationD
                     b.ToTable("ApiScopes", (string)null);
 
                     b.HasDiscriminator().HasValue("ApiScopeExtended");
-                });
-
-            modelBuilder.Entity("GrOceteria.Identity.Shared.Entities.Configurations.IdResource", b =>
-                {
-                    b.HasBaseType("IdentityServer4.EntityFramework.Entities.IdentityResource");
-
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
-
-                    b.ToTable("IdentityResources", (string)null);
-
-                    b.HasDiscriminator().HasValue("IdResource");
                 });
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResourceClaim", b =>
