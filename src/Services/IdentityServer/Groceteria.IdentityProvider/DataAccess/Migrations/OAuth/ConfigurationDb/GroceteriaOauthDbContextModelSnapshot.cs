@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Groceteria.IdentityProvider.DataAccess.Migrations.OAuth.configurationDb
+namespace Groceteria.IdentityProvider.DataAccess.Migrations.OAuth.ConfigurationDb
 {
     [DbContext(typeof(GroceteriaOauthDbContext))]
     partial class GroceteriaOauthDbContextModelSnapshot : ModelSnapshot

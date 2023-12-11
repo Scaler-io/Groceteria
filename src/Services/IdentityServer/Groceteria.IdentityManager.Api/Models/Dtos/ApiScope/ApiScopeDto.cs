@@ -10,6 +10,6 @@
         public bool IsRequired { get; set; }
         public bool IsDefault { get; set; }
         public bool ShouldShowInDiscovery { get; set; }
-        public IEnumerable<ApiScopeClaimsDto> UserClaims { get; set; }
+        public IEnumerable<ClaimsDto> UserClaims { get; set; }
     }
 }

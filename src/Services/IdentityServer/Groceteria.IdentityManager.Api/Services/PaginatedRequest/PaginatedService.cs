@@ -73,7 +73,7 @@ namespace Groceteria.IdentityManager.Api.Services.PaginatedRequest
                 return Result<Pagination<TDocument>>.Failure(ErrorCodes.InternalServerError, ErrorMessages.InternalServerError);
             }
 
-            var paginatedResult = new Pagination<TDocument>(query.PageIndex, query.PageSize, searchResponse.Documents.Count , searchResponse.Documents.ToList());
+            var paginatedResult = new Pagination<TDocument>(query.PageIndex, query.PageSize, searchResponse.Documents.Count, searchResponse.Documents.ToList());
 
             _logger.Here().WithCorrelationId(correlationId)
                 .ForContext("maxSearchScore", searchResponse.MaxScore)
@@ -89,6 +89,7 @@ namespace Groceteria.IdentityManager.Api.Services.PaginatedRequest
             {
                 SearchIndex.ApiClient => _settings.IdetityClientIndex,
                 SearchIndex.ApiScope => _settings.IdentityScopeIndex,
+                SearchIndex.ApiResource => _settings.IdentityApiResourceIndex,
                 _ => string.Empty
             }; ;
         }

@@ -1,6 +1,7 @@
 ﻿using Groceteria.Identity.Shared.Entities;
 using Groceteria.Identity.Shared.Models;
 using Groceteria.IdentityProvider.Extensions;
+using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using System.Security.Claims;
@@ -72,10 +73,10 @@ namespace Groceteria.IdentityProvider.DataAccess
                 var claims = new List<Claim>
                 {
                     new Claim("email", createdUser.Email),
-                    new Claim("username", createdUser.UserName),
                     new Claim("roles", JsonConvert.SerializeObject(selectedRoles)),
-                    new Claim("firstName", createdUser.Firstname),
-                    new Claim("lastName", createdUser.LastName),
+                    new Claim(JwtClaimTypes.PreferredUserName, createdUser.UserName),
+                    new Claim(JwtClaimTypes.GivenName, createdUser.Firstname),
+                    new Claim(JwtClaimTypes.FamilyName, createdUser.LastName),
                 };
 
                 await userManager.AddClaimsAsync(createdUser, claims);

@@ -1,6 +1,7 @@
 ﻿using Groceteria.IdentityProvider.Configurations.Client;
 using Groceteria.IdentityProvider.Extensions;
 using Groceteria.IdentityProvider.Models.Enums;
+using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
@@ -21,10 +22,10 @@ namespace Groceteria.IdentityProvider
                     {
                         new Secret(apiClients.IdentityManagerClient.ClientSecret.Sha512())
                     },
-                    AllowedGrantTypes = { 
-                        GrantType.ClientCredentials, 
-                        GrantType.AuthorizationCode, 
-                        GrantType.ResourceOwnerPassword 
+                    AllowedGrantTypes = {
+                        GrantType.ClientCredentials,
+                        GrantType.AuthorizationCode,
+                        GrantType.ResourceOwnerPassword
                     },
                     AllowedScopes =
                     {
@@ -50,10 +51,10 @@ namespace Groceteria.IdentityProvider
             {
                 new ApiResource("groceteria.identitymanager.api", "Identity Manager API")
                 {
-                    Scopes = { 
+                    Scopes = {
                         DefaultApiScopes.IdentityManagerApi.GetEnumMemberAttributeValue()
                     },
-                    UserClaims = { "roles", "firstName", "lastName", "email", "username" }
+                    UserClaims = { "roles", "email", JwtClaimTypes.GivenName, JwtClaimTypes.FamilyName, JwtClaimTypes.PreferredUserName  }
                 }
             };
         public static IEnumerable<IdentityResource> IdentityResources =>
@@ -63,7 +64,7 @@ namespace Groceteria.IdentityProvider
                 new IdentityResources.Profile()
                 {
                     Required = true,
-                    UserClaims = { "firstName", "lastName", "username" }
+                    UserClaims = { JwtClaimTypes.GivenName, JwtClaimTypes.FamilyName, JwtClaimTypes.PreferredUserName }
                 },
                 new IdentityResources.Email()
                 {

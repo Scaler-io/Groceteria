@@ -15,7 +15,7 @@ using Groceteria.IdentityManager.Api.Models.Constants;
 
 namespace Groceteria.IdentityManager.Api.Services.ApiScope
 {
-    public class ApiScopeManagerService : IApiScopeManagerService, IIdentityManagerService
+    public class ApiScopeManagerService : IApiScopeManagerService
     {
         private readonly IBaseRepository<ApiScopeExtended> _apiScopeRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -147,18 +147,17 @@ namespace Groceteria.IdentityManager.Api.Services.ApiScope
             var spec = new GetApiScopeWithId(int.Parse(id));
             var entity = await _apiScopeRepository.GetEntityWithSpec(spec);
 
-            if (entity.IsDefault)
-            {
-                _logger.Here().Warning("Delete operation aborted. Default scopes cannot be deleted");
-                return Result<bool>.Failure(ErrorCodes.BadRequest, "Default scopes cannot be deleted");
-            }
-
             if (entity is null)
             {
                 _logger.Here()
                     .WithCorrelationId(correaltionId)
                     .Warning("No api scope was found with {id}", id);
                 return Result<bool>.Failure(ErrorCodes.NotFound, ErrorMessages.NotFound);
+            }
+            if (entity.IsDefault)
+            {
+                _logger.Here().Warning("Delete operation aborted. Default scopes cannot be deleted");
+                return Result<bool>.Failure(ErrorCodes.BadRequest, "Default scopes cannot be deleted");
             }
 
             var deleteResponse = await RemoveFromIndex(id);
@@ -175,7 +174,7 @@ namespace Groceteria.IdentityManager.Api.Services.ApiScope
 
             _logger.Here()
                 .WithCorrelationId(correaltionId)
-                .Information("api scope inserted successfully");
+                .Information("api scope deleted successfully");
             _logger.Here().MethodExited();
             return Result<bool>.Success(true);
         }

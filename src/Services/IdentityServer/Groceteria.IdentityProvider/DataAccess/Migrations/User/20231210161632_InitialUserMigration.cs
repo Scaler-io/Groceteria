@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
 {
-    public partial class initialMigration : Migration
+    public partial class InitialUserMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -76,6 +76,63 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                 });
 
             migrationBuilder.CreateTable(
+                name: "Client",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Enabled = table.Column<bool>(type: "bit", nullable: false),
+                    ClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProtocolType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RequireClientSecret = table.Column<bool>(type: "bit", nullable: false),
+                    ClientName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LogoUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RequireConsent = table.Column<bool>(type: "bit", nullable: false),
+                    AllowRememberConsent = table.Column<bool>(type: "bit", nullable: false),
+                    AlwaysIncludeUserClaimsInIdToken = table.Column<bool>(type: "bit", nullable: false),
+                    RequirePkce = table.Column<bool>(type: "bit", nullable: false),
+                    AllowPlainTextPkce = table.Column<bool>(type: "bit", nullable: false),
+                    RequireRequestObject = table.Column<bool>(type: "bit", nullable: false),
+                    AllowAccessTokensViaBrowser = table.Column<bool>(type: "bit", nullable: false),
+                    FrontChannelLogoutUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FrontChannelLogoutSessionRequired = table.Column<bool>(type: "bit", nullable: false),
+                    BackChannelLogoutUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BackChannelLogoutSessionRequired = table.Column<bool>(type: "bit", nullable: false),
+                    AllowOfflineAccess = table.Column<bool>(type: "bit", nullable: false),
+                    IdentityTokenLifetime = table.Column<int>(type: "int", nullable: false),
+                    AllowedIdentityTokenSigningAlgorithms = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AccessTokenLifetime = table.Column<int>(type: "int", nullable: false),
+                    AuthorizationCodeLifetime = table.Column<int>(type: "int", nullable: false),
+                    ConsentLifetime = table.Column<int>(type: "int", nullable: true),
+                    AbsoluteRefreshTokenLifetime = table.Column<int>(type: "int", nullable: false),
+                    SlidingRefreshTokenLifetime = table.Column<int>(type: "int", nullable: false),
+                    RefreshTokenUsage = table.Column<int>(type: "int", nullable: false),
+                    UpdateAccessTokenClaimsOnRefresh = table.Column<bool>(type: "bit", nullable: false),
+                    RefreshTokenExpiration = table.Column<int>(type: "int", nullable: false),
+                    AccessTokenType = table.Column<int>(type: "int", nullable: false),
+                    EnableLocalLogin = table.Column<bool>(type: "bit", nullable: false),
+                    IncludeJwtId = table.Column<bool>(type: "bit", nullable: false),
+                    AlwaysSendClientClaims = table.Column<bool>(type: "bit", nullable: false),
+                    ClientClaimsPrefix = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PairWiseSubjectSalt = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastAccessed = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserSsoLifetime = table.Column<int>(type: "int", nullable: true),
+                    UserCodeType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeviceCodeLifetime = table.Column<int>(type: "int", nullable: false),
+                    NonEditable = table.Column<bool>(type: "bit", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: true, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Client", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ApiScopeClaim",
                 columns: table => new
                 {
@@ -122,7 +179,7 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     IsDefault = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2023, 12, 4, 21, 58, 18, 627, DateTimeKind.Local).AddTicks(4206)),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2023, 12, 10, 21, 46, 32, 626, DateTimeKind.Local).AddTicks(7621)),
                     UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -282,6 +339,192 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ClientClaim",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientClaim", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClientClaim_Client_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Client",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientCorsOrigin",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Origin = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientCorsOrigin", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClientCorsOrigin_Client_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Client",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientGrantType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GrantType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientGrantType", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClientGrantType_Client_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Client",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientIdPRestriction",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Provider = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientIdPRestriction", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClientIdPRestriction_Client_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Client",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientPostLogoutRedirectUri",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PostLogoutRedirectUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientPostLogoutRedirectUri", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClientPostLogoutRedirectUri_Client_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Client",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientProperty",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    Key = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientProperty", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClientProperty_Client_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Client",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientRedirectUri",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RedirectUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientRedirectUri", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClientRedirectUri_Client_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Client",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientScope",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Scope = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientScope", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClientScope_Client_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Client",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientSecret",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Expiration = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientSecret", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClientSecret_Client_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Client",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_AppUserId",
                 table: "Addresses",
@@ -345,6 +588,51 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientClaim_ClientId",
+                table: "ClientClaim",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientCorsOrigin_ClientId",
+                table: "ClientCorsOrigin",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientGrantType_ClientId",
+                table: "ClientGrantType",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientIdPRestriction_ClientId",
+                table: "ClientIdPRestriction",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientPostLogoutRedirectUri_ClientId",
+                table: "ClientPostLogoutRedirectUri",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientProperty_ClientId",
+                table: "ClientProperty",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientRedirectUri_ClientId",
+                table: "ClientRedirectUri",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientScope_ClientId",
+                table: "ClientScope",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientSecret_ClientId",
+                table: "ClientSecret",
+                column: "ClientId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -377,6 +665,33 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ClientClaim");
+
+            migrationBuilder.DropTable(
+                name: "ClientCorsOrigin");
+
+            migrationBuilder.DropTable(
+                name: "ClientGrantType");
+
+            migrationBuilder.DropTable(
+                name: "ClientIdPRestriction");
+
+            migrationBuilder.DropTable(
+                name: "ClientPostLogoutRedirectUri");
+
+            migrationBuilder.DropTable(
+                name: "ClientProperty");
+
+            migrationBuilder.DropTable(
+                name: "ClientRedirectUri");
+
+            migrationBuilder.DropTable(
+                name: "ClientScope");
+
+            migrationBuilder.DropTable(
+                name: "ClientSecret");
+
+            migrationBuilder.DropTable(
                 name: "ApiScope");
 
             migrationBuilder.DropTable(
@@ -384,6 +699,9 @@ namespace Groceteria.IdentityProvider.DataAccess.Migrations.User
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Client");
         }
     }
 }
