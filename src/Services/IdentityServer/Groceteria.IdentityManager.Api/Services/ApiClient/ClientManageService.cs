@@ -14,9 +14,9 @@ using Microsoft.Extensions.Options;
 
 namespace Groceteria.IdentityManager.Api.Services.ApiClient
 {
-    public class ClientManageService : IClientManageService, IIdentityManagerService
+    public class ClientManageService : IClientManageService
     {
-        private readonly IBaseRepository<Identity.Shared.Entities.ApiClient> _clientRepository;  
+        private readonly IBaseRepository<Identity.Shared.Entities.ApiClient> _clientRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
@@ -50,7 +50,7 @@ namespace Groceteria.IdentityManager.Api.Services.ApiClient
             var clients = await _clientRepository.ListAsync(spec);
             var count = await _clientRepository.CountASync(spec);
 
-            if(clients == null || clients.Count == 0)
+            if (clients == null || clients.Count == 0)
             {
                 _logger.Here().WithCorrelationId(requestInformation.CorrelationId).Error("No clients were found");
                 return Result<Pagination<ApiClientDto>>.Failure(ErrorCodes.NotFound);
@@ -70,7 +70,7 @@ namespace Groceteria.IdentityManager.Api.Services.ApiClient
             var spec = new GetClientByClientSpecification(clientId);
             var client = await _clientRepository.GetEntityWithSpec(spec);
 
-            if(client == null)
+            if (client == null)
             {
                 _logger.Here().Error("No api client was found with client id {clientid}", clientId);
                 return Result<ApiClientDto>.Failure(ErrorCodes.NotFound);
@@ -85,19 +85,19 @@ namespace Groceteria.IdentityManager.Api.Services.ApiClient
 
         public async Task<Result<bool>> UpsertApiClient(ApiClientDto clientEntity, RequestInformation requestInformation)
         {
-            _logger.Here().MethodEnterd();           
+            _logger.Here().MethodEnterd();
 
             var spec = new GetClientByClientSpecification(clientEntity.ClientId);
             var existingClient = await _clientRepository.GetEntityWithSpec(spec);
 
-            if(existingClient != null)
+            if (existingClient != null)
             {
                 _logger.WithCorrelationId(requestInformation.CorrelationId)
                     .Information("request - update client {ClientName}", existingClient.ClientName);
 
 
                 _mapper.Map(clientEntity, existingClient, typeof(ApiClientDto), typeof(Client));
-                
+
                 existingClient.Updated = DateTime.Now;
                 existingClient.LastAccessed = DateTime.Now;
 
@@ -116,7 +116,7 @@ namespace Groceteria.IdentityManager.Api.Services.ApiClient
             var entity = _mapper.Map<Groceteria.Identity.Shared.Entities.ApiClient>(clientEntity);
 
             _clientRepository.Add(entity);
-            await _unitOfWork.Complete(_dbContext);          
+            await _unitOfWork.Complete(_dbContext);
 
             _logger.WithCorrelationId(requestInformation.CorrelationId)
                 .Information("request client insert completed");

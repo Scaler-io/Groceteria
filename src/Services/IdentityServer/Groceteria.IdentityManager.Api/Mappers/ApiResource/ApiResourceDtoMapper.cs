@@ -13,13 +13,13 @@ public class ApiResourceDtoMapper : Profile
         CreateMap<ApiResourceExtended, ApiResourceDto>()
         .ForMember(d => d.Metadata, o => o.MapFrom(s => new MetaDataDto
         {
-            CreatedOn = s.Created.ToString("dd/MM/YYYY HH:mm:ssZ"),
-            UpdatedOn = s.Updated.Value.ToString("dd/MM/YYYY HH:mm:ssZ"),
-            LastAccesseOn = s.LastAccessed.Value.ToString("dd/MM/YYYY HH:mm:ssZ")
-        }));
+            CreatedOn = s.Created.ToString("dd/MM/yyyy HH:mm:ss tt"),
+            UpdatedOn = s.Updated.HasValue ? s.Updated.Value.ToString("dd/MM/yyyy HH:mm:ss tt") : string.Empty,
+            LastAccesseOn = s.LastAccessed.HasValue ? s.LastAccessed.Value.ToString("dd/MM/yyyy HH:mm:ss tt") : string.Empty
+        })).ReverseMap();
 
-        CreateMap<ApiResourceSecret, ApiResourceSecretDto>();
-        CreateMap<ApiResourceScope, ApiResourceScopeDto>();
-        CreateMap<ApiResourceClaim, ClaimsDto>();
+        CreateMap<ApiResourceSecret, ApiResourceSecretDto>().ReverseMap();
+        CreateMap<ApiResourceScope, ApiResourceScopeDto>().ReverseMap();
+        CreateMap<ApiResourceClaim, ClaimsDto>().ReverseMap();
     }
 }

@@ -15,8 +15,8 @@ namespace Groceteria.IdentityManager.Api.Services
         }
 
         public const string RoleClaim = ClaimTypes.Role;
-        public const string FirstNameClaim = JwtClaimTypes.GivenName;
-        public const string LastNameClaim = JwtClaimTypes.FamilyName;
+        public const string FirstNameClaim = ClaimTypes.GivenName;
+        public const string LastNameClaim = ClaimTypes.Surname;
         public const string EmailClaim = ClaimTypes.Email;
         public const string UsernameClaim = JwtClaimTypes.PreferredUserName;
 

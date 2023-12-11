@@ -24,6 +24,8 @@ public class ApiResourceManagerService : IApiResourceManagerService
     private readonly ElasticSearchConfiguration _elasticSettings;
     private readonly ISearchService<ApiResourceSummary> _searchService;
 
+    public IdentityManagerApis Type { get; set; } = IdentityManagerApis.ApiResource;
+
     public ApiResourceManagerService(ILogger logger,
         IMapper mapper,
         IUnitOfWork unitOfWork,
@@ -91,6 +93,8 @@ public class ApiResourceManagerService : IApiResourceManagerService
             .Information("Request - Update api resource");
 
             var entity = await GetApiResourceById(apiResource.Id.ToString());
+            entity.Updated = DateTime.Now;
+            entity.LastAccessed = DateTime.Now;
 
             _mapper.Map(apiResource, entity, typeof(ApiResourceDto), typeof(ApiResourceExtended));
             _apiResourceRepository.Update(entity);
@@ -124,8 +128,7 @@ public class ApiResourceManagerService : IApiResourceManagerService
         _logger.Here().MethodEnterd();
         _logger.Here().WithCorrelationId(correlationId).Information("Request - Delete api resource with id {resourceId}", resourceId);
 
-        var spec = new GetApiResourceById(resourceId);
-        var entity = await _apiResourceRepository.GetEntityWithSpec(spec);
+        var entity = await GetApiResourceById(resourceId);
 
         if (entity is null)
         {

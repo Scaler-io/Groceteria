@@ -3,7 +3,7 @@ using Groceteria.IdentityManager.Api.Models.Dtos;
 
 namespace Groceteria.IdentityManager.Api.Services.ApiClient
 {
-    public interface IClientManageService
+    public interface IClientManageService : IIdentityManagerService
     {
         Task<Result<Pagination<ApiClientDto>>> GetApiClients(RequestQuery queryParams, RequestInformation requestInformation);
         Task<Result<ApiClientDto>> GetApiClient(string clientId);

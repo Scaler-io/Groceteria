@@ -3,7 +3,7 @@ using Groceteria.IdentityManager.Api.Models.Dtos.ApiResource;
 
 namespace Groceteria.IdentityManager.Api.Services.ApiResource;
 
-public interface IApiResourceManagerService
+public interface IApiResourceManagerService : IIdentityManagerService
 {
     Task<Result<Pagination<ApiResourceDto>>> GetallApiResources(RequestQuery query, string correlationId);
     Task<Result<ApiResourceDto>> GetApiResource(string resourceId, string correlationId);

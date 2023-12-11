@@ -15,7 +15,7 @@ using Groceteria.IdentityManager.Api.Models.Constants;
 
 namespace Groceteria.IdentityManager.Api.Services.ApiScope
 {
-    public class ApiScopeManagerService : IApiScopeManagerService, IIdentityManagerService
+    public class ApiScopeManagerService : IApiScopeManagerService
     {
         private readonly IBaseRepository<ApiScopeExtended> _apiScopeRepository;
         private readonly IUnitOfWork _unitOfWork;

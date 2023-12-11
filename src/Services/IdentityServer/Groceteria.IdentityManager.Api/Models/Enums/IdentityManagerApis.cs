@@ -4,5 +4,6 @@
     {
         ApiClient,
         ApiScope,
+        ApiResource
     }
 }

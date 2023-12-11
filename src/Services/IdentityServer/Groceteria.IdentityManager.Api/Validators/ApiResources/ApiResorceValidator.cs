@@ -21,7 +21,7 @@ namespace Groceteria.IdentityManager.Api.Validators.ApiResources
             RuleFor(r => r.Description)
             .NotEmpty()
             .WithErrorCode(ApiValidationError.ResourceDescriptionRequired.Code)
-            .WithMessage(ApiValidationError.ResourceNameRequired.Message);
+            .WithMessage(ApiValidationError.ResourceDescriptionRequired.Message);
 
             RuleFor(r => r.Secrets)
             .ForEach(item =>

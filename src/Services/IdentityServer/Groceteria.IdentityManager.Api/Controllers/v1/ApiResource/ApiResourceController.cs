@@ -1,9 +1,13 @@
 using FluentValidation;
 using Groceteria.Identity.Shared.Data;
 using Groceteria.IdentityManager.Api.Extensions;
+using Groceteria.IdentityManager.Api.Models.Contracts;
 using Groceteria.IdentityManager.Api.Models.Core;
 using Groceteria.IdentityManager.Api.Models.Dtos.ApiResource;
+using Groceteria.IdentityManager.Api.Models.Enums;
 using Groceteria.IdentityManager.Api.Services;
+using Groceteria.IdentityManager.Api.Services.ApiResource;
+using Groceteria.IdentityManager.Api.Services.PaginatedRequest;
 using Groceteria.IdentityManager.Api.Swagger;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,15 +21,19 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiResource
     [Authorize]
     public class ApiResourceController : BaseApiController
     {
-        private readonly GroceteriaOauthDbContext _dbContext;
         private readonly IValidator<ApiResourceDto> _validator;
+        private readonly IPaginatedService<ApiResourceSummary> _paginatedService;
+        private readonly IApiResourceManagerService _apiResourceService;
+
         public ApiResourceController(ILogger logger, IIdentityService identityService,
-            GroceteriaOauthDbContext dbContext,
-            IValidator<ApiResourceDto> validator)
+            IValidator<ApiResourceDto> validator,
+            IPaginatedService<ApiResourceSummary> paginatedService,
+            IApiResourceManagerService apiResourceService)
             : base(logger, identityService)
         {
-            _dbContext = dbContext;
             _validator = validator;
+            _paginatedService = paginatedService;
+            _apiResourceService = apiResourceService;
         }
 
         [HttpGet("api-resource")]
@@ -34,9 +42,12 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiResource
         public async Task<IActionResult> GetApiResources([FromQuery] RequestQuery query)
         {
             Logger.Here().MethodEnterd();
+            query.SortField = "resourceId";
+            var result = await _paginatedService.GetPaginatedData(query,
+                                RequestInformation.CorrelationId,
+                                SearchIndex.ApiResource);
             Logger.Here().MethodExited();
-            var apiResources = await _dbContext.ApiResourcesExtended.ToListAsync();
-            return Ok(apiResources);
+            return OkOrFailure(result);
         }
 
         [HttpGet("api-resource/{id}")]
@@ -45,9 +56,9 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiResource
         public async Task<IActionResult> GetApiResource([FromRoute] string id)
         {
             Logger.Here().MethodEnterd();
+            var result = await _apiResourceService.GetApiResource(id, RequestInformation.CorrelationId);
             Logger.Here().MethodExited();
-            await Task.Yield();
-            return Ok();
+            return OkOrFailure(result);
         }
 
         [HttpGet("api-resource/count")]
@@ -56,9 +67,9 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiResource
         public async Task<IActionResult> GetApiResourceCount()
         {
             Logger.Here().MethodEnterd();
+            var result = await _paginatedService.GetCount(RequestInformation.CorrelationId, SearchIndex.ApiResource);
             Logger.Here().MethodExited();
-            await Task.Yield();
-            return Ok();
+            return OkOrFailure(result);
         }
 
         [HttpPost("api-resource/upsert")]
@@ -73,21 +84,20 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.ApiResource
             {
                 return Failure(validationResult);
             }
-
+            var result = await _apiResourceService.UpsertApiResource(apiResource, RequestInformation.CorrelationId);
             Logger.Here().MethodExited();
-            await Task.Yield();
-            return Ok();
+            return OkOrFailure(result);
         }
 
-        [HttpDelete("api-resource/delete/{id}")]
+        [HttpDelete("api-resource/delete")]
         [SwaggerHeader("CorrelationId", "expects unique correlation id")]
         [SwaggerOperation(OperationId = "DeleteApiResource", Description = "Deletes api resource")]
-        public async Task<IActionResult> DeleteApiResource()
+        public async Task<IActionResult> DeleteApiResource([FromQuery] string resourceId)
         {
             Logger.Here().MethodEnterd();
+            var result = await _apiResourceService.DeleteApiResource(resourceId, RequestInformation.CorrelationId);
             Logger.Here().MethodExited();
-            await Task.Yield();
-            return Ok();
+            return OkOrFailure(result);
         }
     }
 }
