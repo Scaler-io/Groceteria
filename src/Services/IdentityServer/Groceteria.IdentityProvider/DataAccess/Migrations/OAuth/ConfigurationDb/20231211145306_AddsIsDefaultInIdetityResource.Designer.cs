@@ -4,6 +4,7 @@ using Groceteria.Identity.Shared.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Groceteria.IdentityProvider.DataAccess.Migrations.OAuth.ConfigurationDb
 {
     [DbContext(typeof(GroceteriaOauthDbContext))]
-    partial class GroceteriaOauthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231211145306_AddsIsDefaultInIdetityResource")]
+    partial class AddsIsDefaultInIdetityResource
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
