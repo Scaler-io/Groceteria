@@ -5,9 +5,9 @@ using Groceteria.IdentityManager.Api.Models.Dtos.ApiResource;
 
 namespace Groceteria.IdentityManager.Api.Mappers.ApiResource;
 
-public class ApiSummaryMapper : Profile
+public class ApiResourceSummaryMapper : Profile
 {
-    public ApiSummaryMapper()
+    public ApiResourceSummaryMapper()
     {
         CreateMap<ApiResourceDto, ApiResourceSummary>()
         .ForMember(d => d.ResourceId, o => o.MapFrom(s => s.Id))

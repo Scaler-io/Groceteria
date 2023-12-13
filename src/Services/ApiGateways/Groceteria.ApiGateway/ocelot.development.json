@@ -677,6 +677,91 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/identity/idresource",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7002"
+        }
+      ],
+      "UpstreamPathTemplate": "/identity/idresource",
+      "UpstreamHttpMethod": ["Get"],
+      "RouteIsCaseSensitive": false,
+      "RouteClaimsRequirement": {},
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/identity/idresource/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7002"
+        }
+      ],
+      "UpstreamPathTemplate": "/identity/idresource/{id}",
+      "UpstreamHttpMethod": ["Get"],
+      "RouteIsCaseSensitive": false,
+      "RouteClaimsRequirement": {},
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/identity/idresource/count",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7002"
+        }
+      ],
+      "UpstreamPathTemplate": "/identity/idresource/count",
+      "UpstreamHttpMethod": ["Get"],
+      "RouteIsCaseSensitive": false,
+      "RouteClaimsRequirement": {},
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/identity/idresource/upsert",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7002"
+        }
+      ],
+      "UpstreamPathTemplate": "/identity/idresource/upsert",
+      "UpstreamHttpMethod": ["Post"],
+      "RouteIsCaseSensitive": false,
+      "RouteClaimsRequirement": {},
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/identity/idresource/delete",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7002"
+        }
+      ],
+      "UpstreamPathTemplate": "/identity/idresource/delete",
+      "UpstreamHttpMethod": ["Delete"],
+      "RouteIsCaseSensitive": false,
+      "RouteClaimsRequirement": {},
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
     }
   ],
   "GlobalConfiguration": {

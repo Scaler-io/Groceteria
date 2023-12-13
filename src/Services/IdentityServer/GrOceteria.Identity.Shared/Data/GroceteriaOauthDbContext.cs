@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Groceteria.Identity.Shared.Data
 {
-    public class GroceteriaOauthDbContext: ConfigurationDbContext<GroceteriaOauthDbContext>
+    public class GroceteriaOauthDbContext : ConfigurationDbContext<GroceteriaOauthDbContext>
     {
         public GroceteriaOauthDbContext(DbContextOptions<GroceteriaOauthDbContext> options,
             ConfigurationStoreOptions storeOptions)
@@ -27,7 +27,7 @@ namespace Groceteria.Identity.Shared.Data
         }
     }
 
-    public class GroceteriaPersistedDbContext: PersistedGrantDbContext<GroceteriaPersistedDbContext>
+    public class GroceteriaPersistedDbContext : PersistedGrantDbContext<GroceteriaPersistedDbContext>
     {
         public GroceteriaPersistedDbContext(DbContextOptions<GroceteriaPersistedDbContext> options,
                     OperationalStoreOptions storeOptions)
