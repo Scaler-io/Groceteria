@@ -90,6 +90,7 @@ namespace Groceteria.IdentityManager.Api.Services.PaginatedRequest
                 SearchIndex.ApiClient => _settings.IdetityClientIndex,
                 SearchIndex.ApiScope => _settings.IdentityScopeIndex,
                 SearchIndex.ApiResource => _settings.IdentityApiResourceIndex,
+                SearchIndex.IdentityResource => _settings.IdentityResourceIndex,
                 _ => string.Empty
             }; ;
         }

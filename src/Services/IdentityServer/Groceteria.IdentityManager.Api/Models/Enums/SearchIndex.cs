@@ -9,6 +9,8 @@ namespace Groceteria.IdentityManager.Api.Models.Enums
         [EnumMember(Value = "ApiScope")]
         ApiScope,
         [EnumMember(Value = "ApiResource")]
-        ApiResource
+        ApiResource,
+        [EnumMember(Value = "IdentityResource")]
+        IdentityResource
     }
 }

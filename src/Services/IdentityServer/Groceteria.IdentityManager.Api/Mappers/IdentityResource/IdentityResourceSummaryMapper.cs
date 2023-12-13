@@ -15,6 +15,7 @@ public class IdentityResourceSummaryMapper : Profile
         .ReverseMap();
 
         CreateMap<IdentityResourceDto, IdentityResourceSummary>()
+        .ForMember(d => d.ResourceId, o => o.MapFrom(s => s.Id))
         .ForMember(d => d.CreatedOn, o => o.MapFrom(s => DateTime.Parse(s.MetaData.CreatedOn)))
         .ForMember(d => d.UpdatedOn, o =>
         {

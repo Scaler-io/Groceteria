@@ -1,8 +1,12 @@
 using Groceteria.IdentityManager.Api.Extensions;
 using Groceteria.IdentityManager.Api.Filters;
+using Groceteria.IdentityManager.Api.Models.Contracts;
 using Groceteria.IdentityManager.Api.Models.Core;
+using Groceteria.IdentityManager.Api.Models.Dtos.IdentityResource;
 using Groceteria.IdentityManager.Api.Models.Enums;
 using Groceteria.IdentityManager.Api.Services;
+using Groceteria.IdentityManager.Api.Services.IdentityResources;
+using Groceteria.IdentityManager.Api.Services.PaginatedRequest;
 using Groceteria.IdentityManager.Api.Swagger;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +18,15 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.IdentityResources;
 [Authorize]
 public class IdentityResourceController : BaseApiController
 {
-    public IdentityResourceController(ILogger logger, IIdentityService identityService)
+    private readonly IIdentityResourceManagerService _idResourceService;
+    private readonly IPaginatedService<IdentityResourceSummary> _paginatedService;
+    public IdentityResourceController(ILogger logger, IIdentityService identityService,
+    IIdentityResourceManagerService idResourceService,
+    IPaginatedService<IdentityResourceSummary> paginatedService)
         : base(logger, identityService)
     {
+        _idResourceService = idResourceService;
+        _paginatedService = paginatedService;
     }
 
     [HttpGet("idresource")]
@@ -26,9 +36,10 @@ public class IdentityResourceController : BaseApiController
     public async Task<IActionResult> GetAllIdResources([FromQuery] RequestQuery query)
     {
         Logger.Here().MethodEnterd();
-        await Task.Yield();
+        query.SortField = "resourceId";
+        var result = await _paginatedService.GetPaginatedData(query, correlationId: RequestInformation.CorrelationId, SearchIndex.IdentityResource);
         Logger.Here().MethodExited();
-        return Ok();
+        return OkOrFailure(result);
     }
 
     [HttpGet("idresource/{id}")]
@@ -38,9 +49,9 @@ public class IdentityResourceController : BaseApiController
     public async Task<IActionResult> GetIdResource([FromRoute] string id)
     {
         Logger.Here().MethodEnterd();
-        await Task.Yield();
+        var result = await _idResourceService.GetIdentityResource(id, RequestInformation.CorrelationId);
         Logger.Here().MethodExited();
-        return Ok(id);
+        return OkOrFailure(result);
     }
 
     [HttpGet("idresource/count")]
@@ -50,21 +61,21 @@ public class IdentityResourceController : BaseApiController
     public async Task<IActionResult> GetIdResourceCount()
     {
         Logger.Here().MethodEnterd();
-        await Task.Yield();
+        var result = await _paginatedService.GetCount(RequestInformation.CorrelationId, SearchIndex.IdentityResource);
         Logger.Here().MethodExited();
-        return Ok();
+        return OkOrFailure(result);
     }
 
     [HttpPost("idresource/upsert")]
     [SwaggerHeader("CorrelationId", "expects unique correlation id")]
     [SwaggerOperation(OperationId = "GetAllIdResources", Description = "Fetches all identity resources")]
     [EnsureOwnership(Roles.SuperAdmin, Roles.SystemAdmin)]
-    public async Task<IActionResult> UpsertIdResources([FromBody] object request)
+    public async Task<IActionResult> UpsertIdResources([FromBody] IdentityResourceDto idResource)
     {
         Logger.Here().MethodEnterd();
-        await Task.Yield();
+        var result = await _idResourceService.UpsertIdentityResource(idResource, RequestInformation.CorrelationId);
         Logger.Here().MethodExited();
-        return Ok();
+        return OkOrFailure(result);
     }
 
     [HttpDelete("idresource/delete")]

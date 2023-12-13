@@ -9,6 +9,7 @@ using Groceteria.IdentityManager.Api.Services;
 using Groceteria.IdentityManager.Api.Services.ApiClient;
 using Groceteria.IdentityManager.Api.Services.ApiResource;
 using Groceteria.IdentityManager.Api.Services.ApiScope;
+using Groceteria.IdentityManager.Api.Services.IdentityResources;
 using Groceteria.IdentityManager.Api.Services.Search;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,6 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.Search
     [Authorize]
     public class SearchIndexController : BaseApiController
     {
-        private readonly IClientManageService _clientManagerService;
         private readonly IMapper _mapper;
         private readonly ElasticSearchConfiguration _settings;
         private readonly IServiceProvider _serviceProvider;
@@ -28,7 +28,6 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.Search
 
         public SearchIndexController(ILogger logger,
             IIdentityService identityService,
-            IClientManageService clientManagerService,
             IMapper mapper,
             IOptions<ElasticSearchConfiguration> settings,
             IServiceFactory serviceFactory,
@@ -37,7 +36,6 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.Search
         {
             _mapper = mapper;
             _settings = settings.Value;
-            _clientManagerService = clientManagerService;
             _serviceFactory = serviceFactory;
             _serviceProvider = serviceProvider;
         }
@@ -66,6 +64,9 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.Search
                 case "apiresource":
                     response = await ReIndexService<ApiResourceSummary, IApiResourceManagerService>(IdentityManagerApis.ApiResource, index);
                     break;
+                case "identityresource":
+                    response = await ReIndexService<IdentityResourceSummary, IIdentityResourceManagerService>(IdentityManagerApis.IdentityResource, index);
+                    break;
                 default:
                     break;
             }
@@ -79,6 +80,7 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.Search
                 "apiclient" => _settings.IdetityClientIndex,
                 "apiscope" => _settings.IdentityScopeIndex,
                 "apiresource" => _settings.IdentityApiResourceIndex,
+                "identityresource" => _settings.IdentityResourceIndex,
                 _ => string.Empty
             };
         }
@@ -118,6 +120,11 @@ namespace Groceteria.IdentityManager.Api.Controllers.v1.Search
             {
                 var apiResources = await apiResourceService.GetallApiResources(requestQuery, correlationId);
                 return _mapper.Map<IEnumerable<T>>(apiResources.Value.Data.AsEnumerable());
+            }
+            else if (service is IIdentityResourceManagerService identityResourceService)
+            {
+                var identityResource = await identityResourceService.GetIdentityResources(correlationId);
+                return _mapper.Map<IEnumerable<T>>(identityResource.Value);
             }
 
             return Enumerable.Empty<T>();
